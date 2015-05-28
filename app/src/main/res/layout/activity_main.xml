@@ -5,7 +5,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     android:id="@+id/layout"
-    android:background="#ff00abff">
+    android:background="#ff00abff"
+    android:visibility="visible">
 
     <EditText
         android:layout_width="wrap_content"
@@ -13,7 +14,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/editText"
-        android:hint="User name"
+        android:hint="@string/user_name"
         android:textColor="#ff6b2400"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -24,7 +25,7 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/editText2"
-        android:hint="Password"
+        android:hint="@string/password"
         android:layout_below="@+id/editText"
         android:layout_alignLeft="@+id/editText"
         android:layout_alignStart="@+id/editText" />
@@ -33,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bridge Ballot"
+        android:text="@string/app_name"
         android:id="@+id/textView"
         android:layout_marginTop="107dp"
         android:textColor="#ff6b2400"
@@ -45,7 +46,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log In"
+        android:text="@string/logIn_button"
         android:id="@+id/button"
         android:layout_marginTop="31dp"
         android:layout_below="@+id/editText2"
@@ -58,11 +59,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Spinner
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner" />
+        android:layout_alignParentStart="true"
+        android:visibility="visible"
+        android:layout_alignRight="@+id/button"
+        android:layout_alignEnd="@+id/button" />
 
 </RelativeLayout>

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,8 +32,6 @@ public class MainActivity extends Activity implements
                 .addApi(Plus.API)
                 .addScope(new Scope("profile"))
                 .build();
-
-        populateSpinner();
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
     }
@@ -83,12 +79,5 @@ public class MainActivity extends Activity implements
         mGoogleApiClient.connect();
     }
 
-    public void populateSpinner(){
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.languages, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
 
 }
