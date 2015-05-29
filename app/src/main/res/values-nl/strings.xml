@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bridge Ballot</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="logIn_button">Inloggen</string>
+    <string name="password">Wachtwoord</string>
+    <string name="user_name">Gebruikersnaam</string>
+</resources>
