@@ -18,20 +18,22 @@ public class Network {
     private static final int SERVERPORT = 21;
     private static final String SERVER_IP = "145.24.222.142";
 
-    public void run() {
-        MyClientTask client = new MyClientTask(SERVER_IP, SERVERPORT);
-        client.execute();
+    public void logIn(Account a) {
+        LoginTask login = new LoginTask(SERVER_IP, SERVERPORT, a);
+        login.execute();
     }
 
-    public class MyClientTask extends AsyncTask<Void, Void, Void> {
+    public class LoginTask extends AsyncTask<Void, Void, Void> {
 
         String dstAddress;
         int dstPort;
         String response = "";
+        Account account;
 
-        MyClientTask(String addr, int port){
+        LoginTask(String addr, int port, Account a) {
             dstAddress = addr;
             dstPort = port;
+            account = a;
         }
 
         @Override
@@ -40,14 +42,14 @@ public class Network {
             Socket socket = null;
 
             try {
-                System.out.println("Connected");
                 socket = new Socket(SERVER_IP, SERVERPORT);
-                BufferedReader in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
-                PrintWriter out = new PrintWriter( socket.getOutputStream() );
-                String s = in.readLine();
-                if (s != null && s.length() > 0){
-                    System.out.println(s);
-                }
+                System.out.println("Connected");
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(socket.getOutputStream());
+                out.println("LOGIN");
+                out.println(account.getUserName());
+                out.println(account.getPassword());
+                out.flush();
 
 
             } catch (UnknownHostException e) {
@@ -58,8 +60,8 @@ public class Network {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 response = "IOException: " + e.toString();
-            }finally{
-                if(socket != null){
+            } finally {
+                if (socket != null) {
                     try {
                         socket.close();
                     } catch (IOException e) {
@@ -78,3 +80,4 @@ public class Network {
         }
     }
 }
+

@@ -3,22 +3,20 @@ package eu.silvenia.bridgeballot;
 import android.app.Activity;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.plus.Plus;
-
-import java.io.IOException;
 
 public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
+
+    private Network n = new Network();
 
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
@@ -37,8 +35,8 @@ public class MainActivity extends Activity implements
                 .addScope(new Scope("profile"))
                 .build();
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        new Network().run();
 
+        /*
         try {
             String TAG = "Bridge Ballot";
             InstanceID instanceID = InstanceID.getInstance(this);
@@ -46,17 +44,19 @@ public class MainActivity extends Activity implements
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             Log.i(TAG, "GCM Registration Token: " + token);
 
-// TODO: Implement this method to send any registration to your app's servers.
+            // TODO: Implement this method to send any registration to your app's servers.
             //sendRegistrationToServer(token);
 
-// You should store a boolean that indicates whether the generated token has been
-// sent to your server. If the boolean is false, send the token to your server,
-// otherwise your server should have already received the token.
+            // You should store a boolean that indicates whether the generated token has been
+            // sent to your server. If the boolean is false, send the token to your server,
+            // otherwise your server should have already received the token.
             //sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
         }catch (IOException e){
 
         }
+        */
     }
+
 
     @Override
     protected void onStart() {
@@ -72,6 +72,17 @@ public class MainActivity extends Activity implements
     @Override
     public void onClick(View v) {
         mGoogleApiClient.connect();
+    }
+
+    public void onSignIn(View v){
+        EditText userName = (EditText) findViewById(R.id.userName);
+        EditText password = (EditText) findViewById(R.id.password);
+
+        Account a = new Account();
+        a.setUserName(userName.getText().toString());
+        a.setPassword(password.getText().toString());
+
+        n.logIn(a);
     }
 
     @Override

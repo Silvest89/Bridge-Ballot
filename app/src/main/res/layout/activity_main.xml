@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/userName"
         android:hint="@string/user_name"
         android:textColor="#ff6b2400"
         android:layout_centerVertical="true"
@@ -24,11 +24,11 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/password"
         android:hint="@string/password"
-        android:layout_below="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_below="@+id/userName"
+        android:layout_alignLeft="@+id/userName"
+        android:layout_alignStart="@+id/userName" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,9 +49,10 @@
         android:text="@string/logIn_button"
         android:id="@+id/button"
         android:layout_marginTop="31dp"
-        android:layout_below="@+id/editText2"
-        android:layout_alignLeft="@+id/editText2"
-        android:layout_alignStart="@+id/editText2" />
+        android:layout_below="@+id/password"
+        android:layout_alignLeft="@+id/password"
+        android:layout_alignStart="@+id/password"
+        android:onClick="onSignIn" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"

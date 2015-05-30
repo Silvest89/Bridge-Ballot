@@ -8,13 +8,8 @@ public class Account {
     private String userName;
     private String password;
 
-    public Account(){
-
-    }
-
-
     public String getID(){
-        return ID;
+        return this.ID;
     }
 
     public String getUserName(){
@@ -31,6 +26,11 @@ public class Account {
 
     public void setPassword(String password){
         this.password = password;
+    }
+
+    public void resetAccount(){
+        userName = "";
+        password = "";
     }
 
 
