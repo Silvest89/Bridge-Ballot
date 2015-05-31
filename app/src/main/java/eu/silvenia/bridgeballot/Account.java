@@ -3,32 +3,32 @@ package eu.silvenia.bridgeballot;
 /**
  * Created by Jesse on 29-5-2015.
  */
-public class Account {
-    private String ID;
-    private String userName;
-    private String password;
+public final class Account {
+    private static String ID;
+    private static String userName;
+    private static String password;
 
-    public String getID(){
-        return this.ID;
+    public static String getID(){
+        return ID;
     }
 
-    public String getUserName(){
+    public static String getUserName(){
         return userName;
     }
 
-    public String getPassword(){
+    public static String getPassword(){
         return password;
     }
 
-    public void setUserName(String name){
-        this.userName = name;
+    public static void setUserName(String name){
+        userName = name;
     }
 
-    public void setPassword(String password){
-        this.password = password;
+    public static void setPassword(String password){
+        password = password;
     }
 
-    public void resetAccount(){
+    public static void resetAccount(){
         ID = "";
         userName = "";
         password = "";

@@ -38,6 +38,7 @@ public class MainActivity extends Activity implements
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         //Intent test = new Intent(this, MyIntentService.class);
         //startService(test);
+        network = new Network();
     }
 
 
@@ -61,10 +62,9 @@ public class MainActivity extends Activity implements
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
 
-        Account a = new Account();
-        a.setUserName(userName.getText().toString());
-        a.setPassword(password.getText().toString());
-        network = new Network(a);
+        Account.setUserName(userName.getText().toString());
+        Account.setPassword(password.getText().toString());
+        network.login();
     }
 
     @Override
