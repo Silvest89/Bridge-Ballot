@@ -29,8 +29,10 @@ public class Account {
     }
 
     public void resetAccount(){
+        ID = "";
         userName = "";
         password = "";
+
     }
 
 

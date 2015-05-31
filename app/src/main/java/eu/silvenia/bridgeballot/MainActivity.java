@@ -17,7 +17,7 @@ public class MainActivity extends Activity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
-    private Network n = new Network();
+    private Network network;
 
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
@@ -36,8 +36,8 @@ public class MainActivity extends Activity implements
                 .addScope(new Scope("profile"))
                 .build();
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        Intent test = new Intent(this, MyIntentService.class);
-        startService(test);
+        //Intent test = new Intent(this, MyIntentService.class);
+        //startService(test);
     }
 
 
@@ -64,8 +64,7 @@ public class MainActivity extends Activity implements
         Account a = new Account();
         a.setUserName(userName.getText().toString());
         a.setPassword(password.getText().toString());
-
-        n.logIn(a);
+        network = new Network(a);
     }
 
     @Override

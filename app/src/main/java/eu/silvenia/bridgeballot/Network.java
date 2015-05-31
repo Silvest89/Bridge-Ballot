@@ -2,10 +2,9 @@ package eu.silvenia.bridgeballot;
 
 import android.os.AsyncTask;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -14,68 +13,65 @@ import java.net.UnknownHostException;
  */
 public class Network {
 
-    private static Socket socket;
+    public final static class MessageType {
+        public static final int LOGIN = 0;
+        public static final int ADD_BRIDGE = 1;
+        public static final int CLOSE_CONNECTION = 2;
+    }
+
+    public final static class ReturnType {
+        public static final int SUCCESS = 0;
+        public static final int FAILURE = 1;
+    }
+
     private static final int SERVERPORT = 21;
     private static final String SERVER_IP = "145.24.222.142";
 
-    public void logIn(Account a) {
-        LoginTask login = new LoginTask(SERVER_IP, SERVERPORT, a);
-        login.execute();
+    public Network(Account a){
+        NetworkTask network = new NetworkTask(SERVER_IP, SERVERPORT, a);
+        network.execute();
     }
 
-    public class LoginTask extends AsyncTask<Void, Void, Void> {
+    public class NetworkTask extends AsyncTask<Void, Void, Void> {
 
-        String dstAddress;
-        int dstPort;
         String response = "";
         Account account;
+        Socket socket;
 
-        LoginTask(String addr, int port, Account a) {
-            dstAddress = addr;
-            dstPort = port;
+        NetworkTask(String addr, int port, Account a) {
             account = a;
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
+                try {
+                    socket = new Socket(SERVER_IP, SERVERPORT);
+                    System.out.println("Connected");
+                    //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                    out.writeInt(MessageType.LOGIN);
+                    out.flush();
+                    String[] loginDetails = {account.getUserName(), account.getPassword()};
+                    System.out.println(loginDetails);
+                    out.writeObject(loginDetails);
+                    out.flush();
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                    int returnType = in.readInt();
+                    System.out.println(returnType);
+                    //socket.close();
 
-            Socket socket = null;
-
-            try {
-                socket = new Socket(SERVER_IP, SERVERPORT);
-                System.out.println("Connected");
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new PrintWriter(socket.getOutputStream());
-                out.println("LOGIN");
-                out.println(account.getUserName());
-                out.println(account.getPassword());
-                out.flush();
-
-
-            } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                response = "UnknownHostException: " + e.toString();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                response = "IOException: " + e.toString();
-            } finally {
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                } catch (UnknownHostException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
-            }
-            return null;
+                return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            System.out.println(response);
             super.onPostExecute(result);
         }
     }
