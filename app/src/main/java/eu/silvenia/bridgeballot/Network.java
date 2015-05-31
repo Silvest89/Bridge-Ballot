@@ -24,50 +24,46 @@ public class Network {
         public static final int FAILURE = 1;
     }
 
+    public static Socket socket;
+
     private static final int SERVERPORT = 21;
     private static final String SERVER_IP = "145.24.222.142";
 
-    public Network(Account a){
-        NetworkTask network = new NetworkTask(SERVER_IP, SERVERPORT, a);
+    public void login(){
+        LoginTask network = new LoginTask();
         network.execute();
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, Void> {
+    public class LoginTask extends AsyncTask<Void, Void, Void> {
 
         String response = "";
-        Account account;
-        Socket socket;
 
-        NetworkTask(String addr, int port, Account a) {
-            account = a;
+        LoginTask() {
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
-                try {
-                    socket = new Socket(SERVER_IP, SERVERPORT);
-                    System.out.println("Connected");
-                    //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                    out.writeInt(MessageType.LOGIN);
-                    out.flush();
-                    String[] loginDetails = {account.getUserName(), account.getPassword()};
-                    System.out.println(loginDetails);
-                    out.writeObject(loginDetails);
-                    out.flush();
-                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                    int returnType = in.readInt();
-                    System.out.println(returnType);
-                    //socket.close();
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                System.out.println("Connected");
+                //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                String[] loginDetails = { Account.getUserName(),  Account.getPassword()};
 
-                } catch (UnknownHostException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return null;
+                out.writeInt(MessageType.LOGIN);
+                out.writeObject(loginDetails);
+                out.flush();
+
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                int returnType = in.readInt();
+                System.out.println(returnType);
+                socket.close();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         @Override
