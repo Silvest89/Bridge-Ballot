@@ -4,4 +4,7 @@
     <string name="user_name">User name</string>
     <string name="password">Password</string>
     <string name="logIn_button">Log In</string>
+    <string name="title_activity_bridge_list">BridgeList</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

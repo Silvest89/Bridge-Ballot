@@ -6,6 +6,7 @@ import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -65,6 +66,9 @@ public class MainActivity extends Activity implements
         Account.setUserName(userName.getText().toString());
         Account.setPassword(password.getText().toString());
         network.login();
+
+        Intent bridgeList = new Intent(this, BridgeList.class);
+        startActivity(bridgeList);
     }
 
     @Override
