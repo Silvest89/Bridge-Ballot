@@ -17,6 +17,7 @@ public class Network {
         public static final int LOGIN = 0;
         public static final int ADD_BRIDGE = 1;
         public static final int CLOSE_CONNECTION = 2;
+        public static final int SEND_TOKEN = 3;
     }
 
     public final static class ReturnType {
@@ -32,6 +33,10 @@ public class Network {
     public void login(){
         LoginTask network = new LoginTask();
         network.execute();
+    }
+    public void sendToken(String token){
+        SendTokenTask sendToken = new SendTokenTask(token);
+        sendToken.execute();
     }
 
     public class LoginTask extends AsyncTask<Void, Void, Void> {
@@ -71,5 +76,31 @@ public class Network {
             super.onPostExecute(result);
         }
     }
+    public class SendTokenTask extends AsyncTask<Void, Void, Void>  {
+
+        String token;
+        public SendTokenTask(String token){
+            this.token = token;
+        }
+
+        @Override
+        protected Void doInBackground(Void...arg0){
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+                System.out.println(token);
+                out.writeInt(MessageType.SEND_TOKEN);
+                out.writeUTF(token);
+                out.flush();
+
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        return null;}
+    }
 }
+
 

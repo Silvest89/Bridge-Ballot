@@ -40,7 +40,7 @@ public class MyGcmListenerService extends GcmListenerService {
 
 }
 // TODO: Implement this method to send any registration to your app's servers.
-        //sendRegistrationToServer(token);
+      //  sendRegistrationToServer(token);
 
 // You should store a boolean that indicates whether the generated token has been
 // sent to your server. If the boolean is false, send the token to your server,
