@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 /**
  * Created by Jesse on 29-5-2015.
@@ -15,9 +16,11 @@ public class Network {
 
     public final static class MessageType {
         public static final int LOGIN = 0;
-        public static final int ADD_BRIDGE = 1;
-        public static final int CLOSE_CONNECTION = 2;
-        public static final int SEND_TOKEN = 3;
+        public static final int DISCONNECT = 1;
+        public static final int SEND_TOKEN = 2;
+        public static final int BRIDGE_REQUEST = 3;
+        public static final int BRIDGE_ADD = 4;
+        public static final int BRIDGE_DELETE = 5;
     }
 
     public final static class ReturnType {
@@ -100,6 +103,41 @@ public class Network {
             }
 
         return null;}
+    }
+
+    public class RequestBridge extends AsyncTask<Void, Void, ArrayList> {
+
+
+        @Override
+        protected ArrayList doInBackground(Void... arg0) {
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                System.out.println("Connected");
+                //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+                out.writeInt(MessageType.BRIDGE_REQUEST);
+                out.flush();
+
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ArrayList bridgeList = (ArrayList) in.readObject();
+                System.out.println(bridgeList);
+                socket.close();
+                return bridgeList;
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList result) {
+            super.onPostExecute(result);
+        }
     }
 }
 
