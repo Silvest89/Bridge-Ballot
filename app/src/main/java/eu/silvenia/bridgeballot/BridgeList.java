@@ -1,17 +1,35 @@
 package eu.silvenia.bridgeballot;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
-public class BridgeList extends ActionBarActivity {
+public class BridgeList extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_list);
+        ListView bridgeList = (ListView) findViewById(R.id.bridgeList);
+        Network network = MainActivity.network;
+        try {
+            ArrayList<String[]> bridgeArray = network.requestBridge();
+            for(int i = 0; i < bridgeArray.size(); i++){
+            //fill Listview here
+            }
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

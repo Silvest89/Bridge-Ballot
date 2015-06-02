@@ -5,9 +5,11 @@ import android.os.AsyncTask;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Jesse on 29-5-2015.
@@ -40,6 +42,12 @@ public class Network {
     public void sendToken(String token){
         SendTokenTask sendToken = new SendTokenTask(token);
         sendToken.execute();
+    }
+    public ArrayList requestBridge() throws ExecutionException, InterruptedException {
+        RequestBridge network = new RequestBridge();
+        ArrayList bridgeList = network.execute().get();
+        return bridgeList;
+
     }
 
     public class LoginTask extends AsyncTask<Void, Void, Void> {
