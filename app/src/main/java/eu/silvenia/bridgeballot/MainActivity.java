@@ -42,7 +42,6 @@ public class MainActivity extends Activity implements
         network = new Network();
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
