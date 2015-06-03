@@ -52,16 +52,19 @@ public class Network {
         sendToken.execute();
     }
 
-    public ArrayList requestBridge() throws ExecutionException, InterruptedException {
+    public ArrayList requestBridge() {
         RequestBridge network = new RequestBridge();
-        ArrayList bridgeList = network.execute().get();
+        ArrayList bridgeList = null;
+        try {
+            bridgeList = network.execute().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return bridgeList;
 
     }
 
     public class LoginTask extends AsyncTask<Void, Void, Void> {
-
-        String response = "";
 
         LoginTask() {
         }
@@ -81,7 +84,6 @@ public class Network {
 
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 int returnType = in.readInt();
-                System.out.println(returnType);
                 socket.close();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
@@ -124,12 +126,11 @@ public class Network {
 
     public class RequestBridge extends AsyncTask<Void, Void, ArrayList> {
 
-
         @Override
         protected ArrayList doInBackground(Void... arg0) {
             try {
                 socket = new Socket(SERVER_IP, SERVERPORT);
-                System.out.println("Connected");
+                System.out.println("Request Bridge");
                 //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
@@ -137,10 +138,11 @@ public class Network {
                 out.flush();
 
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                ArrayList bridgeList = (ArrayList) in.readObject();
-                System.out.println(bridgeList);
+                Object object = in.readObject();
+                //String[] loginDetails = (String[]) in.readObject();
+                System.out.println(object);
                 socket.close();
-                return bridgeList;
+                //return bridgeList;
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {

@@ -21,7 +21,7 @@ public class BridgeList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_list);
-        final ListView bridgeList = (ListView) findViewById(R.id.bridgeList);
+        /*final ListView bridgeList = (ListView) findViewById(R.id.bridgeList);
         Network network = MainActivity.network;
         ArrayList<String> bridges = new ArrayList();
         try {
@@ -51,7 +51,7 @@ public class BridgeList extends Activity {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
