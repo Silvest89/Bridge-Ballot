@@ -64,7 +64,8 @@ public class MainActivity extends Activity implements
         Account.setUserName(userName.getText().toString());
         Account.setPassword(password.getText().toString());
         network.login();
-        startActivity(new Intent(this, MenuActivity.class));
+        network.requestBridge();
+        //startActivity(new Intent(this, MenuActivity.class));
 //        Intent bridgeList = new Intent(this, BridgeList.class);
 //        startActivity(bridgeList);
     }
