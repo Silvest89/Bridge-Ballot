@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/createUser_title"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/create_userName"
+        android:layout_marginTop="75dp"
+        android:hint="@string/create_userName"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/create_password"
+        android:hint="@string/create_password"
+        android:layout_below="@+id/create_userName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/create_confirmPassword"
+        android:layout_below="@+id/create_password"
+        android:layout_alignLeft="@+id/create_password"
+        android:layout_alignStart="@+id/create_password"
+        android:layout_marginTop="20dp"
+        android:hint="@string/create_confirmPassword" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_makeAccount"
+        android:id="@+id/button3"
+        android:layout_marginTop="58dp"
+        android:layout_below="@+id/create_confirmPassword"
+        android:layout_alignLeft="@+id/create_confirmPassword"
+        android:layout_alignStart="@+id/create_confirmPassword"
+        android:onClick="makeAccount" />
+</RelativeLayout>

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eu.silvenia.bridgeballot" >
 
+    <uses-permission android:name="INTERACT_ACROSS_USERS_FULL" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -63,6 +64,10 @@
         <activity
             android:name=".BridgeList"
             android:label="@string/title_activity_bridge_list" >
+        </activity>
+        <activity
+            android:name=".CreateUserActivity"
+            android:label="@string/title_activity_create_user" >
         </activity>
     </application>
 

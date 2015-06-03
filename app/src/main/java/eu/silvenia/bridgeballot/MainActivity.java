@@ -6,7 +6,6 @@ import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -68,6 +67,11 @@ public class MainActivity extends Activity implements
 
         Intent bridgeList = new Intent(this, BridgeList.class);
         startActivity(bridgeList);
+    }
+
+    public void onCreateUser(View v){
+        Intent createUser = new Intent(this, CreateUserActivity.class);
+        startActivity(createUser);
     }
 
     @Override
