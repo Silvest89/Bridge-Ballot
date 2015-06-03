@@ -22,7 +22,7 @@ public class Network {
         public static final int BRIDGE_REQUEST = 3;
         public static final int BRIDGE_ADD = 4;
         public static final int BRIDGE_DELETE = 5;
-        public static final int CREATE_ACCOUNT = 6;
+        public static final int CREATE_ACCOUNT = 7;
     }
 
     public final static class ReturnType {
