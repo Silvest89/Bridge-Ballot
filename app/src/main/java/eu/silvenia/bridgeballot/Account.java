@@ -24,8 +24,8 @@ public final class Account {
         userName = name;
     }
 
-    public static void setPassword(String password){
-        password = password;
+    public static void setPassword(String passWord){
+        password = passWord;
     }
 
     public static void resetAccount(){

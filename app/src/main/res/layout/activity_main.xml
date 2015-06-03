@@ -69,4 +69,14 @@
         android:layout_alignRight="@+id/button"
         android:layout_alignEnd="@+id/button" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/createUser_button"
+        android:id="@+id/button2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onCreateUser" />
+
 </RelativeLayout>

@@ -5,4 +5,15 @@
     <string name="logIn_button">Inloggen</string>
     <string name="password">Wachtwoord</string>
     <string name="user_name">Gebruikersnaam</string>
+    <string name="createUser_button">Nieuw? Maak account</string>
+    <string name="createUser_title">Maak een account</string>
+    <string name="create_confirmPassword">Wachtwoord bevestigen</string>
+    <string name="create_makeAccount">Maak account</string>
+    <string name="create_password">Wachtwoord</string>
+    <string name="create_userName">Gebruikersnaam</string>
+    <string name="create_alertMessage">Het wachtwoord is niet hetzelfde als het bevestigde wachtwoord. Probeer opnieuw.</string>
+    <string name="create_alertFailure">Dit account bestaat al, probeer opnieuw.</string>
+    <string name="create_alertSuccess">Het account is aangemaakt. Log in om de app te gebruiken.</string>
+    <string name="create_alertUserNotUnique">Uw gebruikersnaam is al in gebruik. Probeer een andere naam alstublieft.</string>
+    <string name="create_emptyFields">Ten minste een van de velden is leeg, probeer opnieuw.</string>
 </resources>

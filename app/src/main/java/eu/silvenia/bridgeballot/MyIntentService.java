@@ -22,7 +22,7 @@ public class MyIntentService extends IntentService {
             // Initially this call goes out to the network to retrieve the token, subsequent calls
             // are local.
             InstanceID instanceID = InstanceID.getInstance(this);
-            token = instanceID.getToken("500415068393",
+            token = instanceID.getToken("347276396786",
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             Log.i("Bridge-Ballot", "GCM Registration Token: " + token);
             //System.out.println(token);

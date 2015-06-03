@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Jesse on 29-5-2015.
@@ -21,11 +22,13 @@ public class Network {
         public static final int BRIDGE_REQUEST = 3;
         public static final int BRIDGE_ADD = 4;
         public static final int BRIDGE_DELETE = 5;
+        public static final int CREATE_ACCOUNT = 7;
     }
 
     public final static class ReturnType {
         public static final int SUCCESS = 0;
         public static final int FAILURE = 1;
+        public static final int FAILURE_NAME_NOT_UNIQUE = 2;
     }
 
     public static Socket socket;
@@ -37,9 +40,23 @@ public class Network {
         LoginTask network = new LoginTask();
         network.execute();
     }
+
+    public Integer createAccount() throws ExecutionException, InterruptedException {
+        CreateAccountTask createAccountTask = new CreateAccountTask();
+        Integer result = createAccountTask.execute().get();
+        return result;
+    }
+
     public void sendToken(String token){
         SendTokenTask sendToken = new SendTokenTask(token);
         sendToken.execute();
+    }
+
+    public ArrayList requestBridge() throws ExecutionException, InterruptedException {
+        RequestBridge network = new RequestBridge();
+        ArrayList bridgeList = network.execute().get();
+        return bridgeList;
+
     }
 
     public class LoginTask extends AsyncTask<Void, Void, Void> {
@@ -137,6 +154,37 @@ public class Network {
         @Override
         protected void onPostExecute(ArrayList result) {
             super.onPostExecute(result);
+        }
+    }
+
+    public class CreateAccountTask extends AsyncTask<Void, Void, Integer>{
+
+        @Override
+        protected Integer doInBackground(Void... args){
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                String[] loginDetails = { Account.getUserName(),  Account.getPassword()};
+
+                out.writeInt(MessageType.CREATE_ACCOUNT);
+                out.writeObject(loginDetails);
+                out.flush();
+
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                if(in.readInt() == ReturnType.SUCCESS){
+                    socket.close();
+                    return ReturnType.SUCCESS;
+                }
+
+                else {
+                    socket.close();
+                    return ReturnType.FAILURE_NAME_NOT_UNIQUE;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return -1;
         }
     }
 }

@@ -4,6 +4,18 @@
     <string name="user_name">User name</string>
     <string name="password">Password</string>
     <string name="logIn_button">Log In</string>
+    <string name="createUser_button">New? Create account</string>
+    <string name="createUser_title">Create an account</string>
+    <string name="create_userName">User name</string>
+    <string name="create_password">Password</string>
+    <string name="create_confirmPassword">Confirm password</string>
+    <string name="create_makeAccount">Create account</string>
+    <string name="create_emptyFields">At least one of the fields is empty, try again.</string>
+    <string name="create_alertMessage">Your password and confirmed password do not match. Check again.</string>
+    <string name="create_alertSuccess">Your account has been made. Please log in to use the app.</string>
+    <string name="create_alertFailure">This account already exists. Please try again.</string>
+    <string name="create_alertUserNotUnique">Your user name has already been chosen, please use another one.</string>
+    <string name="title_activity_create_user">Create User</string>
     <string name="title_activity_bridge_list">BridgeList</string>
 
     <string name="hello_world">Hello world!</string>

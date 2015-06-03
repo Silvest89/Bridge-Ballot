@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eu.silvenia.bridgeballot" >
 
+    <uses-permission android:name="INTERACT_ACROSS_USERS_FULL" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,14 +30,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
@@ -63,6 +64,10 @@
         <activity
             android:name=".BridgeList"
             android:label="@string/title_activity_bridge_list" >
+        </activity>
+        <activity
+            android:name=".CreateUserActivity"
+            android:label="@string/title_activity_create_user" >
         </activity>
     </application>
 
