@@ -1,15 +1,17 @@
 package eu.silvenia.bridgeballot;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class BridgeList extends AppCompatActivity {
+public class BridgeList extends Activity {
 
 
     @Override
@@ -18,12 +20,17 @@ public class BridgeList extends AppCompatActivity {
         setContentView(R.layout.activity_bridge_list);
         ListView bridgeList = (ListView) findViewById(R.id.bridgeList);
         Network network = MainActivity.network;
+        ArrayList<String> bridges = new ArrayList();
         try {
             ArrayList<String[]> bridgeArray = network.requestBridge();
-            for(int i = 0; i < bridgeArray.size(); i++){
-            //fill Listview here
-            }
 
+            for(int x = 0; x < bridgeArray.size(); x++){
+                String[] temp = bridgeArray.get(x);
+                bridges.add(temp[1]);
+
+            }
+            ArrayAdapter<String> test = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, bridges);
+            bridgeList.setAdapter(test);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
