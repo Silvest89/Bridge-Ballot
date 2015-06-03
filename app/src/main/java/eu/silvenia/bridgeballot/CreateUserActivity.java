@@ -77,18 +77,13 @@ public class CreateUserActivity extends Activity {
                     userNameET.setText(null);
                     passwordET.setText(null);
                     confirmPasswordET.setText(null);
-                } else if (result == 1) {
-                    alert.setTitle("Error");
-                    alert.setMessage(getString(R.string.create_alertFailure));
-                    alert.show();
-                } else {
+                } else if (result == 2) {
                     alert.setTitle("Error");
                     alert.setMessage(getString(R.string.create_alertUserNotUnique));
                     alert.show();
                     userNameET.setText(null);
                     passwordET.setText(null);
                     confirmPasswordET.setText(null);
-
                 }
             }
         }

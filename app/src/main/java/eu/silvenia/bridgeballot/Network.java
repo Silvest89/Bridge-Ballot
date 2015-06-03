@@ -176,12 +176,8 @@ public class Network {
                     return ReturnType.SUCCESS;
                 }
 
-                else if (in.readInt() == ReturnType.FAILURE) {
-                    socket.close();
-                    return ReturnType.FAILURE;
-                }
-
                 else {
+                    socket.close();
                     return ReturnType.FAILURE_NAME_NOT_UNIQUE;
                 }
 
