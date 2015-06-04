@@ -36,13 +36,20 @@ public class Network {
     private static final int SERVERPORT = 21;
     private static final String SERVER_IP = "145.24.222.142";
 
-    public void login(){
-        LoginTask network = new LoginTask();
-        network.execute();
+    public boolean login(String username, String password, boolean isGooglePlus){
+        LoginTask network = new LoginTask(username, password, isGooglePlus);
+        try {
+            return network.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    public Integer createAccount() throws ExecutionException, InterruptedException {
-        CreateAccountTask createAccountTask = new CreateAccountTask();
+    public Integer createAccount(String username, String password) throws ExecutionException, InterruptedException {
+        CreateAccountTask createAccountTask = new CreateAccountTask(username, password);
         Integer result = createAccountTask.execute().get();
         return result;
     }
@@ -64,37 +71,55 @@ public class Network {
 
     }
 
-    public class LoginTask extends AsyncTask<Void, Void, Void> {
+    public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        LoginTask() {
+        private String username;
+        private String password;
+        private boolean isGooglePlus;
+
+        LoginTask(String username, String password, boolean isGooglePlus) {
+            this.username = username;
+            this.password = password;
+            this.isGooglePlus = isGooglePlus;
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Boolean doInBackground(Void... arg0) {
             try {
                 socket = new Socket(SERVER_IP, SERVERPORT);
-                System.out.println("Connected");
-                //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+                System.out.println("LoginTask");
+
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                String[] loginDetails = { Account.getUserName(),  Account.getPassword()};
+                String[] loginDetails = { username,  password};
 
                 out.writeInt(MessageType.LOGIN);
+                out.writeBoolean(isGooglePlus);
                 out.writeObject(loginDetails);
                 out.flush();
 
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 int returnType = in.readInt();
+
+                if(returnType > 0) {
+                    int id = in.readInt();
+                    Account.setUserName(username);
+                    Account.setGooglePlus(isGooglePlus);
+                    Account.setId(id);
+                    return true;
+                }
+
                 socket.close();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return false;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
         }
     }
@@ -160,13 +185,20 @@ public class Network {
     }
 
     public class CreateAccountTask extends AsyncTask<Void, Void, Integer>{
+        private String username;
+        private String password;
+
+        public CreateAccountTask(String username, String password){
+            this.username = username;
+            this.password = password;
+        }
 
         @Override
         protected Integer doInBackground(Void... args){
             try {
                 socket = new Socket(SERVER_IP, SERVERPORT);
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                String[] loginDetails = { Account.getUserName(),  Account.getPassword()};
+                String[] loginDetails = { username,  password};
 
                 out.writeInt(MessageType.CREATE_ACCOUNT);
                 out.writeObject(loginDetails);

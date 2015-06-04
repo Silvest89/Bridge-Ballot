@@ -6,6 +6,7 @@ import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -61,13 +62,12 @@ public class MainActivity extends Activity implements
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
 
-        Account.setUserName(userName.getText().toString());
-        Account.setPassword(password.getText().toString());
-        network.login();
-        network.requestBridge();
-        //startActivity(new Intent(this, MenuActivity.class));
-//        Intent bridgeList = new Intent(this, BridgeList.class);
-//        startActivity(bridgeList);
+        //Account.setUserName(userName.getText().toString());
+        //Account.setPassword(password.getText().toString());
+        boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false);
+
+        if(validateLogin)
+            startActivity(new Intent(this, MenuActivity.class));
     }
 
     public void onCreateUser(View v){
@@ -95,6 +95,8 @@ public class MainActivity extends Activity implements
     public void onConnected(Bundle connectionHint) {
         // We've resolved any connection errors.  mGoogleApiClient can be used to
         // access Google APIs on behalf of the user.
+        Toast.makeText(this, Plus.AccountApi.getAccountName(mGoogleApiClient), Toast.LENGTH_LONG).show();
+
     }
 
     @Override

@@ -4,35 +4,38 @@ package eu.silvenia.bridgeballot;
  * Created by Jesse on 29-5-2015.
  */
 public final class Account {
-    private static String ID;
+    private static int id;
     private static String userName;
-    private static String password;
+    private static boolean isGooglePlus;
 
-    public static String getID(){
-        return ID;
+    public static int getiD(){
+        return id;
     }
 
     public static String getUserName(){
         return userName;
     }
 
-    public static String getPassword(){
-        return password;
+    public static boolean getGooglePlus(){
+        return isGooglePlus;
+    }
+
+    public static void setId(int userId){
+        id = userId;
     }
 
     public static void setUserName(String name){
         userName = name;
     }
 
-    public static void setPassword(String passWord){
-        password = passWord;
+    public static void setGooglePlus(boolean GooglePlus){
+        isGooglePlus = GooglePlus;
     }
 
     public static void resetAccount(){
-        ID = "";
-        userName = "";
-        password = "";
-
+        setId(0);
+        setUserName("");
+        setGooglePlus(false);
     }
 
 

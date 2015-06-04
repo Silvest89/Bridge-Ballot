@@ -60,9 +60,7 @@ public class CreateUserActivity extends Activity {
                 confirmPasswordET.setText(null);
 
             } else {
-                Account.setUserName(userName);
-                Account.setPassword(password);
-                Integer result = MainActivity.network.createAccount();
+                Integer result = MainActivity.network.createAccount(userName, password);
                 final AlertDialog alert = new AlertDialog.Builder(this).create();
                 alert.setButton("OK", new DialogInterface.OnClickListener() {
                     @Override
