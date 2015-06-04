@@ -66,9 +66,9 @@ public class MainActivity extends Activity implements
         System.out.println(token);
         //Account.setUserName(userName.getText().toString());
         //Account.setPassword(password.getText().toString());
-        boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
+        //boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
 
-        if(validateLogin)
+        //if(validateLogin)
             startActivity(new Intent(this, MenuActivity.class));
     }
 

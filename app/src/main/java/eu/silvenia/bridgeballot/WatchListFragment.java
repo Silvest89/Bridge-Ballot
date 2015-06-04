@@ -1,4 +1,5 @@
 package eu.silvenia.bridgeballot;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,8 +7,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -18,41 +22,34 @@ public class WatchListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_watch_list, container, false);
 
-        LinearLayout topTitle = new LinearLayout(container.getContext());
-        LinearLayout.LayoutParams topTitleParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout topTitle = new RelativeLayout(getActivity());
+
+        RelativeLayout.LayoutParams topTitleParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+        topTitle.setPadding(0, 15, 0, 0);
         topTitle.setLayoutParams(topTitleParam);
-        topTitle.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        TextView fragmentTitle = new TextView(container.getContext());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0,5,0,5);
-        fragmentTitle.setLayoutParams(lp);
+        ViewGroup.LayoutParams fragmentTitleParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        TextView fragmentTitle = new TextView(getActivity());
         fragmentTitle.setGravity(Gravity.CENTER);
-        fragmentTitle.setText("WATCHLIST");
-        fragmentTitle.setTextSize(30.0f);
+        fragmentTitle.setText("Watchlist");
+        fragmentTitle.setTextSize(40.0f);
+        fragmentTitle.setId(10);
+        topTitle.addView(fragmentTitle, fragmentTitleParam);
 
-        LinearLayout bridgeLayout = new LinearLayout(container.getContext());
-        LinearLayout.LayoutParams bridgeParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250);
-        bridgeParam.setMargins(0,30,0,30);
-        bridgeLayout.setLayoutParams(bridgeParam);
-        bridgeLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+        RelativeLayout.LayoutParams bridgeLayoutParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 300);
 
-        TextView bridgeTitle = new TextView(container.getContext());
-        bridgeTitle.setLayoutParams(lp);
-        bridgeTitle.setGravity(Gravity.CENTER);
-        bridgeTitle.setTextSize(20.0f);
-        bridgeTitle.setText("Spijkenisserbrug");
+        RelativeLayout bridgeLayout = new RelativeLayout(topTitle.getContext());
+        bridgeLayout.setId(11);
+        TextView fragmentTitle2 = new TextView(bridgeLayout.getContext());
+        fragmentTitle2.setGravity(Gravity.CENTER);
+        fragmentTitle2.setText("test");
+        fragmentTitle2.setTextSize(25.0f);
+        bridgeLayout.addView(fragmentTitle2, fragmentTitleParam);
 
+        bridgeLayoutParam.addRule(RelativeLayout.BELOW, fragmentTitle.getId());
+        bridgeLayoutParam.setMargins(0, 20, 0, 20);
 
-
-
-
-        bridgeLayout.addView(bridgeTitle);
-
-
-        topTitle.addView(fragmentTitle);
-        topTitle.addView(bridgeLayout);
-
+        topTitle.addView(bridgeLayout, bridgeLayoutParam);
 
         return topTitle;
     }
