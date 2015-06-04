@@ -54,6 +54,11 @@ public class Network {
         return result;
     }
 
+   /* public void sendToken(String token){
+        SendTokenTask sendToken = new SendTokenTask(token);
+        sendToken.execute();
+    }*/
+
     public ArrayList requestBridge() {
         RequestBridge network = new RequestBridge();
         ArrayList bridgeList = null;
@@ -119,6 +124,31 @@ public class Network {
             super.onPostExecute(result);
         }
     }
+  /*  public class SendTokenTask extends AsyncTask<Void, Void, Void>  {
+
+        String token;
+        public SendTokenTask(String token){
+            this.token = token;
+        }
+
+        @Override
+        protected Void doInBackground(Void...arg0){
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+                System.out.println(token);
+                out.writeInt(MessageType.SEND_TOKEN);
+                out.writeUTF(token);
+                out.flush();
+
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        return null;}
+    }*/
 
     public class RequestBridge extends AsyncTask<Void, Void, ArrayList> {
 

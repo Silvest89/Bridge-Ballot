@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class MyIntentService extends IntentService {
 
+    String token;
     public MyIntentService(){
         super("MyIntent");
     }
@@ -21,10 +22,12 @@ public class MyIntentService extends IntentService {
             // Initially this call goes out to the network to retrieve the token, subsequent calls
             // are local.
             InstanceID instanceID = InstanceID.getInstance(this);
-            String gcmToken = instanceID.getToken("347276396786",
+            token = instanceID.getToken("347276396786",
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            Log.i("Bridge-Ballot", "GCM Registration Token: " + gcmToken);
-            setToken(gcmToken);
+            Log.i("Bridge-Ballot", "GCM Registration Token: " + token);
+            //System.out.println(token);
+            // TODO: Implement this method to send any registration to your app's servers.
+            MainActivity.network.sendToken(token);
 
             // Subscribe to topic channels
             //subscribeTopics(token);
@@ -36,10 +39,6 @@ public class MyIntentService extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setToken(String token){
-        MainActivity.token = token;
     }
 
 
