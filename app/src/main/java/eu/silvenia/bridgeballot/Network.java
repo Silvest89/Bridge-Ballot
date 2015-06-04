@@ -102,10 +102,9 @@ public class Network {
                 int returnType = in.readInt();
 
                 if(returnType > 0) {
-                    int id = in.readInt();
                     Account.setUserName(username);
                     Account.setGooglePlus(isGooglePlus);
-                    Account.setId(id);
+                    Account.setId(returnType);
                     return true;
                 }
 
