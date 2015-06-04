@@ -19,6 +19,7 @@ public class MainActivity extends Activity implements
         View.OnClickListener {
 
     public static Network network;
+    public static String token;
 
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
@@ -37,9 +38,10 @@ public class MainActivity extends Activity implements
                 .addScope(new Scope("profile"))
                 .build();
         findViewById(R.id.sign_in_button).setOnClickListener(this);
+
+        network = new Network();
         Intent test = new Intent(this, MyIntentService.class);
         startService(test);
-        network = new Network();
     }
 
     @Override
@@ -59,12 +61,15 @@ public class MainActivity extends Activity implements
     }
 
     public void onSignIn(View v){
+
+
+
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
-
+        System.out.println(token);
         //Account.setUserName(userName.getText().toString());
         //Account.setPassword(password.getText().toString());
-        boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false);
+        boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
 
         if(validateLogin)
             startActivity(new Intent(this, MenuActivity.class));

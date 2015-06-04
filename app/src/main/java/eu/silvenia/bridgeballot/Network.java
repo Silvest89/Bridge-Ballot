@@ -36,8 +36,8 @@ public class Network {
     private static final int SERVERPORT = 21;
     private static final String SERVER_IP = "145.24.222.142";
 
-    public boolean login(String username, String password, boolean isGooglePlus){
-        LoginTask network = new LoginTask(username, password, isGooglePlus);
+    public boolean login(String username, String password, boolean isGooglePlus, String token){
+        LoginTask network = new LoginTask(username, password, isGooglePlus, token);
         try {
             return network.execute().get();
         } catch (InterruptedException e) {
@@ -54,10 +54,10 @@ public class Network {
         return result;
     }
 
-    public void sendToken(String token){
+   /* public void sendToken(String token){
         SendTokenTask sendToken = new SendTokenTask(token);
         sendToken.execute();
-    }
+    }*/
 
     public ArrayList requestBridge() {
         RequestBridge network = new RequestBridge();
@@ -76,11 +76,13 @@ public class Network {
         private String username;
         private String password;
         private boolean isGooglePlus;
+        private String token;
 
-        LoginTask(String username, String password, boolean isGooglePlus) {
+        LoginTask(String username, String password, boolean isGooglePlus, String token) {
             this.username = username;
             this.password = password;
             this.isGooglePlus = isGooglePlus;
+            this.token = token;
         }
 
         @Override
@@ -91,7 +93,7 @@ public class Network {
                 System.out.println("LoginTask");
 
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                String[] loginDetails = { username,  password};
+                String[] loginDetails = { username,  password, token};
 
                 out.writeInt(MessageType.LOGIN);
                 out.writeBoolean(isGooglePlus);
@@ -102,10 +104,9 @@ public class Network {
                 int returnType = in.readInt();
 
                 if(returnType > 0) {
-                    int id = in.readInt();
                     Account.setUserName(username);
                     Account.setGooglePlus(isGooglePlus);
-                    Account.setId(id);
+                    Account.setId(returnType);
                     return true;
                 }
 
@@ -123,7 +124,7 @@ public class Network {
             super.onPostExecute(result);
         }
     }
-    public class SendTokenTask extends AsyncTask<Void, Void, Void>  {
+  /*  public class SendTokenTask extends AsyncTask<Void, Void, Void>  {
 
         String token;
         public SendTokenTask(String token){
@@ -147,7 +148,7 @@ public class Network {
             }
 
         return null;}
-    }
+    }*/
 
     public class RequestBridge extends AsyncTask<Void, Void, ArrayList> {
 
