@@ -165,7 +165,7 @@ public class Network {
 
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-                ArrayList bridgeList = (ArrayList) in.readObject();
+                ArrayList<String[]> bridgeList = (ArrayList<String[]>) in.readObject();
                 System.out.println(bridgeList);
                 socket.close();
                 return bridgeList;
