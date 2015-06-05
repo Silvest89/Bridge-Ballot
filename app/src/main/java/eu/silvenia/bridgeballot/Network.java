@@ -164,11 +164,12 @@ public class Network {
                 out.flush();
 
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                Object object = in.readObject();
-                //String[] loginDetails = (String[]) in.readObject();
-                System.out.println(object);
+
+                ArrayList bridgeList = (ArrayList) in.readObject();
+                System.out.println(bridgeList);
                 socket.close();
-                //return bridgeList;
+                return bridgeList;
+
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {

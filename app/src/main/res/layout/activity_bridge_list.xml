@@ -19,7 +19,7 @@
         android:layout_alignParentEnd="true"
         android:headerDividersEnabled="false" />
 
-    <TextView
+    TextView
         android:textSize="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
