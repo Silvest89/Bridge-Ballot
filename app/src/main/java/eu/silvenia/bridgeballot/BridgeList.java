@@ -21,37 +21,30 @@ public class BridgeList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_list);
-        /*final ListView bridgeList = (ListView) findViewById(R.id.bridgeList);
+        final ListView bridgeList = (ListView) findViewById(R.id.bridgeList);
         Network network = MainActivity.network;
         ArrayList<String> bridges = new ArrayList();
-        try {
-            ArrayList<String[]> bridgeArray = network.requestBridge();
+        ArrayList<String[]> bridgeArray = network.requestBridge();
 
-            for(int x = 0; x < bridgeArray.size(); x++){
-                String[] temp = bridgeArray.get(x);
-                bridges.add(temp[1]);
+        for(int x = 0; x < bridgeArray.size(); x++){
+            String[] temp = bridgeArray.get(x);
+            bridges.add(temp[1]);
+
+        }
+        ArrayAdapter<String> test = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, bridges);
+        bridgeList.setAdapter(test);
+
+        bridgeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object selectedBrige = bridgeList.getItemAtPosition(position);
+                //return selectedBridge to watchlist
+
 
             }
-            ArrayAdapter<String> test = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, bridges);
-            bridgeList.setAdapter(test);
+        });
 
-            bridgeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Object selectedBrige = bridgeList.getItemAtPosition(position);
-                    //return selectedBridge to watchlist
-
-
-                }
-            });
-
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
 
     }
 
