@@ -1,8 +1,10 @@
 package eu.silvenia.bridgeballot;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -66,10 +68,11 @@ public class MainActivity extends Activity implements
         System.out.println(token);
         //Account.setUserName(userName.getText().toString());
         //Account.setPassword(password.getText().toString());
-        //boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
+        boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
 
+        network.requestBridge();
         //if(validateLogin)
-            startActivity(new Intent(this, MenuActivity.class));
+            //startActivity(new Intent(this, MenuActivity.class));
     }
 
     public void onCreateUser(View v){
