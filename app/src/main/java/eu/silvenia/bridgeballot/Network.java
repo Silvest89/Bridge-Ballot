@@ -176,8 +176,8 @@ public class Network {
 
                 HashMap<Integer, Bridge> bridgeList = (HashMap)in.readObject();
                 System.out.println(bridgeList);
-                //socket.close();
-                //return bridgeList;*/
+                socket.close();
+                return bridgeList;
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();
