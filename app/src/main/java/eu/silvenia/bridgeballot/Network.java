@@ -2,13 +2,20 @@ package eu.silvenia.bridgeballot;
 
 import android.os.AsyncTask;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import bridgeballotserver.Bridge;
 
 /**
  * Created by Jesse on 29-5-2015.
@@ -59,9 +66,9 @@ public class Network {
         sendToken.execute();
     }*/
 
-    public ArrayList requestBridge() {
+    public Map<Integer, Bridge> requestBridge() {
         RequestBridge network = new RequestBridge();
-        ArrayList bridgeList = null;
+        Map<Integer, Bridge> bridgeList = null;
         try {
             bridgeList = network.execute().get();
         } catch (InterruptedException | ExecutionException e) {
@@ -92,7 +99,7 @@ public class Network {
 
                 System.out.println("LoginTask");
 
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
                 String[] loginDetails = { username,  password, token};
 
                 out.writeInt(MessageType.LOGIN);
@@ -100,7 +107,7 @@ public class Network {
                 out.writeObject(loginDetails);
                 out.flush();
 
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
                 int returnType = in.readInt();
 
                 if(returnType > 0) {
@@ -110,7 +117,7 @@ public class Network {
                     return true;
                 }
 
-                socket.close();
+                //socket.close();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -150,25 +157,27 @@ public class Network {
         return null;}
     }*/
 
-    public class RequestBridge extends AsyncTask<Void, Void, ArrayList> {
+    public class RequestBridge extends AsyncTask<Void, Void, Map<Integer, Bridge>> {
 
         @Override
-        protected ArrayList doInBackground(Void... arg0) {
+        protected Map<Integer, Bridge> doInBackground(Void... arg0) {
             try {
                 socket = new Socket(SERVER_IP, SERVERPORT);
+                Object object;
+
                 System.out.println("Request Bridge");
                 //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 
                 out.writeInt(MessageType.BRIDGE_REQUEST);
                 out.flush();
 
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
-                ArrayList<String[]> bridgeList = (ArrayList<String[]>) in.readObject();
+                HashMap<Integer, Bridge> bridgeList = (HashMap)in.readObject();
                 System.out.println(bridgeList);
-                socket.close();
-                return bridgeList;
+                //socket.close();
+                //return bridgeList;*/
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();
@@ -181,7 +190,7 @@ public class Network {
         }
 
         @Override
-        protected void onPostExecute(ArrayList result) {
+        protected void onPostExecute(Map<Integer, Bridge> result) {
             super.onPostExecute(result);
         }
     }
@@ -199,14 +208,14 @@ public class Network {
         protected Integer doInBackground(Void... args){
             try {
                 socket = new Socket(SERVER_IP, SERVERPORT);
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
                 String[] loginDetails = { username,  password};
 
                 out.writeInt(MessageType.CREATE_ACCOUNT);
                 out.writeObject(loginDetails);
                 out.flush();
 
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
                 if(in.readInt() == ReturnType.SUCCESS){
                     socket.close();
                     return ReturnType.SUCCESS;

@@ -23,13 +23,13 @@ public class BridgeListFragment extends Fragment {
         final ListView bridgeList = (ListView) rootview.findViewById(R.id.bridgeList);
         Network network = MainActivity.network;
         ArrayList<String> bridges = new ArrayList();
-        ArrayList<String[]> bridgeArray = network.requestBridge();
+        /*ArrayList<String[]> bridgeArray = network.requestBridge();
         
         for(int x = 0; x < bridgeArray.size(); x++){
             String[] temp = bridgeArray.get(x);
             bridges.add(temp[1]);
 
-        }
+        }*/
         ArrayAdapter<String> test = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, bridges);
         bridgeList.setAdapter(test);
 

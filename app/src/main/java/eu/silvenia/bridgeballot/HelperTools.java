@@ -1,5 +1,8 @@
 package eu.silvenia.bridgeballot;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Johnnie Ho on 5-6-2015.
  */
@@ -22,5 +25,12 @@ public class HelperTools {
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
         return Math.sqrt(distance);
+    }
+    public static String getCurrentTimeStamp(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss ");
+        String formattedDate = sdf.format(date);
+
+        return formattedDate;
     }
 }

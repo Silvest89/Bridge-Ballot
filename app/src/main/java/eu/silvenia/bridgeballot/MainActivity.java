@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements
         System.out.println(token);
         //Account.setUserName(userName.getText().toString());
         //Account.setPassword(password.getText().toString());
-        boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
+        //boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
 
         network.requestBridge();
         //if(validateLogin)
@@ -100,6 +100,7 @@ public class MainActivity extends Activity implements
     public void onConnected(Bundle connectionHint) {
         // We've resolved any connection errors.  mGoogleApiClient can be used to
         // access Google APIs on behalf of the user.
+
         Toast.makeText(this, Plus.AccountApi.getAccountName(mGoogleApiClient), Toast.LENGTH_LONG).show();
 
     }
