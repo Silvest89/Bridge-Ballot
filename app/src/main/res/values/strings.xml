@@ -1,4 +1,12 @@
 <resources>
+    <string-array name="fragments_array">
+        <item>Watchlist</item>
+        <item>Bridgelist</item>
+        <item>Logout</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <string name="app_name" translatable="false">Bridge Ballot</string>
     <string name="action_settings">Settings</string>
     <string name="user_name">User name</string>
