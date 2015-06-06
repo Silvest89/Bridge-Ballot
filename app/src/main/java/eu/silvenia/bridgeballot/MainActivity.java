@@ -70,9 +70,9 @@ public class MainActivity extends Activity implements
         //Account.setPassword(password.getText().toString());
         //boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
 
-        network.requestBridge();
+        //network.requestBridge();
         //if(validateLogin)
-            //startActivity(new Intent(this, MenuActivity.class));
+            startActivity(new Intent(this, MenuActivity.class));
     }
 
     public void onCreateUser(View v){

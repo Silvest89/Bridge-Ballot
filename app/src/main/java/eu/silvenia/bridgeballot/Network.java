@@ -66,9 +66,9 @@ public class Network {
         sendToken.execute();
     }*/
 
-    public Map<Integer, Bridge> requestBridge() {
+    public HashMap<Integer, Bridge> requestBridge() {
         RequestBridge network = new RequestBridge();
-        Map<Integer, Bridge> bridgeList = null;
+        HashMap<Integer, Bridge> bridgeList = null;
         try {
             bridgeList = network.execute().get();
         } catch (InterruptedException | ExecutionException e) {
@@ -157,10 +157,10 @@ public class Network {
         return null;}
     }*/
 
-    public class RequestBridge extends AsyncTask<Void, Void, Map<Integer, Bridge>> {
+    public class RequestBridge extends AsyncTask<Void, Void, HashMap<Integer, Bridge>> {
 
         @Override
-        protected Map<Integer, Bridge> doInBackground(Void... arg0) {
+        protected HashMap<Integer, Bridge> doInBackground(Void... arg0) {
             try {
                 socket = new Socket(SERVER_IP, SERVERPORT);
                 Object object;
@@ -190,7 +190,7 @@ public class Network {
         }
 
         @Override
-        protected void onPostExecute(Map<Integer, Bridge> result) {
+        protected void onPostExecute(HashMap<Integer, Bridge> result) {
             super.onPostExecute(result);
         }
     }

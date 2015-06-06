@@ -10,48 +10,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import bridgeballotserver.Bridge;
+
 
 public class WatchListFragment extends Fragment {
     ListView list;
-
-    Integer[] imgid = {
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle,
-            R.mipmap.ic_redcircle
-    };
-
-    String[] itemname = {
-            "Safari",
-            "Camera",
-            "Global",
-            "FireFox",
-            "UC Browser",
-            "Android Folder",
-            "VLC Player",
-            "Cold War",
-            "test1",
-            "test2"
-    };
-
-    int[] distance = {
-            1,
-            34,
-            56,
-            234,
-            23,
-            67,
-            56,
-            65,
-            56,
-            91
-    };
 
     View rootview;
 
@@ -60,7 +28,11 @@ public class WatchListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_watch_list, container, false);
 
-        WatchListAdapter adapter = new WatchListAdapter(getActivity(),imgid, itemname, distance );
+        HashMap<Integer, Bridge> bridgeMap = MainActivity.network.requestBridge();
+
+        ArrayList<Bridge> bridges = new ArrayList<>(bridgeMap.values());
+
+        BridgesAdapter adapter = new BridgesAdapter(getActivity(), bridges);
         list = (ListView) rootview.findViewById(R.id.list);
         list.setAdapter(adapter);
 
@@ -68,8 +40,8 @@ public class WatchListFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String Slecteditem = itemname[+position];
-                Toast.makeText(getActivity(), Slecteditem, Toast.LENGTH_SHORT).show();
+                Bridge bridge = (Bridge)list.getItemAtPosition(position);
+                Toast.makeText(getActivity(), bridge.getName(), Toast.LENGTH_SHORT).show();
 
             }
         });
