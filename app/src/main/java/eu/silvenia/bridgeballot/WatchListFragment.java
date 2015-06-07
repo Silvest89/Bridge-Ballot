@@ -27,24 +27,7 @@ public class WatchListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_watch_list, container, false);
-
-        HashMap<Integer, Bridge> bridgeMap = MainActivity.network.requestBridge();
-
-        ArrayList<Bridge> bridges = new ArrayList<>(bridgeMap.values());
-
-        BridgesAdapter adapter = new BridgesAdapter(getActivity(), bridges);
-        list = (ListView) rootview.findViewById(R.id.list);
-        list.setAdapter(adapter);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bridge bridge = (Bridge)list.getItemAtPosition(position);
-                Toast.makeText(getActivity(), bridge.getName(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        
 
         return rootview;
     }

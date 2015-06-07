@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -154,6 +155,8 @@ public class MenuActivity extends  ActionBarActivity {
                 break;
             }
             case 2:{
+                Account.resetAccount();
+                startActivity(new Intent(this, MainActivity.class));
                 return;
             }
             default:
@@ -193,6 +196,10 @@ public class MenuActivity extends  ActionBarActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void onBackPressed() {
+        return;
+    }
     /**
      * Fragment that appears in the "content_frame", shows a planet
      */

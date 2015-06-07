@@ -15,7 +15,6 @@ public class MyIntentService extends IntentService {
         super("MyIntent");
     }
     public void onHandleIntent(Intent intent){
-        System.out.println("test1");
 
         try {
             // Initially this call goes out to the network to retrieve the token, subsequent calls
