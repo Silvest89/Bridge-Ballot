@@ -1,6 +1,10 @@
 package eu.silvenia.bridgeballot;
 
-import android.support.v4.app.Fragment;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,4 +19,5 @@ public class AboutFragment extends Fragment {
         rootview = inflater.inflate(R.layout.fragment_about, container, false);
         return rootview;
     }
+
 }

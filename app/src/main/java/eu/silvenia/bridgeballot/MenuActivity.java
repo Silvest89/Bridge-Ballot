@@ -187,6 +187,10 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
                 startActivity(new Intent(this, MainActivity.class));
                 return;
             }
+            case 3:{
+                fragment = new AboutFragment();
+                break;
+            }
             default:
                 break;
         }

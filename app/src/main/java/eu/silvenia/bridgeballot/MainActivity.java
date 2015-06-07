@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.ServiceConnection;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -119,4 +120,8 @@ public class MainActivity extends Activity implements
         mGoogleApiClient.connect();
     }
 
+
+
+
 }
+
