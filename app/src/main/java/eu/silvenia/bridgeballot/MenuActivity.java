@@ -1,18 +1,17 @@
 package eu.silvenia.bridgeballot;
 
-import java.util.Locale;
-
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.location.Location;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -48,7 +48,7 @@ import android.widget.ListView;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MenuActivity extends  ActionBarActivity {
+public class MenuActivity extends  ActionBarActivity implements LocationListener {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -61,6 +61,10 @@ public class MenuActivity extends  ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);
@@ -103,6 +107,30 @@ public class MenuActivity extends  ActionBarActivity {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+    }
+
+    public static double longitude, latitude;
+    @Override
+    public void onLocationChanged(Location location) {
+        if(location.getAccuracy() < 100.0) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     @Override
