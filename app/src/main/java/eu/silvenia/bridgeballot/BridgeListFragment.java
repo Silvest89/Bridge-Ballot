@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Checkable;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,9 +19,10 @@ import java.util.Map;
 
 import bridgeballotserver.Bridge;
 
-public class BridgeListFragment extends Fragment {
+public class BridgeListFragment extends Fragment implements Checkable {
     ListView list;
     View rootview;
+    boolean bChecked = false;
 
     @Nullable
     @Override
@@ -39,12 +41,29 @@ public class BridgeListFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bridge bridge = (Bridge)list.getItemAtPosition(position);
-                Toast.makeText(getActivity(), bridge.getName(), Toast.LENGTH_SHORT).show();
+                //Bridge bridge = (Bridge)list.getItemAtPosition(position);
+                //Toast.makeText(getActivity(), bridge.getName(), Toast.LENGTH_SHORT).show();
+                toggle();
 
             }
         });
 
         return rootview;
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        bChecked = checked;
+
+    }
+
+    @Override
+    public boolean isChecked() {
+        return bChecked;
+    }
+
+    @Override
+    public void toggle() {
+        bChecked = !bChecked;
     }
 }

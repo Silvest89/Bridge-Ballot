@@ -5,11 +5,13 @@
     tools:context="{relativePackage}.${activityClass}" >
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/watchList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:choiceMode="none"
+        android:drawSelectorOnTop="false">
     </ListView>
 
 </RelativeLayout>
