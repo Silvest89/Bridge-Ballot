@@ -23,6 +23,7 @@ public class Bridge implements Serializable {
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
+        
     }
 
     public int getId() {
