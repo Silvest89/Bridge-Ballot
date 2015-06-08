@@ -54,7 +54,7 @@ public class BridgesAdapter extends ArrayAdapter<Bridge> {
             @Override
             public void onClick(View v) {
                 try {
-                    Integer result = MainActivity.network.sendBridgeToWatchlist(bridge.getName(), Account.getUserName());
+                    Integer result = MainActivity.network.sendBridgeToWatchlist(bridge.getId(), Account.getiD());
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

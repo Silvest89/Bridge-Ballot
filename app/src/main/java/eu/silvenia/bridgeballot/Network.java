@@ -62,8 +62,8 @@ public class Network {
         return result;
     }
 
-    public Integer sendBridgeToWatchlist(String bridge, String username) throws ExecutionException, InterruptedException {
-        BridgeToWatchlist bridgeToWatchlist = new BridgeToWatchlist(bridge, username);
+    public Integer sendBridgeToWatchlist(int bridge_id, int username_id) throws ExecutionException, InterruptedException {
+        BridgeToWatchlist bridgeToWatchlist = new BridgeToWatchlist(bridge_id, username_id);
         Integer result = bridgeToWatchlist.execute().get();
         return result;
     }
@@ -242,12 +242,12 @@ public class Network {
 
     public class BridgeToWatchlist extends AsyncTask<Void, Void, Integer> {
 
-        private String bridge;
-        private String username;
+        private int bridge_id;
+        private int username_id;
 
-        BridgeToWatchlist(String bridge, String username) {
-            this.bridge = bridge;
-            this.username = username;
+        BridgeToWatchlist(int bridge_id, int username_id) {
+            this.bridge_id = bridge_id;
+            this.username_id = username_id;
         }
 
         @Override
@@ -258,7 +258,7 @@ public class Network {
                 System.out.println("Sending bridge to watchlist");
 
                 ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                String[] watchlistDetails = { bridge, username };
+                int[] watchlistDetails = { bridge_id, username_id };
 
                 out.writeInt(MessageType.BRIDGE_WATCHLIST_ADD);
                 out.writeObject(watchlistDetails);
