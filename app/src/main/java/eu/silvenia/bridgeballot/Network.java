@@ -31,6 +31,7 @@ public class Network {
         public static final int BRIDGE_DELETE = 5;
         public static final int CREATE_ACCOUNT = 7;
         public static final int BRIDGE_WATCHLIST_ADD = 8;
+        public static final int BRIDGE_ON_WATCHLIST = 9;
     }
 
     public final static class ReturnType {
@@ -62,8 +63,8 @@ public class Network {
         return result;
     }
 
-    public Integer sendBridgeToWatchlist(String bridge, String username) throws ExecutionException, InterruptedException {
-        BridgeToWatchlist bridgeToWatchlist = new BridgeToWatchlist(bridge, username);
+    public Integer sendBridgeToWatchlist(int bridge_id, int username_id) throws ExecutionException, InterruptedException {
+        BridgeToWatchlist bridgeToWatchlist = new BridgeToWatchlist(bridge_id, username_id);
         Integer result = bridgeToWatchlist.execute().get();
         return result;
     }
@@ -78,6 +79,18 @@ public class Network {
         HashMap<Integer, Bridge> bridgeList = null;
         try {
             bridgeList = network.execute().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return bridgeList;
+
+    }
+
+    public HashMap<Integer, Bridge> requestWatchlist(int username_id) {
+        RequestWatchlist requestWatchlist = new RequestWatchlist(username_id);
+        HashMap<Integer, Bridge> bridgeList = null;
+        try {
+            bridgeList = requestWatchlist.execute().get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -185,7 +198,6 @@ public class Network {
                 System.out.println(bridgeList);
                 socket.close();
                 return bridgeList;
-
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -242,12 +254,12 @@ public class Network {
 
     public class BridgeToWatchlist extends AsyncTask<Void, Void, Integer> {
 
-        private String bridge;
-        private String username;
+        private int bridge_id;
+        private int username_id;
 
-        BridgeToWatchlist(String bridge, String username) {
-            this.bridge = bridge;
-            this.username = username;
+        BridgeToWatchlist(int bridge_id, int username_id) {
+            this.bridge_id = bridge_id;
+            this.username_id = username_id;
         }
 
         @Override
@@ -258,7 +270,7 @@ public class Network {
                 System.out.println("Sending bridge to watchlist");
 
                 ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                String[] watchlistDetails = { bridge, username };
+                int[] watchlistDetails = { bridge_id, username_id };
 
                 out.writeInt(MessageType.BRIDGE_WATCHLIST_ADD);
                 out.writeObject(watchlistDetails);
@@ -287,6 +299,50 @@ public class Network {
 
         @Override
         protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+        }
+    }
+
+    public class RequestWatchlist extends AsyncTask<Void, Void, HashMap<Integer, Bridge>> {
+
+        int username_id;
+
+        public RequestWatchlist(int username_id){
+            this.username_id = username_id;
+        }
+        @Override
+        protected HashMap<Integer, Bridge> doInBackground(Void... arg0) {
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                Object object;
+
+                System.out.println("Request Watchlist-Bridges");
+                //ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+
+                out.writeInt(MessageType.BRIDGE_ON_WATCHLIST);
+                out.writeInt(username_id);
+                out.flush();
+
+                ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
+                HashMap<Integer, Bridge> watchList = (HashMap)in.readObject();
+                System.out.println(watchList);
+                socket.close();
+                return watchList;
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<Integer, Bridge> result) {
             super.onPostExecute(result);
         }
     }

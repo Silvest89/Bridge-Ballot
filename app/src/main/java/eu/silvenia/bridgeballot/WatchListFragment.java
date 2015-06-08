@@ -29,6 +29,14 @@ public class WatchListFragment extends Fragment {
         rootview = inflater.inflate(R.layout.fragment_watch_list, container, false);
 
 
+        HashMap<Integer, Bridge> bridgeMap = MainActivity.network.requestWatchlist(Account.getiD());
+        ArrayList<Bridge> bridges = new ArrayList<>(bridgeMap.values());
+        BridgesAdapter adapter = new BridgesAdapter(getActivity(), bridges);
+        list = (ListView) rootview.findViewById(R.id.watchList);
+        list.setAdapter(adapter);
+
+
+
         return rootview;
     }
 }
