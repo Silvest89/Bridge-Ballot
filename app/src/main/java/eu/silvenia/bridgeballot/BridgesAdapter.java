@@ -64,7 +64,7 @@ public class BridgesAdapter extends ArrayAdapter<Bridge> {
             }
 
         });
-        viewHolder.distance.setText("Distance: " + " km");
+        viewHolder.distance.setText("Distance: " + bridge.getDistance() +  " m");
         // Return the completed view to render on screen
         return convertView;
     }

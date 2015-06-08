@@ -21,6 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.location.Location;
 
+import java.util.Iterator;
+import java.util.Map;
+
+import bridgeballotserver.Bridge;
+
 /**
  * This example illustrates a common usage of the DrawerLayout widget
  * in the Android support library.
@@ -118,6 +123,15 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
         if(location.getAccuracy() < 100.0) {
             longitude = location.getLongitude();
             latitude = location.getLatitude();
+            Iterator it = BridgeListFragment.bridgeMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                Bridge bridge = (Bridge) pair.getValue();
+                if(bridge != null) {
+                    double distance = HelperTools.calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude());
+                    bridge.setDistance((int)distance);
+                }
+            }
         }
     }
 
@@ -161,6 +175,10 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
         }
         // Handle action buttons
         switch(item.getItemId()) {
+            case R.id.action_add:{
+                new BridgeListFragment();
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }

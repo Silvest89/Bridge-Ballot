@@ -19,15 +19,4 @@
         android:layout_alignParentEnd="true"
         android:headerDividersEnabled="false" />
 
-    TextView
-        android:textSize="40dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test text for the BridgeListPage"
-        android:id="@+id/textView3"
-        android:layout_alignTop="@+id/bridgeList"
-        android:layout_alignRight="@+id/bridgeList"
-        android:layout_alignEnd="@+id/bridgeList" />
-
-
 </RelativeLayout>

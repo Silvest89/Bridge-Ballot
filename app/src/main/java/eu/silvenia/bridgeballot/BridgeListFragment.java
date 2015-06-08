@@ -22,7 +22,7 @@ public class BridgeListFragment extends Fragment {
     ListView list;
     View rootview;
 
-    private static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
+    public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
 
     @Nullable
     @Override
@@ -44,7 +44,6 @@ public class BridgeListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bridge bridge = (Bridge)list.getItemAtPosition(position);
                 Toast.makeText(getActivity(), bridge.getName(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
