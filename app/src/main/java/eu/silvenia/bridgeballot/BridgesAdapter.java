@@ -5,8 +5,10 @@ import android.view.*;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import bridgeballotserver.Bridge;
 
@@ -21,13 +23,14 @@ public class BridgesAdapter extends ArrayAdapter<Bridge> {
     private static class ViewHolder {
         TextView bridgeName;
         ImageView status;
+        ImageView addButton;
         TextView distance;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Bridge bridge = getItem(position);
+        final Bridge bridge = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
         if (convertView == null) {
@@ -35,6 +38,7 @@ public class BridgesAdapter extends ArrayAdapter<Bridge> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.watchlist, parent, false);
             viewHolder.bridgeName = (TextView) convertView.findViewById(R.id.item);
             viewHolder.status = (ImageView) convertView.findViewById(R.id.icon);
+            viewHolder.addButton = (ImageView) convertView.findViewById(R.id.addButton);
             viewHolder.distance = (TextView) convertView.findViewById(R.id.textView1);
             convertView.setTag(viewHolder);
         }
@@ -45,6 +49,21 @@ public class BridgesAdapter extends ArrayAdapter<Bridge> {
         // Populate the data into the template view using the data object
         viewHolder.bridgeName.setText(bridge.getName());
         viewHolder.status.setImageResource(R.mipmap.ic_redcircle);
+        viewHolder.addButton.setImageResource(R.mipmap.ic_addbutton);
+        viewHolder.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Integer result = MainActivity.network.sendBridgeToWatchlist(bridge.getName(), Account.getUserName());
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
         viewHolder.distance.setText("Distance: " + " km");
         // Return the completed view to render on screen
         return convertView;

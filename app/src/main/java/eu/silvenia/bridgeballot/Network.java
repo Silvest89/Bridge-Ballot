@@ -30,6 +30,7 @@ public class Network {
         public static final int BRIDGE_ADD = 4;
         public static final int BRIDGE_DELETE = 5;
         public static final int CREATE_ACCOUNT = 7;
+        public static final int BRIDGE_WATCHLIST_ADD = 8;
     }
 
     public final static class ReturnType {
@@ -58,6 +59,12 @@ public class Network {
     public Integer createAccount(String username, String password) throws ExecutionException, InterruptedException {
         CreateAccountTask createAccountTask = new CreateAccountTask(username, password);
         Integer result = createAccountTask.execute().get();
+        return result;
+    }
+
+    public Integer sendBridgeToWatchlist(String bridge, String username) throws ExecutionException, InterruptedException {
+        BridgeToWatchlist bridgeToWatchlist = new BridgeToWatchlist(bridge, username);
+        Integer result = bridgeToWatchlist.execute().get();
         return result;
     }
 
@@ -230,6 +237,57 @@ public class Network {
                 e.printStackTrace();
             }
             return -1;
+        }
+    }
+
+    public class BridgeToWatchlist extends AsyncTask<Void, Void, Integer> {
+
+        private String bridge;
+        private String username;
+
+        BridgeToWatchlist(String bridge, String username) {
+            this.bridge = bridge;
+            this.username = username;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... arg0) {
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+
+                System.out.println("Sending bridge to watchlist");
+
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+                String[] watchlistDetails = { bridge, username };
+
+                out.writeInt(MessageType.BRIDGE_WATCHLIST_ADD);
+                out.writeObject(watchlistDetails);
+                out.flush();
+
+                ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+                int returnType = in.readInt();
+
+                if(returnType == ReturnType.SUCCESS) {
+                    socket.close();
+                    return ReturnType.SUCCESS;
+                }
+                else{
+                    socket.close();
+                    return ReturnType.FAILURE;
+                }
+
+                //socket.close();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return -1;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
         }
     }
 }
