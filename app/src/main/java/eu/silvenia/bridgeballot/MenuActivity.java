@@ -63,8 +63,11 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
         setContentView(R.layout.activity_menu);
 
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+        if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);

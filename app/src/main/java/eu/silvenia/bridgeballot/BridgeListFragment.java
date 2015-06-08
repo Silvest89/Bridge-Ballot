@@ -22,12 +22,15 @@ public class BridgeListFragment extends Fragment {
     ListView list;
     View rootview;
 
+    private static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_bridge_list, container, false);
 
-        HashMap<Integer, Bridge> bridgeMap = MainActivity.network.requestBridge();
+        if(bridgeMap.isEmpty())
+            bridgeMap = MainActivity.network.requestBridge();
 
         ArrayList<Bridge> bridges = new ArrayList<>(bridgeMap.values());
 

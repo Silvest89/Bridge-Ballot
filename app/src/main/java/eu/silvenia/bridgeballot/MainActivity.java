@@ -120,8 +120,9 @@ public class MainActivity extends Activity implements
         mGoogleApiClient.connect();
     }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }
 
