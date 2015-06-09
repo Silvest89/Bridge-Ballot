@@ -48,7 +48,16 @@ public class BridgesAdapter extends ArrayAdapter<Bridge> {
 
         // Populate the data into the template view using the data object
         viewHolder.bridgeName.setText(bridge.getName());
-        viewHolder.status.setImageResource(R.mipmap.ic_redcircle);
+        if(bridge.getStatus() == true) {
+            viewHolder.status.setImageResource(R.mipmap.ic_greencircle);
+        }else{
+            if(bridge.getStatus() == false){
+                viewHolder.status.setImageResource(R.mipmap.ic_redcircle);
+            }else{
+                viewHolder.status.setImageResource(0);
+            }
+        }
+
         viewHolder.addButton.setImageResource(R.mipmap.ic_addbutton);
         viewHolder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
