@@ -24,14 +24,16 @@ public class Network {
         public static final int LOGIN = 0;
         public static final int DISCONNECT = 1;
         public static final int SEND_TOKEN = 2;
-        public static final int BRIDGE_REQUEST = 3;
-        public static final int BRIDGE_ADD = 4;
-        public static final int BRIDGE_DELETE = 5;
-        public static final int CREATE_ACCOUNT = 7;
-        public static final int BRIDGE_WATCHLIST_ADD = 8;
-        public static final int BRIDGE_ON_WATCHLIST = 9;
-        public static final int REQUEST_USERS = 11;
-        public static final int DELETE_USER = 12;
+
+        public static final int CREATE_ACCOUNT = 5;
+        public static final int REQUEST_USERS = 6;
+        public static final int DELETE_USER = 7;
+
+        public static final int BRIDGE_WATCHLIST_ADD = 10;
+        public static final int BRIDGE_ON_WATCHLIST = 11;
+        public static final int BRIDGE_REQUEST = 12;
+        public static final int BRIDGE_ADD = 13;
+        public static final int BRIDGE_DELETE = 14;
     }
 
     public final static class ReturnType {

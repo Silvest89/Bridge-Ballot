@@ -262,6 +262,8 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
             default:
                 break;
         }
+        if(fragment == null)
+            return;
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
