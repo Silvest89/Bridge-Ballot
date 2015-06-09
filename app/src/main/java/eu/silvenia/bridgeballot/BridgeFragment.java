@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -86,6 +87,35 @@ public class BridgeFragment extends Fragment {
         mBridges = new ArrayList<>(bridgeMap.values());
         mRecyclerView.setAdapter(new BridgeAdapter());
 
+        // init swipe to dismiss logic
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                // callback for drag-n-drop, false to skip this feature
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // callback for swipe to dismiss, removing item from data and adapter
+                switch(direction){
+                    case ItemTouchHelper.LEFT:{
+                        Bridge bridge = mBridges.get(viewHolder.getAdapterPosition());
+                        bridgeMap.remove(bridge.getId());
+
+                        mBridges.remove(viewHolder.getAdapterPosition());
+
+                        mRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
+                        break;
+                    }
+                    default:{
+                        return;
+                    }
+                }
+            }
+        });
+        swipeToDismissTouchHelper.attachToRecyclerView(mRecyclerView);
         return v;
     }
 
@@ -93,16 +123,15 @@ public class BridgeFragment extends Fragment {
         int index = mBridges.indexOf(c);
         BridgeHolder holder = (BridgeHolder) mRecyclerView
                 .findViewHolderForPosition(index);
-
         Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
 
-        FragmentManager fragmentManager = getFragmentManager();
+        /*FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().
                 setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_up).
                 addToBackStack(null).
                 replace(R.id.content_frame, new WatchListFragment()).commit();
         MenuActivity.isVisible = true;
-        getActivity().invalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();*/
     }
 
     @Override
@@ -131,8 +160,7 @@ public class BridgeFragment extends Fragment {
 
                     for (int i = mBridges.size()-1; i >= 0; i--) {
                         if (mMultiSelector.isSelected(i, 0)) {
-                            Bridge crime = mBridges.get(i);
-                            //CrimeLab.get(getActivity()).deleteCrime(crime);
+                            Bridge bridge = mBridges.get(i);
                             mRecyclerView.getAdapter().notifyItemRemoved(i);
                         }
                     }
