@@ -1,8 +1,6 @@
 <resources>
     <string-array name="fragments_array">
         <item>Watchlist</item>
-        <item>Bridgelist</item>
-        <item>Logout</item>
         <item>About</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>

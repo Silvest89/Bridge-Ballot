@@ -62,6 +62,14 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
     private CharSequence mTitle;
     private String[] mFragmentTitles;
 
+    private FragmentLocation location;
+
+    private enum FragmentLocation{
+        BRIDGE_LIST,
+        WATCH_LIST,
+        ABOUT
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +119,7 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+        location = FragmentLocation.WATCH_LIST;
         if (savedInstanceState == null) {
             selectItem(0);
         }
@@ -157,11 +165,31 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
         return super.onCreateOptionsMenu(menu);
     }
 
+    boolean isVisible = true;
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
+        switch(location){
+            case WATCH_LIST:{
+                if(!isVisible) {
+                    menu.findItem(R.id.action_add).setVisible(false);
+                    menu.findItem(R.id.action_remove).setVisible(true);
+                }else{
+                    menu.findItem(R.id.action_remove).setVisible(false);
+                    menu.findItem(R.id.action_add).setVisible(true);
+                }
+                break;
+            }
+            default:{
+                menu.findItem(R.id.action_add).setVisible(false);
+                menu.findItem(R.id.action_remove).setVisible(false);
+                break;
+            }
+        }
+
         //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -173,15 +201,30 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        isVisible = true;
+        Fragment fragment = null;
         // Handle action buttons
         switch(item.getItemId()) {
             case R.id.action_add:{
-                new BridgeListFragment();
-                return true;
+                isVisible = false;
+                fragment = new BridgeListFragment();
+                break;
+            }
+            case R.id.action_remove:{
+                fragment = new WatchListFragment();
+                break;
             }
             default:
                 return super.onOptionsItemSelected(item);
         }
+        invalidateOptionsMenu();
+        FragmentManager fragmentManager = getFragmentManager();
+
+        fragmentManager.beginTransaction().
+                setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_up).
+                addToBackStack(null).
+                replace(R.id.content_frame, fragment).commit();
+        return true;
     }
 
     /* The click listner for ListView in the navigation drawer */
@@ -197,19 +240,12 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
         switch(position){
             case 0:{
                 fragment = new WatchListFragment();
+                location = FragmentLocation.WATCH_LIST;
                 break;
             }
             case 1:{
-                fragment = new BridgeListFragment();
-                break;
-            }
-            case 2:{
-                Account.resetAccount();
-                startActivity(new Intent(this, MainActivity.class));
-                return;
-            }
-            case 3:{
                 fragment = new AboutFragment();
+                location = FragmentLocation.ABOUT;
                 break;
             }
             default:
