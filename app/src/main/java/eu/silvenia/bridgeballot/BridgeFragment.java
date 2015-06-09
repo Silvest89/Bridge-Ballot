@@ -161,7 +161,7 @@ public class BridgeFragment extends Fragment {
                     for (int i = mBridges.size()-1; i >= 0; i--) {
                         if (mMultiSelector.isSelected(i, 0)) {
                             Bridge bridge = mBridges.get(i);
-                            mRecyclerView.getAdapter().notifyItemRemoved(i);
+                            //mRecyclerView.getAdapter().notifyItemRemoved(i);
                         }
                     }
 
