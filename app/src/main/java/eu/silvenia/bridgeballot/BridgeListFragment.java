@@ -1,17 +1,23 @@
 package eu.silvenia.bridgeballot;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Checkable;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import bridgeballotserver.Bridge;
 
@@ -20,12 +26,15 @@ public class BridgeListFragment extends Fragment implements Checkable {
     View rootview;
     boolean bChecked = false;
 
-    static HashMap<Integer, Bridge> bridgeMap = MainActivity.network.requestBridge();
+    public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_bridge_list, container, false);
+
+        if(bridgeMap.isEmpty())
+            bridgeMap = MainActivity.network.requestBridge();
 
         ArrayList<Bridge> bridges = new ArrayList<>(bridgeMap.values());
 

@@ -4,6 +4,10 @@
     tools:context="eu.silvenia.bridgeballot.MenuActivity">
     <item android:id="@+id/action_add" android:title="@string/addbridge"
         app:showAsAction="withText|ifRoom" />
+    <item android:id="@+id/action_remove" android:title="-"
+        app:showAsAction="withText|ifRoom"
+        android:visibility="gone"
+        />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
