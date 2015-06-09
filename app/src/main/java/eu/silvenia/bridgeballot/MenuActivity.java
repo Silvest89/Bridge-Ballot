@@ -2,12 +2,8 @@ package eu.silvenia.bridgeballot;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -22,10 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-
-import bridgeballotserver.Bridge;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -54,7 +46,7 @@ import bridgeballotserver.Bridge;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MenuActivity extends  ActionBarActivity implements LocationListener {
+public class MenuActivity extends  ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -75,13 +67,6 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-
-        if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);
@@ -131,39 +116,6 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
         }
     }
 
-    public static double longitude, latitude;
-    @Override
-    public void onLocationChanged(Location location) {
-        if(location.getAccuracy() < 100.0) {
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            Iterator it = BridgeListFragment.bridgeMap.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                Bridge bridge = (Bridge) pair.getValue();
-                if(bridge != null) {
-                    double distance = HelperTools.calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude());
-                    bridge.setDistance((int)distance);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -187,6 +139,7 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
                     menu.findItem(R.id.action_remove).setVisible(false);
                     menu.findItem(R.id.action_add).setVisible(true);
                 }
+
                 break;
             }
             default:{

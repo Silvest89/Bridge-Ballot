@@ -24,7 +24,7 @@ public class HelperTools {
 
         //distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-        return Math.sqrt(distance);
+        return distance;
     }
     public static String getCurrentTimeStamp(){
         Date date = new Date();

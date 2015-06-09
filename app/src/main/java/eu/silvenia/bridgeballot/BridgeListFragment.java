@@ -1,18 +1,14 @@
 package eu.silvenia.bridgeballot;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Checkable;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +24,22 @@ public class BridgeListFragment extends Fragment implements Checkable {
 
     public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
 
+    public void updateBridgeDistance(){
+        double longitude = GPSservice.longitude;
+        double latitude = GPSservice.latitude;
+        if(!bridgeMap.isEmpty()){
+            Iterator it = bridgeMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                Bridge bridge = (Bridge) pair.getValue();
+                if(bridge != null) {
+                    double distance = HelperTools.calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude());
+                    bridge.setDistance((int) distance);
+                }
+            }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +48,7 @@ public class BridgeListFragment extends Fragment implements Checkable {
         if(bridgeMap.isEmpty())
             bridgeMap = MainActivity.network.requestBridge();
 
+        updateBridgeDistance();
         ArrayList<Bridge> bridges = new ArrayList<>(bridgeMap.values());
 
         BridgesAdapter adapter = new BridgesAdapter(getActivity(), bridges);
