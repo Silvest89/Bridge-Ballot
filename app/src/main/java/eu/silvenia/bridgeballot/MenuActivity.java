@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -19,8 +20,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.location.Location;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -76,6 +77,11 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
 
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);
+
+        if (Account.getAccessLevel() != 0){
+            mFragmentTitles = Arrays.copyOf(mFragmentTitles, mFragmentTitles.length - 1);
+        }
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -211,6 +217,11 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
             case 3:{
                 fragment = new AboutFragment();
                 break;
+            }
+
+            case 4 :{
+                startActivity(new Intent(this, DeleteUserActivity.class));
+                return;
             }
             default:
                 break;

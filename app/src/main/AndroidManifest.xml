@@ -71,6 +71,10 @@
             android:name=".MenuActivity"
             android:label="@string/title_activity_menu" >
         </activity>
+        <activity
+            android:name=".DeleteUserActivity"
+            android:label="@string/title_activity_delete_user" >
+        </activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ package eu.silvenia.bridgeballot;
 public final class Account {
     private static int id;
     private static String userName;
+    private static int accessLevel;
     private static boolean isGooglePlus;
 
     public static int getiD(){
@@ -14,6 +15,10 @@ public final class Account {
 
     public static String getUserName(){
         return userName;
+    }
+
+    public static int getAccessLevel(){
+        return accessLevel;
     }
 
     public static boolean getGooglePlus(){
@@ -26,6 +31,10 @@ public final class Account {
 
     public static void setUserName(String name){
         userName = name;
+    }
+
+    public static void setAccessLevel(int level){
+        accessLevel = level;
     }
 
     public static void setGooglePlus(boolean GooglePlus){

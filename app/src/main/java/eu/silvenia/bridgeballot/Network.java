@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,7 +11,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import bridgeballotserver.Bridge;
@@ -32,6 +30,8 @@ public class Network {
         public static final int CREATE_ACCOUNT = 7;
         public static final int BRIDGE_WATCHLIST_ADD = 8;
         public static final int BRIDGE_ON_WATCHLIST = 9;
+        public static final int REQUEST_USERS = 11;
+        public static final int DELETE_USER = 12;
     }
 
     public final static class ReturnType {
@@ -66,6 +66,18 @@ public class Network {
     public Integer sendBridgeToWatchlist(int bridge_id, int username_id) throws ExecutionException, InterruptedException {
         BridgeToWatchlist bridgeToWatchlist = new BridgeToWatchlist(bridge_id, username_id);
         Integer result = bridgeToWatchlist.execute().get();
+        return result;
+    }
+
+    public ArrayList<String> requestUsers() throws ExecutionException, InterruptedException {
+        GetUserTask getUserTask = new GetUserTask();
+        ArrayList<String> result = getUserTask.execute().get();
+        return result;
+    }
+
+    public Integer deleteUser(String user) throws ExecutionException, InterruptedException {
+        DeleteUserTask deleteUserTask = new DeleteUserTask(user);
+        Integer result = deleteUserTask.execute().get();
         return result;
     }
 
@@ -128,12 +140,13 @@ public class Network {
                 out.flush();
 
                 ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-                int returnType = in.readInt();
+                int[] returnType = (int[]) in.readObject();
 
-                if(returnType > 0) {
+                if(returnType != null) {
                     Account.setUserName(username);
                     Account.setGooglePlus(isGooglePlus);
-                    Account.setId(returnType);
+                    Account.setId(returnType[0]);
+                    Account.setAccessLevel(returnType[1]);
                     return true;
                 }
 
@@ -141,6 +154,8 @@ public class Network {
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
             return false;
@@ -345,6 +360,70 @@ public class Network {
         protected void onPostExecute(HashMap<Integer, Bridge> result) {
             super.onPostExecute(result);
         }
+    }
+
+    public class GetUserTask extends AsyncTask<Void, Void, ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(Void... params) {
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+
+                out.writeInt(MessageType.REQUEST_USERS);
+                out.flush();
+
+                ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
+                ArrayList<String> result = (ArrayList) in.readObject();
+
+                return result;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class DeleteUserTask extends AsyncTask <Void, Void, Integer> {
+        String user;
+
+        public DeleteUserTask(String user){
+            this.user = user;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+
+                out.writeInt(MessageType.DELETE_USER);
+                out.writeUTF(user);
+                out.flush();
+
+                ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
+                int returnType = in.readInt();
+
+                if (returnType == ReturnType.SUCCESS){
+                    socket.close();
+                    return ReturnType.SUCCESS;
+                }
+
+                else {
+                    socket.close();
+                    return ReturnType.FAILURE;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return -1;
+        }
+
     }
 }
 

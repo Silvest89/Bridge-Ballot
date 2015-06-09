@@ -17,4 +17,7 @@
     <string name="create_alertUserNotUnique">Uw gebruikersnaam is al in gebruik. Probeer een andere naam alstublieft.</string>
     <string name="create_emptyFields">Ten minste een van de velden is leeg, probeer opnieuw.</string>
     <string name="addbridge" />
+    <string name="user_delete">Verwijder gebruiker</string>
+    <string name="user_delete_success">Gebruiker is succesvol verwijderd.</string>
+    <string name="user_delete_failure">Er is iets mis gegaan, probeer later opnieuw alstublieft.</string>
 </resources>

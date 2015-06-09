@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_users"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="185dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_delete"
+        android:id="@+id/button4"
+        android:onClick="onDelete"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="94dp"
+        android:layout_below="@+id/spinner_users" />
+</RelativeLayout>

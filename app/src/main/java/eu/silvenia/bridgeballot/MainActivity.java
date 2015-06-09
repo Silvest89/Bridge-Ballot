@@ -1,17 +1,9 @@
 package eu.silvenia.bridgeballot;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
-import android.content.ServiceConnection;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -66,7 +58,9 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onClick(View v) {
-        mGoogleApiClient.connect();
+
+        //mGoogleApiClient.connect();
+        startActivity(new Intent(this, DeleteUserActivity.class));
     }
 
     public void onSignIn(View v){
