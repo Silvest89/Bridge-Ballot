@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="eu.silvenia.bridgeballot.MenuActivity">
     <item android:id="@+id/action_add" android:title="@string/addbridge"
+        android:icon="@mipmap/circle_plus"
         app:showAsAction="withText|ifRoom" />
     <item android:id="@+id/action_remove" android:title="-"
         app:showAsAction="withText|ifRoom"
+        android:icon="@mipmap/circle_minus"
         android:visibility="gone"
         />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"

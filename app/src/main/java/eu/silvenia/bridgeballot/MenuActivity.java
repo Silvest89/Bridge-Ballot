@@ -187,6 +187,7 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
                     menu.findItem(R.id.action_remove).setVisible(false);
                     menu.findItem(R.id.action_add).setVisible(true);
                 }
+
                 break;
             }
             default:{
