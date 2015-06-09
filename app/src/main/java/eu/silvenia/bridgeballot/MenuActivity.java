@@ -255,7 +255,7 @@ public class MenuActivity extends  ActionBarActivity implements LocationListener
                 break;
             }
 
-            case 4 :{
+            case 2 :{
                 startActivity(new Intent(this, DeleteUserActivity.class));
                 return;
             }

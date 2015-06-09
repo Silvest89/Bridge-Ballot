@@ -1,6 +1,7 @@
 package eu.silvenia.bridgeballot;
 
 import android.os.AsyncTask;
+import android.util.Base64;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -9,6 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -34,6 +37,7 @@ public class Network {
         public static final int BRIDGE_REQUEST = 12;
         public static final int BRIDGE_ADD = 13;
         public static final int BRIDGE_DELETE = 14;
+
     }
 
     public final static class ReturnType {
@@ -132,9 +136,12 @@ public class Network {
                 socket = new Socket(SERVER_IP, SERVERPORT);
 
                 System.out.println("LoginTask");
+                MessageDigest md = MessageDigest.getInstance("SHA-512");
+                md.update(password.getBytes("UTF-8"));
+                byte[] hash = md.digest();
 
                 ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                String[] loginDetails = { username,  password, token};
+                String[] loginDetails = { username,  Base64.encodeToString(hash, Base64.DEFAULT), token};
 
                 out.writeInt(MessageType.LOGIN);
                 out.writeBoolean(isGooglePlus);
@@ -158,6 +165,8 @@ public class Network {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
             return false;
@@ -243,9 +252,14 @@ public class Network {
         @Override
         protected Integer doInBackground(Void... args){
             try {
+                System.out.println("LoginTask");
+                MessageDigest md = MessageDigest.getInstance("SHA-512");
+                md.update(password.getBytes("UTF-8"));
+                byte[] hash = md.digest();
+
                 socket = new Socket(SERVER_IP, SERVERPORT);
                 ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                String[] loginDetails = { username,  password};
+                String[] loginDetails = { username,  Base64.encodeToString(hash, Base64.DEFAULT)};
 
                 out.writeInt(MessageType.CREATE_ACCOUNT);
                 out.writeObject(loginDetails);
@@ -263,6 +277,8 @@ public class Network {
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
             return -1;
