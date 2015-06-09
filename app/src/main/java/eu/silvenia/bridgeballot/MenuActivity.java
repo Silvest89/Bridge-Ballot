@@ -123,13 +123,12 @@ public class MenuActivity extends  ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    boolean isVisible = true;
+    public static boolean isVisible = true;
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-
         switch(location){
             case WATCH_LIST:{
                 if(!isVisible) {
@@ -166,7 +165,7 @@ public class MenuActivity extends  ActionBarActivity {
         switch(item.getItemId()) {
             case R.id.action_add:{
                 isVisible = false;
-                fragment = new BridgeListFragment();
+                fragment = new BridgeFragment();
                 break;
             }
             case R.id.action_remove:{

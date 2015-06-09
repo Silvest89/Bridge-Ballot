@@ -1,5 +1,7 @@
 package eu.silvenia.bridgeballot;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,14 +20,19 @@ public class HelperTools {
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
+        double distance = R * c; // convert to meters
 
         //double height = el1 - el2;
 
         //distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-        return distance;
+        return round2(distance);
     }
+
+    public static double round2(Double val) {
+        return new BigDecimal(val.toString()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    }
+
     public static String getCurrentTimeStamp(){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss ");

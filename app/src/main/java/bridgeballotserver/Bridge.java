@@ -16,7 +16,7 @@ public class Bridge implements Serializable {
     private String name;
     private String location;
     private double latitude, longitude;
-    private int distance;
+    private double distance;
     private boolean status;
 
     public Bridge(int id, String name, String location, double latitude, double longitude, boolean status){
@@ -49,7 +49,7 @@ public class Bridge implements Serializable {
         return longitude;
     }
 
-    public int getDistance(){
+    public double getDistance(){
         return distance;
     }
 
