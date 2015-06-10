@@ -37,6 +37,7 @@ public class Network {
         public static final int BRIDGE_REQUEST = 12;
         public static final int BRIDGE_ADD = 13;
         public static final int BRIDGE_DELETE = 14;
+        public static final int BRIDGE_UPDATE = 15;
 
     }
 
@@ -114,6 +115,11 @@ public class Network {
         }
         return bridgeList;
 
+    }
+
+    public void updateBridgeList(int id){
+        UpdateBridgeListTask task = new UpdateBridgeListTask(id);
+        task.execute();
     }
 
     public class LoginTask extends AsyncTask<Void, Void, Boolean> {
@@ -442,6 +448,31 @@ public class Network {
             return -1;
         }
 
+    }
+
+    public class UpdateBridgeListTask extends AsyncTask<Void, Void, Void> {
+        int id;
+
+        public UpdateBridgeListTask(int id){
+            this.id = id;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                socket = new Socket(SERVER_IP, SERVERPORT);
+                ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+
+                out.writeInt(MessageType.BRIDGE_UPDATE);
+                out.writeInt(id);
+                out.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
     }
 }
 

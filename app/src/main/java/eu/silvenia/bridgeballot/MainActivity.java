@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements
     public void onClick(View v) {
 
         //mGoogleApiClient.connect();
-        startActivity(new Intent(this, DeleteUserActivity.class));
+        startActivity(new Intent(this, DetailPageDummy.class));
     }
 
     public void onSignIn(View v){

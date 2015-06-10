@@ -2,8 +2,6 @@ package bridgeballotserver;
 
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Johnnie Ho on 6-6-2015.
@@ -17,16 +15,16 @@ public class Bridge implements Serializable {
     private String location;
     private double latitude, longitude;
     private double distance;
-    private boolean status;
+    private boolean isOpen;
 
-    public Bridge(int id, String name, String location, double latitude, double longitude, boolean status){
+    public Bridge(int id, String name, String location, double latitude, double longitude, boolean isOpen){
         this.id = id;
         this.name = name;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
         this.distance = 0;
-        this.status = status;
+        this.isOpen = isOpen;
     }
 
     public int getId() {
@@ -57,11 +55,11 @@ public class Bridge implements Serializable {
         this.distance = distance;
     }
 
-    public boolean getStatus(){
-        return status;
+    public boolean isOpen(){
+        return isOpen;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setOpen(boolean isOpen) {
+        this.isOpen = isOpen;
     }
 }

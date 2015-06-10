@@ -2,6 +2,7 @@ package eu.silvenia.bridgeballot;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.Arrays;
+import java.util.Properties;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -47,6 +49,10 @@ import java.util.Arrays;
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
 public class MenuActivity extends  ActionBarActivity {
+    private PropertyReader propertyReader;
+    private Context context;
+    private Properties p;
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -67,6 +73,11 @@ public class MenuActivity extends  ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        context = this;
+        propertyReader = new PropertyReader(context);
+        p = propertyReader.getProperties("BridgeBallot.properties");
+
+        p.setProperty("Notifications", Boolean.toString(new BallotSettings().getNotificationsOn()));
 
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);
@@ -171,6 +182,9 @@ public class MenuActivity extends  ActionBarActivity {
             case R.id.action_remove:{
                 fragment = new WatchListFragment();
                 break;
+            }
+            case R.id.action_settings:{
+                startActivity(new Intent(this, BallotSettings.class));
             }
             default:
                 return super.onOptionsItemSelected(item);
