@@ -3,6 +3,7 @@ package eu.silvenia.bridgeballot;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -46,11 +47,14 @@ public class DeleteUserActivity extends Activity {
         String userToDelete = spinner.getSelectedItem().toString();
         Integer result = network.deleteUser(userToDelete);
 
+        final Intent intent = new Intent(this, MenuActivity.class);
+
         final AlertDialog alert = new AlertDialog.Builder(this).create();
         alert.setButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert.cancel();
+                startActivity(intent);
             }
         });
         if (result == 0){

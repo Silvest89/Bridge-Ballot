@@ -2,11 +2,12 @@ package eu.silvenia.bridgeballot;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -17,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,6 +124,7 @@ public class BridgeFragment extends Fragment {
         BridgeHolder holder = (BridgeHolder) mRecyclerView
                 .findViewHolderForPosition(index);
         Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getActivity(), DetailPageDummy.class));
 
         /*FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().
@@ -211,7 +212,7 @@ public class BridgeFragment extends Fragment {
         public void bindBridge(Bridge bridge) {
             mBridge = bridge;
 
-            if(bridge.getStatus()) {
+            if(!bridge.isOpen()) {
                 mStatusIcon.setImageResource(R.mipmap.ic_greencircle);
             }
             else{

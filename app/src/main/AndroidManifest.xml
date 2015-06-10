@@ -81,8 +81,17 @@
             android:label="@string/title_activity_delete_user" >
         </activity>
         <activity
+
             android:name=".MainActivity"
             android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".DetailPageDummy"
+            android:label="DetailPageDummy" >
+        </activity>
+        <activity
+            android:name=".BallotSettings"
+            android:label="@string/title_activity_ballot_settings" >
         </activity>
     </application>
 
