@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import eu.silvenia.bridgeballot.network.Bridge;
 
@@ -13,12 +14,13 @@ import eu.silvenia.bridgeballot.network.Bridge;
 public class DetailPageDummy extends Activity {
     Bridge spijkeniserBrug;
     TextView statusTV;
+    int id = getIntent().getExtras().getInt("ID");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_detail);
-
+        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
         statusTV = (TextView) findViewById(R.id.currentStatus);
 
         spijkeniserBrug = BridgeFragment.bridgeMap.get(1);

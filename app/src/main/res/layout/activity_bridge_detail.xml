@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Distance: 10 km"
-        android:id="@+id/textView3"
+        android:id="@+id/distance"
         android:layout_marginTop="49dp"
         android:layout_below="@+id/textView"
         android:layout_toLeftOf="@+id/button5"
@@ -39,29 +39,29 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="City: Spijkenisse"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:id="@+id/city"
+        android:layout_below="@+id/distance"
+        android:layout_alignLeft="@+id/distance"
+        android:layout_alignStart="@+id/distance" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Current Status: "
-        android:id="@+id/textView7"
-        android:layout_below="@+id/textView6"
-        android:layout_alignLeft="@+id/textView6"
-        android:layout_alignStart="@+id/textView6" />
+        android:id="@+id/status"
+        android:layout_below="@+id/city"
+        android:layout_alignLeft="@+id/city"
+        android:layout_alignStart="@+id/city" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/currentStatus"
-        android:layout_below="@+id/textView6"
-        android:layout_toRightOf="@+id/textView6"
-        android:layout_toEndOf="@+id/textView6" />
+        android:layout_below="@+id/city"
+        android:layout_toRightOf="@+id/city"
+        android:layout_toEndOf="@+id/city" />
 
     <Button
         android:layout_width="wrap_content"
