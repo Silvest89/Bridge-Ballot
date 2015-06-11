@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import bridgeballotserver.Bridge;
+import eu.silvenia.bridgeballot.network.Bridge;
 
 
 public class WatchListFragment extends Fragment {
@@ -30,8 +30,8 @@ public class WatchListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_watch_list, container, false);
 
-        if(bridgeMap.isEmpty())
-            bridgeMap = MainActivity.network.requestWatchlist(Account.getiD());
+        //if(bridgeMap.isEmpty())
+            //bridgeMap = MainActivity.network.requestWatchlist(Account.getId());
 
         ArrayList<Bridge> bridges = new ArrayList<>(bridgeMap.values());
         BridgesAdapter adapter = new BridgesAdapter(getActivity(), bridges);

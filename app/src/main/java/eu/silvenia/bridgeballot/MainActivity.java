@@ -1,9 +1,16 @@
 package eu.silvenia.bridgeballot;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +19,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
+
+import eu.silvenia.bridgeballot.network.NetworkService;
 
 
 public class MainActivity extends Activity implements
@@ -22,11 +31,47 @@ public class MainActivity extends Activity implements
     public static Network network;
     public static String token;
 
+    public static ActivityHandler handler;
+
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
+
+    NetworkService mBoundService;
+    boolean mIsBound;
+    private ServiceConnection mConnection = new ServiceConnection() {
+        //EDITED PART
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // TODO Auto-generated method stub
+            mBoundService = ((NetworkService.LocalBinder)service).getService();
+            //mBoundService.test();
+            System.out.println(HelperTools.getCurrentTimeStamp() + "NetworkService bound.");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            // TODO Auto-generated method stub
+            mBoundService = null;
+        }
+
+    };
+
+    private void doBindService() {
+        bindService(new Intent(this, NetworkService.class), mConnection, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+
+    private void doUnbindService() {
+        if (mIsBound) {
+            // Detach our existing connection.
+            unbindService(mConnection);
+            mIsBound = false;
+        }
+    }
 
     @Override
     protected void onStart() {
@@ -44,6 +89,9 @@ public class MainActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startService(new Intent(this, GPSservice.class));
+
+        handler = new ActivityHandler(this);
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -55,13 +103,13 @@ public class MainActivity extends Activity implements
         network = new Network();
         Intent gcmIntentService = new Intent(this, MyIntentService.class);
         startService(gcmIntentService);
+        doBindService();
     }
 
     @Override
     public void onClick(View v) {
-
-        //mGoogleApiClient.connect();
-        startActivity(new Intent(this, DetailPageDummy.class));
+        mGoogleApiClient.connect();
+        //startActivity(new Intent(this, DetailPageDummy.class));
     }
 
     public void onSignIn(View v){
@@ -71,10 +119,7 @@ public class MainActivity extends Activity implements
 
         //Account.setUserName(userName.getText().toString());
         //Account.setPassword(password.getText().toString());
-        boolean validateLogin = network.login(userName.getText().toString(), password.getText().toString(), false, token);
-        //network.requestBridge();
-        if(validateLogin)
-            startActivity(new Intent(this, MenuActivity.class));
+        Account.login(userName.getText().toString(), password.getText().toString(), false);
     }
 
     public void onCreateUser(View v){
@@ -118,6 +163,12 @@ public class MainActivity extends Activity implements
     @Override
     public void onBackPressed() {
         return;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        doUnbindService();
     }
 }
 

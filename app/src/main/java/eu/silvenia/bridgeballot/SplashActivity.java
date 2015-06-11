@@ -3,13 +3,11 @@ package eu.silvenia.bridgeballot;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
+import eu.silvenia.bridgeballot.network.NetworkService;
 
 public class SplashActivity extends Activity {
 
@@ -17,15 +15,26 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        Runnable connect = new loadItems();
+        new Thread(connect).start();
+
         new Handler().postDelayed(new Runnable() {
-        @Override
+            @Override
             public void run() {
                 Intent mainActivity = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(mainActivity);
                 finish();
             }
-        }, 8000);
+        }, 5000);
+    }
 
+    class loadItems implements Runnable {
+
+        @Override
+        public void run() {
+            startService(new Intent(SplashActivity.this, NetworkService.class));
+        }
     }
 
     @Override
