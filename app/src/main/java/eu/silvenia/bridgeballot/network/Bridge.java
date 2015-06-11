@@ -1,4 +1,4 @@
-package bridgeballotserver;
+package eu.silvenia.bridgeballot.network;
 
 
 import java.io.Serializable;

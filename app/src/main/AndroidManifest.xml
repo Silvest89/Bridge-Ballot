@@ -53,6 +53,11 @@
             </intent-filter>
         </service>
         <service
+            android:name=".network.NetworkService"
+            android:exported="false" >
+
+        </service>
+        <service
             android:name=".MyInstanceIDListenerService"
             android:exported="false" >
             <intent-filter>

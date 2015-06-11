@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import bridgeballotserver.Bridge;
+import eu.silvenia.bridgeballot.network.Bridge;
 
 /**
  * Created by Johnnie Ho on 6-6-2015.
@@ -64,7 +64,7 @@ public class BridgesAdapter extends ArrayAdapter<Bridge> {
             @Override
             public void onClick(View v) {
                 try {
-                    Integer result = MainActivity.network.sendBridgeToWatchlist(bridge.getId(), Account.getiD());
+                    Integer result = MainActivity.network.sendBridgeToWatchlist(bridge.getId(), Account.getId());
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import bridgeballotserver.Bridge;
+import eu.silvenia.bridgeballot.network.Bridge;
 
 /**
  * Created by Jesse on 10-6-2015.

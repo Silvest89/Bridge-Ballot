@@ -31,15 +31,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import bridgeballotserver.Bridge;
+import eu.silvenia.bridgeballot.network.Bridge;
 
 public class BridgeFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
+    public static ActivityHandler handler;
+
+    public RecyclerView mRecyclerView;
 
     private MultiSelector mMultiSelector = new MultiSelector();
 
-    private ArrayList<Bridge> mBridges;
+    public static ArrayList<Bridge> mBridges = new ArrayList<>();
     public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
 
     public void updateBridgeDistance(){
@@ -77,14 +79,16 @@ public class BridgeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_bridge, parent, false);
 
+        handler = new ActivityHandler(this);
+
         if(bridgeMap.isEmpty())
-            bridgeMap = MainActivity.network.requestBridge();
+            Account.requestBridges();
 
         updateBridgeDistance();
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mBridges = new ArrayList<>(bridgeMap.values());
+
         mRecyclerView.setAdapter(new BridgeAdapter());
 
         // init swipe to dismiss logic

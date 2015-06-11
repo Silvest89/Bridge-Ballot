@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
-import bridgeballotserver.Bridge;
+import eu.silvenia.bridgeballot.network.Bridge;
 
 /**
  * Created by Jesse on 29-5-2015.
