@@ -2,7 +2,6 @@ package eu.silvenia.bridgeballot;
 
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Handler;
 
@@ -12,6 +11,7 @@ import android.os.Handler;
 public class ActivityHandler extends Handler {
     Activity currentActivity;
     BridgeFragment currentFragment;
+    WatchListFragment watchListFragment;
     public ActivityHandler(Activity activity){
         this.currentActivity = activity;
     }
@@ -19,6 +19,8 @@ public class ActivityHandler extends Handler {
     public ActivityHandler(BridgeFragment fragment){
         this.currentFragment = fragment;
     }
+
+    public ActivityHandler(WatchListFragment fragment) {this.watchListFragment = fragment;}
 
     public void switchActivity(Class<?> cls){
         Intent nextActivity = new Intent(currentActivity, cls);
@@ -31,6 +33,18 @@ public class ActivityHandler extends Handler {
                 @Override
                 public void run() {
                     currentFragment.mRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    public void updateWatchList(){
+        if(watchListFragment.isVisible()) {
+            watchListFragment.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //watchListFragment.mBridges = new ArrayList<>(Account.watchListMap.values());
+                    watchListFragment.mRecyclerView.getAdapter().notifyDataSetChanged();
                 }
             });
         }

@@ -23,7 +23,7 @@ public class DetailPageDummy extends Activity {
         Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
         statusTV = (TextView) findViewById(R.id.currentStatus);
 
-        spijkeniserBrug = BridgeFragment.bridgeMap.get(1);
+        spijkeniserBrug = Account.bridgeMap.get(1);
         updateStatus();
     }
 

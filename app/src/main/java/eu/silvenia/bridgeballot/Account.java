@@ -6,7 +6,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import eu.silvenia.bridgeballot.network.Bridge;
 import eu.silvenia.bridgeballot.network.NetworkHandler;
 import eu.silvenia.bridgeballot.network.ProtocolMessage;
 import io.netty.channel.Channel;
@@ -20,6 +22,9 @@ public final class Account {
     private static int accessLevel;
     private static boolean googlePlus;
     private static Channel channel;
+
+    public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
+    public static HashMap<Integer, Bridge> watchListMap = new HashMap<>();
 
     public static int getId(){
         return id;
@@ -91,7 +96,27 @@ public final class Account {
     }
 
     public static void requestBridges(){
-        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_REQUEST);
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_BRIDGE);
+        Account.getChannel().writeAndFlush(message);
+    }
+
+    public static synchronized void getWatchList(){
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_WATCHLIST);
+        Account.getChannel().writeAndFlush(message);
+    }
+
+    public static synchronized void addToWatchList(Bridge bridge){
+        watchListMap.put(bridge.getId(), bridge);
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_ADD);
+        message.add(bridge.getId());
+        Account.getChannel().writeAndFlush(message);
+        WatchListFragment.handler.updateWatchList();
+    }
+
+    public static synchronized void removeFromWatchList(int id){
+        watchListMap.remove(id);
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_DELETE);
+        message.add(id);
         Account.getChannel().writeAndFlush(message);
     }
 }
