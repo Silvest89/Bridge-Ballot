@@ -96,12 +96,13 @@ public class BridgeFragment extends Fragment {
 
     private void selectBridge(Bridge c) {
         int index = mBridges.indexOf(c);
-        int id;
+        int id = c.getId();
         BridgeHolder holder = (BridgeHolder) mRecyclerView
                 .findViewHolderForPosition(index);
         Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
-        id = c.getId();
-        startActivity(new Intent(getActivity(), DetailPageDummy.class).putExtra("ID",id));
+        Intent DetailPage = new Intent(getActivity() ,DetailPageDummy.class);
+        DetailPage.putExtra("ID",id);
+        startActivity(DetailPage);
 
         /*FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().
