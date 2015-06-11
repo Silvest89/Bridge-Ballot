@@ -20,4 +20,5 @@
     <string name="user_delete">Verwijder gebruiker</string>
     <string name="user_delete_success">Gebruiker is succesvol verwijderd.</string>
     <string name="user_delete_failure">Er is iets mis gegaan, probeer later opnieuw alstublieft.</string>
+    <string name="user_delete_title">Te verwijderen gebruiker</string>
 </resources>

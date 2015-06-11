@@ -475,5 +475,3 @@ public class Network {
         }
     }
 }
-
-

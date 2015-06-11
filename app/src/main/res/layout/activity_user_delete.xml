@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_users"
         android:layout_gravity="center_horizontal"
@@ -22,4 +23,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="94dp"
         android:layout_below="@+id/spinner_users" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/user_delete_title"
+        android:id="@+id/textView3"
+        android:layout_above="@+id/button4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="74dp"
+        android:textColor="#ffffffff" />
+
 </RelativeLayout>

@@ -28,6 +28,7 @@
     <string name="title_activity_bridge_list">BridgeList</string>
 
     <string name="user_delete">Delete user</string>
+    <string name="user_delete_title">User to delete</string>
     <string name="user_delete_success">User was deleted successfully.</string>
     <string name="user_delete_failure">Something went wrong, try again later.</string>
 
