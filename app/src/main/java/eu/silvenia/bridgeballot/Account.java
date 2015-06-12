@@ -22,6 +22,7 @@ public final class Account {
     private static int accessLevel;
     private static boolean googlePlus;
     private static Channel channel;
+    private static int reputation;
 
     public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
     public static HashMap<Integer, Bridge> watchListMap = new HashMap<>();
@@ -100,12 +101,15 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
     }
 
-    public static void updateBridgeStatus(int id, boolean isOpen){
+    public static synchronized void updateBridgeStatus(int id, boolean isOpen){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_STATUS_UPDATE);
         message.add(id);
         message.add(isOpen);
         Account.getChannel().writeAndFlush(message);
         BridgeFragment.handler.updateBridgeList();
+        WatchListFragment.handler.updateWatchList();
+        BridgeFragment.mBridges.addAll(bridgeMap.values());
+        WatchListFragment.mBridges.addAll(watchListMap.values());
     }
 
     public static synchronized void getWatchList(){

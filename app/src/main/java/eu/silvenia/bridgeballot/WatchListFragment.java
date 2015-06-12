@@ -42,8 +42,6 @@ public class WatchListFragment extends Fragment {
 
     public static ArrayList<Bridge> mBridges = new ArrayList<>();
 
-
-
     public void updateBridgeDistance(){
         double longitude = GPSservice.longitude;
         double latitude = GPSservice.latitude;
