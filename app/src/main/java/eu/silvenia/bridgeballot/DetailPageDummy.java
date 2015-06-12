@@ -2,16 +2,29 @@ package eu.silvenia.bridgeballot;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import eu.silvenia.bridgeballot.network.Bridge;
 
 /**
  * Created by Jesse on 10-6-2015.
  */
-public class DetailPageDummy extends Activity {
+public class DetailPageDummy extends Activity implements OnMapReadyCallback {
     Bridge SelectedBridge;
     int id;
     TextView distance;
@@ -23,6 +36,7 @@ public class DetailPageDummy extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_detail);
+
         id = getIntent().getExtras().getInt("ID");
         SelectedBridge = Account.bridgeMap.get(id);
          distance = (TextView)findViewById(R.id.distance);
@@ -33,6 +47,14 @@ public class DetailPageDummy extends Activity {
         distance.setText("Distance: " +Double.toString(SelectedBridge.getDistance()));
         city.setText("City: " + SelectedBridge.getLocation());
 
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        //LatLng latLng = new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude());
+        //CameraUpdate camera = CameraUpdateFactory.newLatLng(latLng);
+        //mapView.getMap().animateCamera(camera);
+
+        //mapView.getMap().moveCamera(CameraUpdateFactory.newLatLng(new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude())));
         updateStatus();
     }
 
@@ -49,7 +71,7 @@ public class DetailPageDummy extends Activity {
             status.setText("Closed");
         }
 
-        MainActivity.network.updateBridgeList(SelectedBridge.getId());
+        //MainActivity.network.updateBridgeList(SelectedBridge.getId());
     }
 
     public void resetStatus(View v){
@@ -58,4 +80,17 @@ public class DetailPageDummy extends Activity {
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng latLng = new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude());
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(SelectedBridge.getName()));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(14.0f).build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        googleMap.moveCamera(cameraUpdate);
+
+    }
 }
