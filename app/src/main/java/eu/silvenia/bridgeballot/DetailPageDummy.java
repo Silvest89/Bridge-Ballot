@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import eu.silvenia.bridgeballot.network.Bridge;
 
@@ -37,8 +36,9 @@ public class DetailPageDummy extends Activity {
     }
 
     public void onVote(View v){
-            SelectedBridge.setOpen(true);
-            updateStatus();
+        SelectedBridge.setOpen(true);
+        Account.updateBridgeStatus(SelectedBridge.getId(), true);
+        updateStatus();
     }
 
     public void updateStatus(){
@@ -49,11 +49,12 @@ public class DetailPageDummy extends Activity {
             status.setText("Closed");
         }
 
-        MainActivity.network.updateBridgeList(SelectedBridge.getId());
+
     }
 
     public void resetStatus(View v){
         SelectedBridge.setOpen(false);
+        Account.updateBridgeStatus(SelectedBridge.getId(), false);
         updateStatus();
     }
 

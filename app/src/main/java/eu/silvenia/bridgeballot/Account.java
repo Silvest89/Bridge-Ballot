@@ -100,6 +100,14 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
     }
 
+    public static void updateBridgeStatus(int id, boolean isOpen){
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_STATUS_UPDATE);
+        message.add(id);
+        message.add(isOpen);
+        Account.getChannel().writeAndFlush(message);
+        BridgeFragment.handler.updateBridgeList();
+    }
+
     public static synchronized void getWatchList(){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_WATCHLIST);
         Account.getChannel().writeAndFlush(message);

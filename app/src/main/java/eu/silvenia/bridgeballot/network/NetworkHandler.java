@@ -12,7 +12,6 @@ import eu.silvenia.bridgeballot.MenuActivity;
 import eu.silvenia.bridgeballot.WatchListFragment;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * Handler implementation for the object echo client.  It initiates the
@@ -34,6 +33,8 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         public static final int REQUEST_WATCHLIST = 11;
         public static final int WATCHLIST_ADD = 12;
         public static final int WATCHLIST_DELETE = 13;
+
+        public static final int BRIDGE_STATUS_UPDATE = 14;
     }
 
     /**
@@ -72,6 +73,8 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             }
         }
     }
+
+
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
