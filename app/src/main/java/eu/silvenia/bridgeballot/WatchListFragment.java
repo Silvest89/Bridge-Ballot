@@ -82,6 +82,8 @@ public class WatchListFragment extends Fragment {
 
         if(Account.watchListMap.isEmpty())
             Account.getWatchList();
+        else
+            mBridges.addAll(Account.watchListMap.values());
 
         updateBridgeDistance();
 
@@ -168,6 +170,7 @@ public class WatchListFragment extends Fragment {
                         if (mMultiSelector.isSelected(i, 0)) {
                             Bridge bridge = mBridges.get(i);
                             Account.removeFromWatchList(bridge.getId());
+                            mBridges.remove(i);
                             mRecyclerView.getAdapter().notifyItemRemoved(i);
                         }
                     }

@@ -64,30 +64,35 @@ public class NetworkService extends Service {
         //  Toast.makeText(this,"Service created ...", Toast.LENGTH_LONG).show();
         // Configure SSL.
 
-        EventLoopGroup group = new NioEventLoopGroup();
-        try {
-            b = new Bootstrap();
-            b.group(group)
-                    .channel(NioSocketChannel.class)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            p.addLast(
-                                    new ObjectEncoder(),
-                                    new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
-                                    new NetworkHandler());
-                        }
-                    });
+        new Thread(new Runnable() {
+            public void run(){
+                EventLoopGroup group = new NioEventLoopGroup();
+                try {
+                    b = new Bootstrap();
+                    b.group(group)
+                            .channel(NioSocketChannel.class)
+                            .handler(new ChannelInitializer<SocketChannel>() {
+                                @Override
+                                public void initChannel(SocketChannel ch) throws Exception {
+                                    ChannelPipeline p = ch.pipeline();
+                                    p.addLast(
+                                            new ObjectEncoder(),
+                                            new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
+                                            new NetworkHandler());
+                                }
+                            });
 
-            // Start the connection attempt.
-            Account.setChannel(b.connect(HOST, PORT).sync().channel());
+                    // Start the connection attempt.
+                    Account.setChannel(b.connect(HOST, PORT).sync().channel());
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            //group.shutdownGracefully();
-        }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //group.shutdownGracefully();
+                }
+            }
+        }).start();
+
         return START_STICKY;
     }
 

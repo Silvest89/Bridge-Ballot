@@ -12,6 +12,7 @@ import eu.silvenia.bridgeballot.MenuActivity;
 import eu.silvenia.bridgeballot.WatchListFragment;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * Handler implementation for the object echo client.  It initiates the
@@ -94,6 +95,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             Account.setAccessLevel(returnMessage[1]);
             MainActivity.handler.switchActivity(MenuActivity.class);
         }
+        MainActivity.handler.enableLogin();
     }
 
     public void parseBridgeRequest(ProtocolMessage message){

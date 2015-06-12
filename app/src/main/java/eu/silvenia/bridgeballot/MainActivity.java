@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class MainActivity extends Activity implements
 
     public static ActivityHandler handler;
 
+    public Button login;
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
 
@@ -90,6 +92,8 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
         startService(new Intent(this, GPSservice.class));
 
+        login = (Button) findViewById(R.id.button);
+
         handler = new ActivityHandler(this);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -116,6 +120,8 @@ public class MainActivity extends Activity implements
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
         System.out.println(token);
+
+        login.setEnabled(false);
 
         //Account.setUserName(userName.getText().toString());
         //Account.setPassword(password.getText().toString());
