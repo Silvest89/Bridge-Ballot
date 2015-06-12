@@ -80,10 +80,13 @@ public class WatchListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_watch, parent, false);
         handler = new ActivityHandler(this);
 
-        if(Account.watchListMap.isEmpty())
+        if(Account.watchListMap.isEmpty()) {
             Account.getWatchList();
-        else
+        }
+        else {
+            mBridges.clear();
             mBridges.addAll(Account.watchListMap.values());
+        }
 
         updateBridgeDistance();
 
