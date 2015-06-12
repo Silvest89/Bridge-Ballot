@@ -113,7 +113,7 @@ public class MainActivity extends Activity implements
     @Override
     public void onClick(View v) {
         mGoogleApiClient.connect();
-        //startActivity(new Intent(this, DetailPageDummy.class));
+        //startActivity(new Intent(this, DetailPage.class));
     }
 
     public void onSignIn(View v){

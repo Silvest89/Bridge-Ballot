@@ -102,7 +102,7 @@
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".DetailPageDummy"
+            android:name=".DetailPage"
             android:label="DetailPageDummy" >
         </activity>
         <activity
