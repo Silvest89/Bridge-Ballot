@@ -100,7 +100,7 @@ public class BridgeFragment extends Fragment {
         BridgeHolder holder = (BridgeHolder) mRecyclerView
                 .findViewHolderForPosition(index);
         Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
-        Intent DetailPage = new Intent(getActivity() ,DetailPageDummy.class);
+        Intent DetailPage = new Intent(getActivity() , eu.silvenia.bridgeballot.DetailPage.class);
         DetailPage.putExtra("ID",id);
         startActivity(DetailPage);
 
