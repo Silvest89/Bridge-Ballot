@@ -12,39 +12,48 @@ import eu.silvenia.bridgeballot.network.Bridge;
  * Created by Jesse on 10-6-2015.
  */
 public class DetailPageDummy extends Activity {
-    Bridge spijkeniserBrug;
-    TextView statusTV;
-    int id = getIntent().getExtras().getInt("ID");
+    Bridge SelectedBridge;
+    int id;
+    TextView distance;
+    TextView name;
+    TextView city;
+    TextView status;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_detail);
-        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
-        statusTV = (TextView) findViewById(R.id.currentStatus);
+        id = getIntent().getExtras().getInt("ID");
+        SelectedBridge = Account.bridgeMap.get(id);
+         distance = (TextView)findViewById(R.id.distance);
+         name = (TextView)findViewById(R.id.name);
+         city = (TextView)findViewById(R.id.city);
+         status = (TextView)findViewById(R.id.status);
+        name.setText(SelectedBridge.getName());
+        distance.setText("Distance: " +Double.toString(SelectedBridge.getDistance()));
+        city.setText("City: " + SelectedBridge.getLocation());
 
-        spijkeniserBrug = Account.bridgeMap.get(1);
         updateStatus();
     }
 
     public void onVote(View v){
-            spijkeniserBrug.setOpen(true);
+            SelectedBridge.setOpen(true);
             updateStatus();
     }
 
     public void updateStatus(){
-        if (spijkeniserBrug.isOpen()) {
-            statusTV.setText("Open");
+        if (SelectedBridge.isOpen()) {
+            status.setText("Open");
         }
         else {
-            statusTV.setText("Closed");
+            status.setText("Closed");
         }
 
-        MainActivity.network.updateBridgeList(spijkeniserBrug.getId());
+        MainActivity.network.updateBridgeList(SelectedBridge.getId());
     }
 
     public void resetStatus(View v){
-        spijkeniserBrug.setOpen(false);
+        SelectedBridge.setOpen(false);
         updateStatus();
     }
 

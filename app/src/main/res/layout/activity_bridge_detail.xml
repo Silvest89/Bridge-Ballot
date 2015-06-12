@@ -7,8 +7,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Spijkenisserbrug"
-        android:id="@+id/textView"
+        android:text=""
+        android:id="@+id/name"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp" />
@@ -27,10 +27,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Distance: 10 km"
+        android:text=""
         android:id="@+id/distance"
         android:layout_marginTop="49dp"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/name"
         android:layout_toLeftOf="@+id/button5"
         android:layout_toStartOf="@+id/button5" />
 
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="City: Spijkenisse"
+        android:text=""
         android:id="@+id/city"
         android:layout_below="@+id/distance"
         android:layout_alignLeft="@+id/distance"
