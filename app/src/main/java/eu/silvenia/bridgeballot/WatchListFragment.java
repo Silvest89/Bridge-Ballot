@@ -83,12 +83,11 @@ public class WatchListFragment extends Fragment {
             Account.getWatchList();
         }
 
-        updateBridgeDistance();
-
         mRecyclerView = (RecyclerView) v.findViewById(R.id.watch_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         mRecyclerView.setAdapter(new BridgesAdapter());
+
+        updateBridgeDistance();
 
         // init swipe to dismiss logic
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
@@ -191,6 +190,7 @@ public class WatchListFragment extends Fragment {
 
     private class BridgeHolder extends SwappingHolder
             implements View.OnClickListener, View.OnLongClickListener {
+        private final ImageView mBridgeImage;
         private final ImageView mStatusIcon;
         private final TextView mTitleTextView;
         private final TextView mDateTextView;
@@ -200,6 +200,7 @@ public class WatchListFragment extends Fragment {
         public BridgeHolder(View itemView) {
             super(itemView, mMultiSelector);
 
+            mBridgeImage = (ImageView) itemView.findViewById(R.id.bridge_list_image);
             mStatusIcon =  (ImageView) itemView.findViewById(R.id.bridge_list_statusicon);
             mTitleTextView = (TextView) itemView.findViewById(R.id.bridge_list_name);
             mDateTextView = (TextView) itemView.findViewById(R.id.bridge_list_distance);
@@ -213,12 +214,16 @@ public class WatchListFragment extends Fragment {
         public void bindBridge(Bridge bridge) {
             mBridge = bridge;
 
+
             if(!bridge.isOpen()) {
                 mStatusIcon.setImageResource(R.mipmap.ic_greencircle);
             }
             else{
                 mStatusIcon.setImageResource(R.mipmap.ic_redcircle);
             }
+
+            //mBridgeImage.setBackgroundResource(R.drawable.bridge_1);
+            //Bridge.setBackgroundImage(bridge, mBridgeImage);
 
             mTitleTextView.setText(bridge.getName());
             mDateTextView.setText("Distance: " + bridge.getDistance() + " km");

@@ -101,7 +101,7 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
     }
 
-    public static synchronized void updateBridgeStatus(int id, boolean isOpen){
+    public static void updateBridgeStatus(int id, boolean isOpen){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_STATUS_UPDATE);
         message.add(id);
         message.add(isOpen);
@@ -112,12 +112,12 @@ public final class Account {
         //WatchListFragment.mBridges.addAll(watchListMap.values());
     }
 
-    public static synchronized void getWatchList(){
+    public static void getWatchList(){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_WATCHLIST);
         Account.getChannel().writeAndFlush(message);
     }
 
-    public static synchronized void addToWatchList(Bridge bridge){
+    public static void addToWatchList(Bridge bridge){
         watchListMap.put(bridge.getId(), bridge);
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_ADD);
         message.add(bridge.getId());
@@ -125,7 +125,7 @@ public final class Account {
         WatchListFragment.handler.updateWatchList();
     }
 
-    public static synchronized void removeFromWatchList(int id){
+    public static void removeFromWatchList(int id){
         watchListMap.remove(id);
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_DELETE);
         message.add(id);

@@ -5,7 +5,7 @@
     android:background="?android:attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/bridge_list_statusicon"
+        android:id="@+id/bridge_list_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:padding="5dp" />
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:enabled="false"
         android:padding="4dp"
+        android:visibility="gone"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -29,16 +30,24 @@
         android:textColor="#33CC33"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
-        android:layout_above="@+id/bridge_list_distance"
-        android:layout_toRightOf="@+id/bridge_list_statusicon"
-        android:layout_toEndOf="@+id/bridge_list_statusicon" />
+
+        android:layout_toRightOf="@+id/bridge_list_image"
+        android:layout_toEndOf="@+id/bridge_list_image" />
 
     <TextView
         android:id="@+id/bridge_list_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:layout_below="@+id/bridge_list_checkbox"
+        android:layout_below="@+id/bridge_list_name"
         android:layout_alignLeft="@+id/bridge_list_name"
         android:layout_alignStart="@+id/bridge_list_name" />
+
+    <ImageView
+        android:id="@+id/bridge_list_statusicon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

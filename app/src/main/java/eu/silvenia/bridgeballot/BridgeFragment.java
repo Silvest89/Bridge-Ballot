@@ -79,12 +79,11 @@ public class BridgeFragment extends Fragment {
 
         handler = new ActivityHandler(this);
 
-        updateBridgeDistance();
-
         mRecyclerView = (RecyclerView) v.findViewById(R.id.bridge_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         mRecyclerView.setAdapter(new BridgeAdapter());
+
+        updateBridgeDistance();
 
         return v;
     }

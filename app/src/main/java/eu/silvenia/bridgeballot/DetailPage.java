@@ -33,7 +33,7 @@ import eu.silvenia.bridgeballot.network.Bridge;
  * Created by Jesse on 10-6-2015.
  */
 public class DetailPage extends AppCompatActivity implements OnMapReadyCallback {
-    Bridge SelectedBridge;
+    Bridge selectedBridge;
     int id;
     TextView distance;
     TextView city;
@@ -43,54 +43,34 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_detail);
+        ImageView detailLayout = (ImageView) findViewById(R.id.imageViewBackground);
 
         id = getIntent().getExtras().getInt("ID");
-        setBackgroundImage();
-        SelectedBridge = Account.bridgeMap.get(id);
+
+        selectedBridge = Account.bridgeMap.get(id);
+        Bridge.setBackgroundImage(selectedBridge, detailLayout);
+
         distance = (TextView)findViewById(R.id.distance);
         city = (TextView)findViewById(R.id.city);
         status = (TextView)findViewById(R.id.currentStatus);
-        distance.setText("Distance: " +Double.toString(SelectedBridge.getDistance()));
-        city.setText("City: " + SelectedBridge.getLocation());
-        getSupportActionBar().setTitle(SelectedBridge.getName());
+        distance.setText("Distance: " +Double.toString(selectedBridge.getDistance()));
+        city.setText("City: " + selectedBridge.getLocation());
+
+        getSupportActionBar().setTitle(selectedBridge.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         //LatLng latLng = new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude());
         //CameraUpdate camera = CameraUpdateFactory.newLatLng(latLng);
         //mapView.getMap().animateCamera(camera);
-
         //mapView.getMap().moveCamera(CameraUpdateFactory.newLatLng(new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude())));
+
         updateStatus();
     }
 
-    public void setBackgroundImage(){
-        ImageView detailLayout = (ImageView) findViewById(R.id.imageViewBackground);
-        switch(id){
-            case 1: detailLayout.setBackgroundResource(R.drawable.bridge_1);
-                    break;
-            case 2: detailLayout.setBackgroundResource(R.drawable.bridge_2);
-                    break;
-            case 3: detailLayout.setBackgroundResource(R.drawable.bridge_3);
-                break;
-            case 4: detailLayout.setBackgroundResource(R.drawable.bridge_4);
-                break;
-            case 5: detailLayout.setBackgroundResource(R.drawable.bridge_5);
-                break;
-            case 6: detailLayout.setBackgroundResource(R.drawable.bridge_6);
-                break;
-            case 7: detailLayout.setBackgroundResource(R.drawable.bridge_7);
-                break;
-            case 8: detailLayout.setBackgroundResource(R.drawable.bridge_8);
-                break;
-            case 9: detailLayout.setBackgroundResource(R.drawable.bridge_9);
-                break;
-            case 10: detailLayout.setBackgroundResource(R.drawable.bridge_10);
-                break;
-
-        }
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -104,12 +84,13 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
 
     public void onVote(View v){
-            SelectedBridge.setOpen(true);
-            updateStatus();
+        selectedBridge.setOpen(true);
+        Account.updateBridgeStatus(selectedBridge.getId(), true);
+        updateStatus();
     }
 
     public void updateStatus(){
-        if (SelectedBridge.isOpen()) {
+        if (selectedBridge.isOpen()) {
             status.setTextColor(Color.RED);
             status.setText("Open");
         }
@@ -122,18 +103,19 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public void resetStatus(View v){
-        SelectedBridge.setOpen(false);
+        selectedBridge.setOpen(false);
+        Account.updateBridgeStatus(selectedBridge.getId(), false);
         updateStatus();
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng latLng = new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude());
+        LatLng latLng = new LatLng(selectedBridge.getLatitude(), selectedBridge.getLongitude());
 
         googleMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title(SelectedBridge.getName()));
+                .title(selectedBridge.getName()));
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(14.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
