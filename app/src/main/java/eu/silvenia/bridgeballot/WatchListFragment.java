@@ -55,6 +55,7 @@ public class WatchListFragment extends Fragment {
                     bridge.setDistance((int) distance);
                 }
             }
+            mRecyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 
@@ -80,10 +81,6 @@ public class WatchListFragment extends Fragment {
 
         if(Account.watchListMap.isEmpty()) {
             Account.getWatchList();
-        }
-        else {
-            mBridges.clear();
-            mBridges.addAll(Account.watchListMap.values());
         }
 
         updateBridgeDistance();
@@ -135,13 +132,6 @@ public class WatchListFragment extends Fragment {
         DetailPage.putExtra("ID",id);
         startActivity(DetailPage);
 
-        /*FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().
-                setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_up).
-                addToBackStack(null).
-                replace(R.id.content_frame, new WatchListFragment()).commit();
-        MenuActivity.isVisible = true;
-        getActivity().invalidateOptionsMenu();*/
     }
 
     @Override

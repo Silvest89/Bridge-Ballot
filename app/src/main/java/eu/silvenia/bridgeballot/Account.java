@@ -108,8 +108,8 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
         BridgeFragment.handler.updateBridgeList();
         WatchListFragment.handler.updateWatchList();
-        BridgeFragment.mBridges.addAll(bridgeMap.values());
-        WatchListFragment.mBridges.addAll(watchListMap.values());
+        //BridgeFragment.mBridges.addAll(bridgeMap.values());
+        //WatchListFragment.mBridges.addAll(watchListMap.values());
     }
 
     public static synchronized void getWatchList(){

@@ -41,13 +41,12 @@ public class BridgeFragment extends Fragment {
     private MultiSelector mMultiSelector = new MultiSelector();
 
     public static ArrayList<Bridge> mBridges = new ArrayList<>();
-    private HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
 
     public void updateBridgeDistance(){
         double longitude = GPSservice.longitude;
         double latitude = GPSservice.latitude;
-        if(!bridgeMap.isEmpty()){
-            Iterator it = bridgeMap.entrySet().iterator();
+        if(!Account.bridgeMap.isEmpty()){
+            Iterator it = Account.bridgeMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
                 Bridge bridge = (Bridge) pair.getValue();
@@ -65,7 +64,6 @@ public class BridgeFragment extends Fragment {
         setHasOptionsMenu(true);
         getActivity().setTitle(R.string.fragment_add_bridge);
         setRetainInstance(true);
-        bridgeMap = Account.bridgeMap;
     }
 
     @Override
@@ -80,9 +78,6 @@ public class BridgeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_bridge, parent, false);
 
         handler = new ActivityHandler(this);
-
-        if(bridgeMap.isEmpty())
-            Account.requestBridges();
 
         updateBridgeDistance();
 

@@ -96,6 +96,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         else{
             Account.setId(returnMessage[0]);
             Account.setAccessLevel(returnMessage[1]);
+            Account.requestBridges();
             MainActivity.handler.switchActivity(MenuActivity.class);
         }
         MainActivity.handler.enableLogin();
@@ -113,7 +114,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
                     Boolean.parseBoolean(bridgeList.get(i)[5]));
             Account.bridgeMap.put(bridge.getId(), bridge);
         }
-        BridgeFragment.handler.updateBridgeList();
+        //BridgeFragment.handler.updateBridgeList();
 
         BridgeFragment.mBridges = new ArrayList<>(Account.bridgeMap.values());
     }
@@ -121,13 +122,9 @@ public class NetworkHandler extends ChannelHandlerAdapter {
     public void parseWatchListRequest(ProtocolMessage message){
         ArrayList<String[]> watchList = (ArrayList)message.getMessage().get(1);
 
+        System.out.println(watchList);
         for(int i = 0; i< watchList.size(); i++) {
-            Bridge bridge = new Bridge(Integer.parseInt(watchList.get(i)[0]),
-                    watchList.get(i)[1],
-                    watchList.get(i)[2],
-                    Double.parseDouble(watchList.get(i)[3]),
-                    Double.parseDouble(watchList.get(i)[4]),
-                    Boolean.parseBoolean(watchList.get(i)[5]));
+            Bridge bridge = Account.bridgeMap.get(Integer.parseInt(watchList.get(i)[0]));
             Account.watchListMap.put(bridge.getId(), bridge);
         }
 
