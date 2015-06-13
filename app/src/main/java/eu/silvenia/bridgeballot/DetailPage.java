@@ -48,7 +48,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         id = getIntent().getExtras().getInt("ID");
 
         selectedBridge = Account.bridgeMap.get(id);
-        Bridge.setBackgroundImage(selectedBridge, detailLayout);
+        Bridge.setBackgroundImage(selectedBridge, detailLayout, true);
 
         distance = (TextView)findViewById(R.id.distance);
         city = (TextView)findViewById(R.id.city);

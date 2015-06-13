@@ -67,29 +67,74 @@ public class Bridge implements Serializable {
         this.isOpen = isOpen;
     }
 
-    public static void setBackgroundImage(Bridge bridge, ImageView imageView){
-        switch(bridge.getId()){
-            case 1: imageView.setBackgroundResource(R.drawable.bridge_1);
-                break;
-            case 2: imageView.setBackgroundResource(R.drawable.bridge_2);
-                break;
-            case 3: imageView.setBackgroundResource(R.drawable.bridge_3);
-                break;
-            case 4: imageView.setBackgroundResource(R.drawable.bridge_4);
-                break;
-            case 5: imageView.setBackgroundResource(R.drawable.bridge_5);
-                break;
-            case 6: imageView.setBackgroundResource(R.drawable.bridge_6);
-                break;
-            case 7: imageView.setBackgroundResource(R.drawable.bridge_7);
-                break;
-            case 8: imageView.setBackgroundResource(R.drawable.bridge_8);
-                break;
-            case 9: imageView.setBackgroundResource(R.drawable.bridge_9);
-                break;
-            case 10: imageView.setBackgroundResource(R.drawable.bridge_10);
-                break;
+    public static void setBackgroundImage(Bridge bridge, ImageView imageView, boolean detailPage){
+        if (detailPage == false) {
+            switch (bridge.getId()) {
+                case 1:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_1);
+                    break;
+                case 2:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_2);
+                    break;
+                case 3:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_3);
+                    break;
+                case 4:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_4);
+                    break;
+                case 5:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_5);
+                    break;
+                case 6:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_6);
+                    break;
+                case 7:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_7);
+                    break;
+                case 8:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_8);
+                    break;
+                case 9:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_9);
+                    break;
+                case 10:
+                    imageView.setBackgroundResource(R.drawable.bridge_list_10);
+                    break;
 
+            }
+        }else{
+            switch (bridge.getId()) {
+                case 1:
+                    imageView.setBackgroundResource(R.drawable.bridge_1);
+                    break;
+                case 2:
+                    imageView.setBackgroundResource(R.drawable.bridge_2);
+                    break;
+                case 3:
+                    imageView.setBackgroundResource(R.drawable.bridge_3);
+                    break;
+                case 4:
+                    imageView.setBackgroundResource(R.drawable.bridge_4);
+                    break;
+                case 5:
+                    imageView.setBackgroundResource(R.drawable.bridge_5);
+                    break;
+                case 6:
+                    imageView.setBackgroundResource(R.drawable.bridge_6);
+                    break;
+                case 7:
+                    imageView.setBackgroundResource(R.drawable.bridge_7);
+                    break;
+                case 8:
+                    imageView.setBackgroundResource(R.drawable.bridge_8);
+                    break;
+                case 9:
+                    imageView.setBackgroundResource(R.drawable.bridge_9);
+                    break;
+                case 10:
+                    imageView.setBackgroundResource(R.drawable.bridge_10);
+                    break;
+            }
         }
     }
 }

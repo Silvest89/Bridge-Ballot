@@ -3,6 +3,7 @@ package eu.silvenia.bridgeballot;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
@@ -161,6 +162,7 @@ public class BridgeFragment extends Fragment {
 
     private class BridgeHolder extends SwappingHolder
             implements View.OnClickListener, View.OnLongClickListener {
+        private final ImageView mBridgeImage;
         private final ImageView mStatusIcon;
         private final TextView mTitleTextView;
         private final TextView mDateTextView;
@@ -170,6 +172,7 @@ public class BridgeFragment extends Fragment {
         public BridgeHolder(View itemView) {
             super(itemView, mMultiSelector);
 
+            mBridgeImage = (ImageView) itemView.findViewById(R.id.bridge_list_image);
             mStatusIcon = (ImageView) itemView.findViewById(R.id.bridge_list_statusicon);
             mTitleTextView = (TextView) itemView.findViewById(R.id.bridge_list_name);
             mDateTextView = (TextView) itemView.findViewById(R.id.bridge_list_distance);
@@ -188,6 +191,8 @@ public class BridgeFragment extends Fragment {
             } else {
                 mStatusIcon.setImageResource(R.mipmap.ic_redcircle);
             }
+
+            Bridge.setBackgroundImage(bridge, mBridgeImage, false);
 
             mTitleTextView.setText(bridge.getName());
             mDateTextView.setText("Distance: " + bridge.getDistance() + " km");

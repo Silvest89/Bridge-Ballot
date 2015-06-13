@@ -223,7 +223,7 @@ public class WatchListFragment extends Fragment {
             }
 
             //mBridgeImage.setBackgroundResource(R.drawable.bridge_1);
-            //Bridge.setBackgroundImage(bridge, mBridgeImage);
+            Bridge.setBackgroundImage(bridge, mBridgeImage, false);
 
             mTitleTextView.setText(bridge.getName());
             mDateTextView.setText("Distance: " + bridge.getDistance() + " km");
