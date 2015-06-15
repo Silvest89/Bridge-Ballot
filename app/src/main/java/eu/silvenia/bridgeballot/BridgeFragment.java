@@ -3,12 +3,12 @@ package eu.silvenia.bridgeballot;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -42,13 +42,12 @@ public class BridgeFragment extends Fragment {
     private MultiSelector mMultiSelector = new MultiSelector();
 
     public static ArrayList<Bridge> mBridges = new ArrayList<>();
-    public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
 
     public void updateBridgeDistance(){
         double longitude = GPSservice.longitude;
         double latitude = GPSservice.latitude;
-        if(!bridgeMap.isEmpty()){
-            Iterator it = bridgeMap.entrySet().iterator();
+        if(!Account.bridgeMap.isEmpty()){
+            Iterator it = Account.bridgeMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
                 Bridge bridge = (Bridge) pair.getValue();
@@ -81,56 +80,24 @@ public class BridgeFragment extends Fragment {
 
         handler = new ActivityHandler(this);
 
-        if(bridgeMap.isEmpty())
-            Account.requestBridges();
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.bridge_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(new BridgeAdapter());
 
         updateBridgeDistance();
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mRecyclerView.setAdapter(new BridgeAdapter());
-
-        // init swipe to dismiss logic
-        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.LEFT, ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                // callback for drag-n-drop, false to skip this feature
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                // callback for swipe to dismiss, removing item from data and adapter
-                switch(direction){
-                    case ItemTouchHelper.LEFT:{
-                        Bridge bridge = mBridges.get(viewHolder.getAdapterPosition());
-                        bridgeMap.remove(bridge.getId());
-
-                        mBridges.remove(viewHolder.getAdapterPosition());
-
-                        mRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
-                        break;
-                    }
-                    default:{
-                        return;
-                    }
-                }
-            }
-        });
-        swipeToDismissTouchHelper.attachToRecyclerView(mRecyclerView);
         return v;
     }
 
     private void selectBridge(Bridge c) {
         int index = mBridges.indexOf(c);
-        int id;
+        int id = c.getId();
         BridgeHolder holder = (BridgeHolder) mRecyclerView
                 .findViewHolderForPosition(index);
         Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
-        id = c.getId();
-        startActivity(new Intent(getActivity(), DetailPageDummy.class).putExtra("ID",id));
+        Intent DetailPage = new Intent(getActivity() , eu.silvenia.bridgeballot.DetailPage.class);
+        DetailPage.putExtra("ID",id);
+        startActivity(DetailPage);
 
         /*FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().
@@ -159,8 +126,6 @@ public class BridgeFragment extends Fragment {
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.bridge_menu_add:
-                    // Need to finish the action mode before doing the following,
-                    // not after. No idea why, but it crashes.
                     actionMode.finish();
 
                     mMultiSelector.setSelectable(false);
@@ -169,6 +134,7 @@ public class BridgeFragment extends Fragment {
                         if (mMultiSelector.isSelected(i, 0)) {
                             Bridge bridge = mBridges.get(i);
                             //mRecyclerView.getAdapter().notifyItemRemoved(i);
+                            Account.addToWatchList(bridge);
                         }
                     }
 
@@ -196,6 +162,7 @@ public class BridgeFragment extends Fragment {
 
     private class BridgeHolder extends SwappingHolder
             implements View.OnClickListener, View.OnLongClickListener {
+        private final ImageView mBridgeImage;
         private final ImageView mStatusIcon;
         private final TextView mTitleTextView;
         private final TextView mDateTextView;
@@ -205,7 +172,8 @@ public class BridgeFragment extends Fragment {
         public BridgeHolder(View itemView) {
             super(itemView, mMultiSelector);
 
-            mStatusIcon =  (ImageView) itemView.findViewById(R.id.bridge_list_statusicon);
+            mBridgeImage = (ImageView) itemView.findViewById(R.id.bridge_list_image);
+            mStatusIcon = (ImageView) itemView.findViewById(R.id.bridge_list_statusicon);
             mTitleTextView = (TextView) itemView.findViewById(R.id.bridge_list_name);
             mDateTextView = (TextView) itemView.findViewById(R.id.bridge_list_distance);
             mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.bridge_list_checkbox);
@@ -218,12 +186,13 @@ public class BridgeFragment extends Fragment {
         public void bindBridge(Bridge bridge) {
             mBridge = bridge;
 
-            if(!bridge.isOpen()) {
+            if (!bridge.isOpen()) {
                 mStatusIcon.setImageResource(R.mipmap.ic_greencircle);
-            }
-            else{
+            } else {
                 mStatusIcon.setImageResource(R.mipmap.ic_redcircle);
             }
+
+            Bridge.setBackgroundImage(bridge, mBridgeImage, false);
 
             mTitleTextView.setText(bridge.getName());
             mDateTextView.setText("Distance: " + bridge.getDistance() + " km");
@@ -245,7 +214,7 @@ public class BridgeFragment extends Fragment {
             //mMultiSelector.clearSelections();
             //mMultiSelector.setSelectable(!mMultiSelector.isSelectable());
             //System.out.println(mMultiSelector.getSelectedPositions().size());
-            ActionBarActivity activity = (ActionBarActivity)getActivity();
+            ActionBarActivity activity = (ActionBarActivity) getActivity();
             activity.startSupportActionMode(mDeleteMode);
             mMultiSelector.setSelectable(!mMultiSelector.isSelectable());
             mMultiSelector.setSelected(this, true);

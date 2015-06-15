@@ -10,13 +10,13 @@ import android.os.Handler;
  * Created by Johnnie Ho on 11-6-2015.
  */
 public class ActivityHandler extends Handler {
-    Activity currentActivity;
-    BridgeFragment currentFragment;
+    public Activity currentActivity;
+    public Fragment currentFragment;
     public ActivityHandler(Activity activity){
         this.currentActivity = activity;
     }
 
-    public ActivityHandler(BridgeFragment fragment){
+    public ActivityHandler(Fragment fragment){
         this.currentFragment = fragment;
     }
 
@@ -30,9 +30,34 @@ public class ActivityHandler extends Handler {
             currentFragment.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    currentFragment.mRecyclerView.getAdapter().notifyDataSetChanged();
+                    BridgeFragment fragment = (BridgeFragment)currentFragment;
+                    fragment.mRecyclerView.getAdapter().notifyDataSetChanged();
                 }
             });
         }
+    }
+
+    public void updateWatchList(){
+
+        if(currentFragment.isVisible()) {
+            currentFragment.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //watchListFragment.mBridges = new ArrayList<>(Account.watchListMap.values());
+                    WatchListFragment fragment = (WatchListFragment)currentFragment;
+                    fragment.mRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    public void enableLogin(){
+        currentActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MainActivity activity = (MainActivity)currentActivity;
+                activity.login.setEnabled(true);
+            }
+        });
     }
 }

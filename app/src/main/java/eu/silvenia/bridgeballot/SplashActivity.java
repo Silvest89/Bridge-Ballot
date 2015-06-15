@@ -16,8 +16,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Runnable connect = new loadItems();
-        new Thread(connect).start();
+        startService(new Intent(SplashActivity.this, NetworkService.class));
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -26,15 +25,7 @@ public class SplashActivity extends Activity {
                 startActivity(mainActivity);
                 finish();
             }
-        }, 5000);
-    }
-
-    class loadItems implements Runnable {
-
-        @Override
-        public void run() {
-            startService(new Intent(SplashActivity.this, NetworkService.class));
-        }
+        }, 4000);
     }
 
     @Override

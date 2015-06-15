@@ -187,7 +187,7 @@ public class MenuActivity extends  ActionBarActivity {
         FragmentManager fragmentManager = getFragmentManager();
 
         fragmentManager.beginTransaction().
-                setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_up).
+                setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down).
                 addToBackStack(null).
                 replace(R.id.content_frame, fragment).commit();
         return true;
