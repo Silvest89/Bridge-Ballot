@@ -49,9 +49,8 @@ import java.util.Properties;
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
 public class MenuActivity extends  ActionBarActivity {
-    private PropertyReader propertyReader;
-    private Context context;
-    private Properties p;
+
+
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -73,11 +72,6 @@ public class MenuActivity extends  ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        context = this;
-        propertyReader = new PropertyReader(context);
-        p = propertyReader.getProperties("BridgeBallot.properties");
-
-        p.setProperty("Notifications", Boolean.toString(new BallotSettings().getNotificationsOn()));
 
         mTitle = mDrawerTitle = getTitle();
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);

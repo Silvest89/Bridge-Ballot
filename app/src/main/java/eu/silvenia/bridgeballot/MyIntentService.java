@@ -27,6 +27,8 @@ public class MyIntentService extends IntentService {
             // TODO: Implement this method to send any registration to your app's servers.
             setToken(gcmToken);
 
+
+
             // Subscribe to topic channels
             //subscribeTopics(token);
 
