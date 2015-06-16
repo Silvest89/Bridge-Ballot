@@ -2,6 +2,7 @@ package eu.silvenia.bridgeballot;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -10,6 +11,8 @@ import com.google.android.gms.iid.InstanceID;
 import java.io.IOException;
 
 public class MyIntentService extends IntentService {
+
+    public static ActivityHandler handler;
 
     public MyIntentService(){
         super("MyIntent");
@@ -25,9 +28,7 @@ public class MyIntentService extends IntentService {
             Log.i("Bridge-Ballot", "GCM Registration Token: " + gcmToken);
             //System.out.println(token);
 
-            setToken(gcmToken);
-
-
+            Account.setToken(gcmToken);
 
             // Subscribe to topic channels
             //subscribeTopics(token);
@@ -41,9 +42,7 @@ public class MyIntentService extends IntentService {
         }
     }
 
-    public void setToken(String token){
-        MainActivity.token = token;
-    }
+
 
 
 }

@@ -21,6 +21,7 @@ public final class Account {
     private static String userName;
     private static int accessLevel;
     private static boolean googlePlus;
+    private static String token;
     private static Channel channel;
     private static int reputation;
 
@@ -59,6 +60,14 @@ public final class Account {
         Account.googlePlus = googlePlus;
     }
 
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        Account.token = token;
+    }
+
     public static Channel getChannel() {
         return channel;
     }
@@ -86,6 +95,7 @@ public final class Account {
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.LOGIN);
             message.add(login);
             message.add(googlePlus);
+            message.add(MainActivity.token);
 
             Account.getChannel().writeAndFlush(message);
 
@@ -130,5 +140,14 @@ public final class Account {
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_DELETE);
         message.add(id);
         Account.getChannel().writeAndFlush(message);
+    }
+
+    public static void sendGcmToken(String token){
+        if(Config.getGcmToken().equals("")) {
+            ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.SEND_TOKEN);
+            message.add(token);
+            Account.getChannel().writeAndFlush(message);
+            Config.setGcmToken(token);
+        }
     }
 }

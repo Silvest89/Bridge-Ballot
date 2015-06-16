@@ -15,7 +15,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        Config.readConfig(this);
         startService(new Intent(SplashActivity.this, NetworkService.class));
 
         new Handler().postDelayed(new Runnable() {

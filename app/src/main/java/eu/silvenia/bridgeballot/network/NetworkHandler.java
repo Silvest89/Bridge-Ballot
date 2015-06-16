@@ -94,10 +94,12 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             Account.getChannel().close();
         }
         else{
+            Account.sendGcmToken(Account.getToken());
             Account.setId(returnMessage[0]);
             Account.setAccessLevel(returnMessage[1]);
             Account.requestBridges();
             MainActivity.handler.switchActivity(MenuActivity.class);
+
         }
         MainActivity.handler.enableLogin();
     }
@@ -130,6 +132,6 @@ public class NetworkHandler extends ChannelHandlerAdapter {
 
         WatchListFragment.mBridges = new ArrayList<>(Account.watchListMap.values());
         WatchListFragment.handler.updateWatchList();
-
     }
+
 }

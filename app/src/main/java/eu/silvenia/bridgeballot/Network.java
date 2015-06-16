@@ -470,7 +470,6 @@ public class Network {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
     }

@@ -1,5 +1,8 @@
 package eu.silvenia.bridgeballot;
 
+import android.util.Log;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.iid.InstanceIDListenerService;
 
@@ -18,7 +21,20 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
 
     @Override
     public void onTokenRefresh(){
+        InstanceID instanceID = InstanceID.getInstance(this);
+        String gcmToken = null;
 
+        try {
+            gcmToken = instanceID.getToken("500415068393",
+                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(gcmToken);
+        if(gcmToken != null) {
+            Account.setToken(gcmToken);
+            Config.setGcmToken("");
+        }
     }
 
 }
