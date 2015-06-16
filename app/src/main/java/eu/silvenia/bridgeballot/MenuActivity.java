@@ -180,6 +180,10 @@ public class MenuActivity extends  ActionBarActivity {
             case R.id.action_settings:{
                 startActivity(new Intent(this, BallotSettings.class));
             }
+            case R.id.action_logout:{
+                Account.resetAccount();
+                startActivity(new Intent(this, MainActivity.class));
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
