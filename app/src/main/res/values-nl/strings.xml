@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bridge Ballot</string>
     <string name="action_settings">Instellingen</string>
     <string name="logIn_button">Inloggen</string>
     <string name="password">Wachtwoord</string>
     <string name="user_name">Gebruikersnaam</string>
-    <string name="createUser_button">Nieuw? Maak account</string>
+    <string name="createUser_button">Maak account</string>
     <string name="createUser_title">Maak een account</string>
     <string name="create_confirmPassword">Wachtwoord bevestigen</string>
     <string name="create_makeAccount">Maak account</string>
@@ -21,4 +20,5 @@
     <string name="user_delete_success">Gebruiker is succesvol verwijderd.</string>
     <string name="user_delete_failure">Er is iets mis gegaan, probeer later opnieuw alstublieft.</string>
     <string name="user_delete_title">Te verwijderen gebruiker</string>
+    <string name="action_logout">Uitloggen</string>
 </resources>

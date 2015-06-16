@@ -5,14 +5,21 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:id="@+id/imageViewBackground"
-        android:layout_below="@+id/map"
+        android:layout_below="@+id/test"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/map"
+        android:id="@+id/test"
+        android:layout_height="5dp"
+        android:background="#38eeff"/>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
@@ -23,74 +30,97 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Status: "
-        android:id="@+id/status"
-        android:layout_below="@+id/map"
-        android:layout_marginTop="30dp"
-        android:layout_alignStart="@+id/distance"
-        android:layout_alignLeft="@+id/distance"
-        android:layout_marginLeft="-20dp"
+        android:layout_below="@+id/test"
+        android:id="@+id/detail_grid"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:layout_marginTop="20dp"
+        android:useDefaultMargins="true"
+        android:layout_centerHorizontal="true">
 
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Status:"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/currentStatus"
-        android:text="status "
-        android:layout_below="@+id/map"
-        android:layout_toRightOf="@+id/status"
-        android:layout_toEndOf="@+id/status"
-        android:layout_marginTop="30dp"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/currentStatus"
+            android:text="Status"
+            android:layout_column="1"
+            android:layout_row="0"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Distance"
-        android:id="@+id/distance"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/status"
-        android:layout_marginTop="5dp"
-    />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Distance:"
+            android:layout_column="0"
+            android:layout_row="1"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="City"
-        android:id="@+id/city"
-        android:layout_below="@+id/distance"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="100 km"
+            android:id="@+id/distance"
+            android:layout_column="1"
+            android:layout_row="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="City:"
+            android:layout_column="0"
+            android:layout_row="2"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="City:"
+            android:id="@+id/city"
+            android:layout_column="1"
+            android:layout_row="2"
+            />
+    </GridLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:text="Bridge open"
         android:id="@+id/button5"
         android:onClick="onVote"
-        android:layout_below="@+id/city"
+        android:layout_below="@+id/detail_grid"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
+        android:background="@drawable/custombutton"
         />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:text="Reset status"
         android:id="@+id/button6"
         android:onClick="resetStatus"
         android:layout_below="@+id/button5"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:background="@drawable/custombutton"
      />
 
 

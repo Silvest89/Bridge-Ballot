@@ -72,11 +72,13 @@ public final class Account {
         setUserName("");
         setGooglePlus(false);
         setAccessLevel(0);
+        if(channel.isActive()){
+            channel.close();
+        }
         setChannel(null);
     }
 
     public static void login(String username, String password, boolean googlePlus){
-        ArrayList<Object> test = new ArrayList<>();
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(password.getBytes("UTF-8"));

@@ -133,11 +133,6 @@ public class WatchListFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_bridge_list, menu);
-    }
 
     ActionMode.Callback mDeleteMode = new ModalMultiSelectorCallback(mMultiSelector) {
 

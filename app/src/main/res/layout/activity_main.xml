@@ -32,39 +32,39 @@
         android:textColor="#ffffffff" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
         android:text="@string/logIn_button"
         android:id="@+id/button"
         android:onClick="onSignIn"
         android:layout_below="@+id/password"
-        android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password"
-        android:layout_alignRight="@+id/password"
-        android:layout_alignEnd="@+id/password" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custombutton" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:visibility="visible"
         android:onClick="onClick"
         android:layout_below="@+id/button"
         android:layout_alignLeft="@+id/button"
         android:layout_alignStart="@+id/button"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="20dp"
         android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button" />
+        android:layout_alignEnd="@+id/button"
+        />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:text="@string/createUser_button"
         android:id="@+id/button2"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onCreateUser" />
+        android:onClick="onCreateUser"
+        android:background="@drawable/custombutton" />
 
     <ImageView
         android:layout_width="wrap_content"

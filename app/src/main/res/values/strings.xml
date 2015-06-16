@@ -12,7 +12,7 @@
     <string name="user_name">User name</string>
     <string name="password">Password</string>
     <string name="logIn_button">Log In</string>
-    <string name="createUser_button">New? Create account</string>
+    <string name="createUser_button">Create account</string>
     <string name="createUser_title">Create an account</string>
     <string name="create_userName">User name</string>
     <string name="create_password">Password</string>
@@ -52,6 +52,7 @@
     <string name="title_activity_login">Login</string>
 
     <string name="title_activity_ballot_settings">BallotSettings</string>
+    <string name="action_logout">Logout</string>
 
 
 </resources>
