@@ -89,7 +89,7 @@ public final class Account {
 
     public static void login(String username, String password, boolean googlePlus){
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes("UTF-8"));
             byte[] hash = md.digest();
 
@@ -97,7 +97,6 @@ public final class Account {
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.LOGIN);
             message.add(login);
             message.add(googlePlus);
-            message.add(MainActivity.token);
 
             Account.getChannel().writeAndFlush(message);
 

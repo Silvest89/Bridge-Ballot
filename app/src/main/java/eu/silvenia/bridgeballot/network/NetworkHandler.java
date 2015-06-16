@@ -89,9 +89,9 @@ public class NetworkHandler extends ChannelHandlerAdapter {
 
     public void parseLogin(ProtocolMessage message){
         int[] returnMessage = (int[])message.getMessage().get(1);
+        System.out.println(returnMessage);
         if(returnMessage == null) {
             Account.resetAccount();
-            //Account.getChannel().close();
         }
         else{
             Account.sendGcmToken(Account.getToken());

@@ -119,7 +119,6 @@ public class MainActivity extends Activity implements
     public void onSignIn(View v){
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
-        System.out.println(token);
 
         login.setEnabled(false);
 
