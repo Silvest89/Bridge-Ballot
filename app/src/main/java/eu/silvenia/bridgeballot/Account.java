@@ -89,11 +89,11 @@ public final class Account {
 
     public static void login(String username, String password, boolean googlePlus){
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(password.getBytes("UTF-8"));
             byte[] hash = md.digest();
 
-            String[] login = {username, Base64.encodeToString(hash, Base64.DEFAULT), ""};
+            String[] login = {username, Base64.encodeToString(hash, Base64.DEFAULT)};
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.LOGIN);
             message.add(login);
             message.add(googlePlus);
