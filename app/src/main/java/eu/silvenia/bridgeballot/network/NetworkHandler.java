@@ -73,6 +73,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             }
             case MessageType.BRIDGE_STATUS_UPDATE:{
                 parseBridgeStatusUpdate(message);
+                break;
             }
         }
     }
