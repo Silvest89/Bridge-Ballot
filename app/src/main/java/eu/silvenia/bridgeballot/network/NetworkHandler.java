@@ -71,6 +71,9 @@ public class NetworkHandler extends ChannelHandlerAdapter {
                 parseWatchListRequest(message);
                 break;
             }
+            case MessageType.BRIDGE_STATUS_UPDATE:{
+                parseBridgeStatusUpdate(message);
+            }
         }
     }
 
@@ -124,13 +127,27 @@ public class NetworkHandler extends ChannelHandlerAdapter {
     public void parseWatchListRequest(ProtocolMessage message){
         ArrayList<String[]> watchList = (ArrayList)message.getMessage().get(1);
 
+        System.out.println(watchList);
         for(int i = 0; i< watchList.size(); i++) {
             Bridge bridge = Account.bridgeMap.get(Integer.parseInt(watchList.get(i)[0]));
             Account.watchListMap.put(bridge.getId(), bridge);
         }
 
         WatchListFragment.mBridges = new ArrayList<>(Account.watchListMap.values());
-        WatchListFragment.handler.updateWatchList();
+
+        if(WatchListFragment.handler != null)
+            WatchListFragment.handler.updateWatchList();
     }
+
+    public void parseBridgeStatusUpdate(ProtocolMessage message){
+        int bridgeId = (int) message.getMessage().get(1);
+        boolean status = (boolean) message.getMessage().get(2);
+        Account.bridgeMap.get(bridgeId).setOpen(status);
+        if(BridgeFragment.handler != null)
+            BridgeFragment.handler.updateBridgeList();
+        if(WatchListFragment.handler != null)
+            WatchListFragment.handler.updateWatchList();
+    }
+
 
 }
