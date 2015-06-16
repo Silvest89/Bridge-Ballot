@@ -91,7 +91,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         int[] returnMessage = (int[])message.getMessage().get(1);
         if(returnMessage == null) {
             Account.resetAccount();
-            Account.getChannel().close();
+            //Account.getChannel().close();
         }
         else{
             Account.sendGcmToken(Account.getToken());
