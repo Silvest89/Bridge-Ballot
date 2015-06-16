@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ public class WatchListFragment extends Fragment {
     public static ActivityHandler handler;
 
     public RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private MultiSelector mMultiSelector = new MultiSelector();
 
@@ -79,13 +81,21 @@ public class WatchListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_watch, parent, false);
         handler = new ActivityHandler(this);
 
-        if(Account.watchListMap.isEmpty()) {
-            Account.getWatchList();
-        }
-
         mRecyclerView = (RecyclerView) v.findViewById(R.id.watch_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new BridgesAdapter());
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getActivity(), "test", Toast.LENGTH_LONG);
+                Account.getWatchList();
+                //refreshItems();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         updateBridgeDistance();
 

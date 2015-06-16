@@ -89,7 +89,6 @@ public class NetworkHandler extends ChannelHandlerAdapter {
 
     public void parseLogin(ProtocolMessage message){
         int[] returnMessage = (int[])message.getMessage().get(1);
-        System.out.println(returnMessage);
         if(returnMessage == null) {
             Account.resetAccount();
         }
@@ -119,12 +118,12 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         //BridgeFragment.handler.updateBridgeList();
 
         BridgeFragment.mBridges = new ArrayList<>(Account.bridgeMap.values());
+        Account.getWatchList();
     }
 
     public void parseWatchListRequest(ProtocolMessage message){
         ArrayList<String[]> watchList = (ArrayList)message.getMessage().get(1);
 
-        System.out.println(watchList);
         for(int i = 0; i< watchList.size(); i++) {
             Bridge bridge = Account.bridgeMap.get(Integer.parseInt(watchList.get(i)[0]));
             Account.watchListMap.put(bridge.getId(), bridge);

@@ -117,7 +117,9 @@ public final class Account {
         message.add(id);
         message.add(isOpen);
         Account.getChannel().writeAndFlush(message);
-        BridgeFragment.handler.updateBridgeList();
+        if(BridgeFragment.handler != null)
+            BridgeFragment.handler.updateBridgeList();
+        if(WatchListFragment.handler != null)
         WatchListFragment.handler.updateWatchList();
         //BridgeFragment.mBridges.addAll(bridgeMap.values());
         //WatchListFragment.mBridges.addAll(watchListMap.values());

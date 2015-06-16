@@ -227,7 +227,7 @@ public class Network {
                 ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
                 HashMap<Integer, Bridge> bridgeList = (HashMap)in.readObject();
-                System.out.println(bridgeList);
+
                 socket.close();
                 return bridgeList;
             } catch (UnknownHostException e) {

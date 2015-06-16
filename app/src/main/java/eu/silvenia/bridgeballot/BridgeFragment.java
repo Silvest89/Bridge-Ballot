@@ -79,6 +79,7 @@ public class BridgeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_bridge, parent, false);
 
         handler = new ActivityHandler(this);
+        Account.requestBridges();
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.bridge_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
