@@ -194,6 +194,7 @@ public final class Account {
         switch(type){
             case CREATE: {
                 message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_CREATE);
+                System.out.println("WASHILLE MA DIZZLE");
                 break;
 
             }

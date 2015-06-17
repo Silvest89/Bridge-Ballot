@@ -28,6 +28,7 @@ public class AdminBridges extends Fragment {
     Button saveButton;
     Button deleteButton;
     String oldName = "";
+    int bridgeID;
     View rootview;
     @Nullable
     @Override
@@ -61,6 +62,7 @@ public class AdminBridges extends Fragment {
                 if (!(bridgeNames.get(position).equals("New Bridge"))) {
                     bridgeName.setText(bridgeList.get(position).getName());
                     oldName = bridgeName.getText().toString();
+                    bridgeID = bridgeList.get(position).getId();
                     bridgeLocation.setText(bridgeList.get(position).getLocation());
                     bridgeLatitude.setText(String.valueOf(bridgeList.get(position).getLatitude()));
                     bridgeLongitude.setText(String.valueOf(bridgeList.get(position).getLongitude()));
@@ -82,27 +84,32 @@ public class AdminBridges extends Fragment {
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                saveButton.setEnabled(false);
                 ArrayList<String> bridge = new ArrayList<String>();
                 bridge.add(oldName);
+                bridge.add(String.valueOf(bridgeID));
                 bridge.add(bridgeName.getText().toString());
                 bridge.add(bridgeLocation.getText().toString());
                 bridge.add(bridgeLatitude.getText().toString());
                 bridge.add(bridgeLongitude.getText().toString());
-
-                if(saveButton.getText().equals("Save New")){
+                System.out.println("SAVE BUTTON LISTENER");
+                if(saveButton.getText().equals("Save new")){
+                    System.out.println("SENDING BRIDGE TO ACCOUNT");
                     Account.CRUDBridge(CRUDType.CREATE, bridge );
                 }else{
                     Account.CRUDBridge(CRUDType.UPDATE, bridge);
                 }
-
+                saveButton.setEnabled(true);
             }
         });
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                deleteButton.setEnabled(false);
                 ArrayList<String> bridge = new ArrayList<String>();
-                bridge.add(oldName);
+                bridge.add(String.valueOf(bridgeID));
                 Account.CRUDBridge(CRUDType.DELETE, bridge);
+                deleteButton.setEnabled(true);
             }
         });
         return rootview;
