@@ -52,7 +52,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
 
-                <category android:name="com.example.gcm" />
+                <category android:name="eu.silvenia.bridgeballot" />
             </intent-filter>
         </receiver>
 

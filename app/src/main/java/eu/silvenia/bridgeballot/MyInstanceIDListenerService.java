@@ -23,7 +23,6 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     public void onTokenRefresh(){
         InstanceID instanceID = InstanceID.getInstance(this);
         String gcmToken = null;
-
         try {
             gcmToken = instanceID.getToken("500415068393",
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);

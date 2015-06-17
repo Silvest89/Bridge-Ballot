@@ -29,12 +29,14 @@ import javax.crypto.spec.GCMParameterSpec;
 public class MyGcmListenerService extends GcmListenerService {
  
     private final String TAG = "BridgeBallot";
+    static int notificationId = 1;
     @Override
     public void onMessageReceived(String from, Bundle data){
         String message = data.getString("message");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
         String mContext = message;
+        notificationId++;
 
         /**
          * Production applications would usually process the message here.
@@ -63,12 +65,13 @@ public class MyGcmListenerService extends GcmListenerService {
         notification.setContentText(context);
         notification.setAutoCancel(true);
 
+
         PendingIntent myPendingIntent;
         Intent myIntent = new Intent();
         Context myContext = getApplicationContext();
 
         myIntent.setClass(myContext, MainActivity.class);
-        myIntent.putExtra("ID", 1);
+        //myIntent.putExtra("ID", 1);
         myPendingIntent = PendingIntent.getActivity(myContext, 0, myIntent, 0);
         notification.setContentIntent(myPendingIntent);
 
@@ -78,7 +81,8 @@ public class MyGcmListenerService extends GcmListenerService {
         n.flags |= Notification.FLAG_SHOW_LIGHTS;
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        nm.notify(1, n);
+
+        nm.notify(notificationId, n);
     }
 // TODO: Implement this method to send any registration to your app's servers.
       //  sendRegistrationToServer(token);
