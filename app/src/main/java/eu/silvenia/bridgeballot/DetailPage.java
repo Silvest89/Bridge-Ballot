@@ -8,9 +8,16 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +34,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import eu.silvenia.bridgeballot.network.Bridge;
+import eu.silvenia.bridgeballot.network.Client;
 
 /**
  * Created by Jesse on 10-6-2015.
@@ -39,9 +51,15 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
     TextView city;
     TextView status;
 
+    RecyclerView mRecyclerView;
+
+    public static ArrayList<Client> reputationList = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityHandler.handler = new ActivityHandler(this);
+
         setContentView(R.layout.activity_bridge_detail);
         ImageView detailLayout = (ImageView) findViewById(R.id.imageViewBackground);
 
@@ -63,10 +81,17 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //LatLng latLng = new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude());
-        //CameraUpdate camera = CameraUpdateFactory.newLatLng(latLng);
-        //mapView.getMap().animateCamera(camera);
-        //mapView.getMap().moveCamera(CameraUpdateFactory.newLatLng(new LatLng(SelectedBridge.getLatitude(), SelectedBridge.getLongitude())));
+        int i = 0;
+        while(i < 10){
+            Client client = new Client(1, "test", 5, new Date(), false);
+
+            reputationList.add(client);
+            i++;
+        }
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.reputation_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(new ReputationAdapter());
 
         updateStatus();
     }
@@ -99,7 +124,6 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             status.setText("Closed");
         }
 
-        //MainActivity.network.updateBridgeList(SelectedBridge.getId());
     }
 
     public void resetStatus(View v){
@@ -121,5 +145,79 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         googleMap.moveCamera(cameraUpdate);
 
+    }
+
+    private class ReputationHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
+
+        private final TextView userName;
+        private final TextView reputation;
+        private final TextView timeStamp;
+        private final ImageView status;
+        private final Button button;
+        private Client mClient;
+
+        public ReputationHolder(View itemView) {
+            super(itemView);
+
+            userName = (TextView) itemView.findViewById(R.id.rep_userName);
+            reputation =  (TextView) itemView.findViewById(R.id.rep_reputation);
+            timeStamp = (TextView) itemView.findViewById(R.id.rep_timeStamp);
+            status = (ImageView) itemView.findViewById(R.id.rep_status);
+            button = (Button) itemView.findViewById(R.id.rep_button);
+
+            button.setOnClickListener(this);
+            //itemView.setOnLongClickListener(this);
+            //itemView.setLongClickable(true);
+        }
+
+        public void bindBridge(Client client) {
+            mClient = client;
+
+            userName.setText(client.getUserName());
+            button.setBackgroundResource(R.drawable.dislike_button);
+            reputation.setText(Integer.toString(client.getReputation()));
+            if(client.getStatus())
+                status.setBackgroundResource(R.mipmap.ic_redcircle);
+            else
+                status.setBackgroundResource(R.mipmap.ic_greencircle);
+
+            SimpleDateFormat sf = new SimpleDateFormat("dd-MM kk:mm:ss");
+            String date = sf.format(client.getTimeStamp());
+            timeStamp.setText(date);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+
+            return true;
+        }
+    }
+
+    private class ReputationAdapter extends RecyclerView.Adapter<ReputationHolder> {
+        @Override
+        public ReputationHolder onCreateViewHolder(ViewGroup parent, int pos) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.reputation_list, parent, false);
+            return new ReputationHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ReputationHolder holder, int pos) {
+            Client client = reputationList.get(pos);
+            holder.bindBridge(client);
+        }
+
+        @Override
+        public int getItemCount() {
+            return reputationList.size();
+        }
     }
 }
