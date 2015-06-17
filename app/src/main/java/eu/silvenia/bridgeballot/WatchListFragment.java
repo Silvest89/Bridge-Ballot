@@ -33,57 +33,37 @@ import java.util.Map;
 
 import eu.silvenia.bridgeballot.network.Bridge;
 
-public class WatchListFragment extends Fragment {
+public class WatchListFragment extends BallotList {
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     public static ActivityHandler handler;
 
-    public RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private MultiSelector mMultiSelector = new MultiSelector();
-
-    public static ArrayList<Bridge> mBridges = new ArrayList<>();
-
-    public void updateBridgeDistance(){
-        double longitude = GPSservice.longitude;
-        double latitude = GPSservice.latitude;
-        if(!Account.watchListMap.isEmpty()){
-            Iterator it = Account.watchListMap.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                Bridge bridge = (Bridge) pair.getValue();
-                if(bridge != null) {
-                    double distance = HelperTools.calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude());
-                    bridge.setDistance((int) distance);
-                }
-            }
-            mRecyclerView.getAdapter().notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        getActivity().setTitle(R.string.fragment_watch_list);
-        setRetainInstance(true);
+        ballot = this;
+        handler = new ActivityHandler(this);
+        getActivity().setTitle("WatchList");
     }
-
     @Override
     public void onDestroyView() {
         getActivity().setTitle(R.string.fragment_watch_list);
         super.onDestroyView();
     }
 
-    @TargetApi(11)
+
     @Override
+    public void updateList() {
+        mBridges = Account.mWatchList;
+        mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_watch, parent, false);
+
+        mBridges = Account.mWatchList;
         handler = new ActivityHandler(this);
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.watch_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new BridgesAdapter());
+        setupView(v);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -95,10 +75,6 @@ public class WatchListFragment extends Fragment {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-
-
-        updateBridgeDistance();
-
         // init swipe to dismiss logic
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT, ItemTouchHelper.LEFT) {
@@ -131,55 +107,6 @@ public class WatchListFragment extends Fragment {
         return v;
     }
 
-    private void selectBridge(Bridge c) {
-        int index = mBridges.indexOf(c);
-        int id = c.getId();
-        BridgeHolder holder = (BridgeHolder) mRecyclerView
-                .findViewHolderForPosition(index);
-        Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
-        Intent DetailPage = new Intent(getActivity() , eu.silvenia.bridgeballot.DetailPage.class);
-        DetailPage.putExtra("ID",id);
-        startActivity(DetailPage);
-
-    }
-
-
-    ActionMode.Callback mDeleteMode = new ModalMultiSelectorCallback(mMultiSelector) {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            getActivity().getMenuInflater().inflate(R.menu.watch_list_menu_context, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.bridge_menu_delete:
-                    // Need to finish the action mode before doing the following,
-                    // not after. No idea why, but it crashes.
-                    actionMode.finish();
-
-                    mMultiSelector.setSelectable(false);
-
-                    for (int i = mBridges.size()-1; i >= 0; i--) {
-                        if (mMultiSelector.isSelected(i, 0)) {
-                            Bridge bridge = mBridges.get(i);
-                            Account.removeFromWatchList(bridge.getId());
-                            mBridges.remove(i);
-                            mRecyclerView.getAdapter().notifyItemRemoved(i);
-                        }
-                    }
-
-                    mMultiSelector.clearSelections();
-                    return true;
-                default:
-                    break;
-            }
-            return false;
-        }
-    };
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -191,90 +118,5 @@ public class WatchListFragment extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         getActivity().getMenuInflater().inflate(R.menu.bridge_list_menu_context, menu);
-    }
-
-    private class BridgeHolder extends SwappingHolder
-            implements View.OnClickListener, View.OnLongClickListener {
-        private final ImageView mBridgeImage;
-        private final ImageView mStatusIcon;
-        private final TextView mTitleTextView;
-        private final TextView mDateTextView;
-        private final CheckBox mSolvedCheckBox;
-        private Bridge mBridge;
-
-        public BridgeHolder(View itemView) {
-            super(itemView, mMultiSelector);
-
-            mBridgeImage = (ImageView) itemView.findViewById(R.id.bridge_list_image);
-            mStatusIcon =  (ImageView) itemView.findViewById(R.id.bridge_list_statusicon);
-            mTitleTextView = (TextView) itemView.findViewById(R.id.bridge_list_name);
-            mDateTextView = (TextView) itemView.findViewById(R.id.bridge_list_distance);
-            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.bridge_list_checkbox);
-
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-            itemView.setLongClickable(true);
-        }
-
-        public void bindBridge(Bridge bridge) {
-            mBridge = bridge;
-
-
-            if(!bridge.isOpen()) {
-                mStatusIcon.setImageResource(R.mipmap.ic_greencircle);
-            }
-            else{
-                mStatusIcon.setImageResource(R.mipmap.ic_redcircle);
-            }
-
-            //mBridgeImage.setBackgroundResource(R.drawable.bridge_1);
-            Bridge.setBackgroundImage(bridge, mBridgeImage, false);
-
-            mTitleTextView.setText(bridge.getName());
-            mDateTextView.setText("Distance: " + bridge.getDistance() + " km");
-            mSolvedCheckBox.setChecked(false);
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (mBridge == null) {
-                return;
-            }
-            if (!mMultiSelector.tapSelection(this)) {
-                selectBridge(mBridge);
-            }
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            //mMultiSelector.clearSelections();
-            //mMultiSelector.setSelectable(!mMultiSelector.isSelectable());
-            //System.out.println(mMultiSelector.getSelectedPositions().size());
-            ActionBarActivity activity = (ActionBarActivity)getActivity();
-            activity.startSupportActionMode(mDeleteMode);
-            mMultiSelector.setSelectable(!mMultiSelector.isSelectable());
-            mMultiSelector.setSelected(this, true);
-            return true;
-        }
-    }
-
-    private class BridgesAdapter extends RecyclerView.Adapter<BridgeHolder> {
-        @Override
-        public BridgeHolder onCreateViewHolder(ViewGroup parent, int pos) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.bridge_list_layout, parent, false);
-            return new BridgeHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(BridgeHolder holder, int pos) {
-            Bridge bridge = mBridges.get(pos);
-            holder.bindBridge(bridge);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mBridges.size();
-        }
     }
 }

@@ -11,12 +11,12 @@ import android.os.Handler;
  */
 public class ActivityHandler extends Handler {
     public Activity currentActivity;
-    public Fragment currentFragment;
+    public BallotList currentFragment;
     public ActivityHandler(Activity activity){
         this.currentActivity = activity;
     }
 
-    public ActivityHandler(Fragment fragment){
+    public ActivityHandler(BallotList fragment){
         this.currentFragment = fragment;
     }
 
@@ -25,27 +25,12 @@ public class ActivityHandler extends Handler {
         currentActivity.startActivity(nextActivity);
     }
 
-    public void updateBridgeList(){
+    public void updateList(){
         if(currentFragment.isVisible()) {
             currentFragment.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    BridgeFragment fragment = (BridgeFragment)currentFragment;
-                    fragment.mRecyclerView.getAdapter().notifyDataSetChanged();
-                }
-            });
-        }
-    }
-
-    public void updateWatchList(){
-
-        if(currentFragment.isVisible()) {
-            currentFragment.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //watchListFragment.mBridges = new ArrayList<>(Account.watchListMap.values());
-                    WatchListFragment fragment = (WatchListFragment)currentFragment;
-                    fragment.mRecyclerView.getAdapter().notifyDataSetChanged();
+                    currentFragment.updateList();
                 }
             });
         }

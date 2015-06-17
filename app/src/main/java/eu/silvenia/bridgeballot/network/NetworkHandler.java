@@ -6,6 +6,7 @@ package eu.silvenia.bridgeballot.network;
 import java.util.ArrayList;
 
 import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.BallotList;
 import eu.silvenia.bridgeballot.BridgeFragment;
 import eu.silvenia.bridgeballot.MainActivity;
 import eu.silvenia.bridgeballot.MenuActivity;
@@ -121,7 +122,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         }
         //BridgeFragment.handler.updateBridgeList();
 
-        BridgeFragment.mBridges = new ArrayList<>(Account.bridgeMap.values());
+        Account.mBridgeList = new ArrayList<>(Account.bridgeMap.values());
         Account.getWatchList();
     }
 
@@ -134,20 +135,22 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             Account.watchListMap.put(bridge.getId(), bridge);
         }
 
-        WatchListFragment.mBridges = new ArrayList<>(Account.watchListMap.values());
+        Account.mWatchList = new ArrayList<>(Account.watchListMap.values());
 
-        if(WatchListFragment.handler != null)
-            WatchListFragment.handler.updateWatchList();
+        if(WatchListFragment.handler != null) {
+            WatchListFragment.handler.updateList();
+        }
+
     }
 
     public void parseBridgeStatusUpdate(ProtocolMessage message){
         int bridgeId = (int) message.getMessage().get(1);
         boolean status = (boolean) message.getMessage().get(2);
         Account.bridgeMap.get(bridgeId).setOpen(status);
-        if(BridgeFragment.handler != null)
-            BridgeFragment.handler.updateBridgeList();
-        if(WatchListFragment.handler != null)
-            WatchListFragment.handler.updateWatchList();
+
+        if(WatchListFragment.handler != null) {
+            WatchListFragment.handler.updateList();
+        }
     }
 
 
