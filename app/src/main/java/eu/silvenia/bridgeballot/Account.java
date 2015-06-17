@@ -170,7 +170,8 @@ public final class Account {
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_ADD);
         message.add(bridge.getId());
         Account.getChannel().writeAndFlush(message);
-        WatchListFragment.handler.updateList();
+        if(WatchListFragment.handler != null)
+            WatchListFragment.handler.updateList();
     }
 
     public static void removeFromWatchList(int id){
