@@ -6,7 +6,6 @@ package eu.silvenia.bridgeballot.network;
 import java.util.ArrayList;
 
 import eu.silvenia.bridgeballot.Account;
-import eu.silvenia.bridgeballot.ActivityHandler;
 import eu.silvenia.bridgeballot.BridgeFragment;
 import eu.silvenia.bridgeballot.MainActivity;
 import eu.silvenia.bridgeballot.MenuActivity;
@@ -60,18 +59,6 @@ public class NetworkHandler extends ChannelHandlerAdapter {
                 parseLogin(message);
                 break;
             }
-            case MessageType.CREATE_ACCOUNT:{
-                parseCreateAccount(message);
-                break;
-            }
-            case MessageType.DELETE_USER:{
-                parseDeleteUser(message);
-                break;
-            }
-            case MessageType.REQUEST_USERS:{
-                parseGetUser(message);
-                break;
-            }
             case MessageType.DISCONNECT:{
                 ctx.close();
                 break;
@@ -118,23 +105,6 @@ public class NetworkHandler extends ChannelHandlerAdapter {
 
         }
         MainActivity.handler.enableLogin();
-    }
-
-    public void parseCreateAccount(ProtocolMessage message){
-        Integer result = (Integer) message.getMessage().get(1);
-        ActivityHandler.handler.checkCreateAccount(result);
-    }
-
-    public void parseGetUser(ProtocolMessage message){
-        System.out.println("Test3");
-        ArrayList<String> result = (ArrayList) message.getMessage().get(1);
-        ActivityHandler.handler.getUsers(result);
-        System.out.println("Test4");
-    }
-
-    public void parseDeleteUser(ProtocolMessage message){
-        Integer result = (Integer) message.getMessage().get(1);
-        ActivityHandler.handler.checkUserDelete(result);
     }
 
     public void parseBridgeRequest(ProtocolMessage message){

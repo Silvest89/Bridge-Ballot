@@ -27,6 +27,9 @@ public final class Account {
     public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
     public static HashMap<Integer, Bridge> watchListMap = new HashMap<>();
 
+    public static ArrayList<Bridge> mWatchList = new ArrayList<>();
+    public static ArrayList<Bridge> mBridgeList = new ArrayList<>();
+
     public static int getId(){
         return id;
     }
@@ -149,9 +152,9 @@ public final class Account {
         message.add(isOpen);
         Account.getChannel().writeAndFlush(message);
         if(BridgeFragment.handler != null)
-            BridgeFragment.handler.updateBridgeList();
+            BridgeFragment.handler.updateList();
         if(WatchListFragment.handler != null)
-        WatchListFragment.handler.updateWatchList();
+        WatchListFragment.handler.updateList();
         //BridgeFragment.mBridges.addAll(bridgeMap.values());
         //WatchListFragment.mBridges.addAll(watchListMap.values());
     }
@@ -166,7 +169,7 @@ public final class Account {
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_ADD);
         message.add(bridge.getId());
         Account.getChannel().writeAndFlush(message);
-        WatchListFragment.handler.updateWatchList();
+        WatchListFragment.handler.updateList();
     }
 
     public static void removeFromWatchList(int id){

@@ -13,8 +13,8 @@ import java.util.Properties;
  */
 public class Config {
 
-    private static String notification;
-    private static String gcmToken;
+    private static String notification = "";
+    private static String gcmToken = "";
     private static Properties prop = new Properties();
     public static void readConfig(Context context){
 

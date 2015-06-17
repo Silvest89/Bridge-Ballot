@@ -10,6 +10,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +49,7 @@ import java.util.Properties;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MenuActivity extends  ActionBarActivity {
+public class MenuActivity extends AppCompatActivity {
 
 
 
@@ -65,7 +66,8 @@ public class MenuActivity extends  ActionBarActivity {
     private enum FragmentLocation{
         BRIDGE_LIST,
         WATCH_LIST,
-        ABOUT
+        ABOUT,
+        ADMIN_BRIDGES
     }
 
     @Override
@@ -77,7 +79,7 @@ public class MenuActivity extends  ActionBarActivity {
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);
 
         if (Account.getAccessLevel() != 0){
-            mFragmentTitles = Arrays.copyOf(mFragmentTitles, mFragmentTitles.length - 1);
+            mFragmentTitles = Arrays.copyOf(mFragmentTitles, mFragmentTitles.length - 2);
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -221,7 +223,12 @@ public class MenuActivity extends  ActionBarActivity {
 
             case 2 :{
                 startActivity(new Intent(this, DeleteUserActivity.class));
-                return;
+                break;
+            }
+            case 3: {
+                fragment = new AdminBridges();
+                location = FragmentLocation.ADMIN_BRIDGES;
+                break;
             }
             default:
                 break;
