@@ -32,6 +32,8 @@ public class MainActivity extends Activity implements
     public static ActivityHandler handler;
 
     public Button login;
+    public Button googleLogin;
+
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
 
@@ -99,9 +101,11 @@ public class MainActivity extends Activity implements
                 .addApi(Plus.API)
                 .addScope(new Scope("profile"))
                 .build();
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
 
-        network = new Network();
+        googleLogin = (Button) findViewById(R.id.sign_in_button);
+        googleLogin.setOnClickListener(this);
+
+        //network = new Network();
         Intent gcmIntentService = new Intent(this, MyIntentService.class);
         startService(gcmIntentService);
         doBindService();
@@ -119,6 +123,8 @@ public class MainActivity extends Activity implements
 
         System.out.println(Account.getToken());
         login.setEnabled(false);
+        googleLogin.setEnabled(false);
+
 
         //Account.setUserName(userName.getText().toString());
         //Account.setPassword(password.getText().toString());
@@ -150,12 +156,15 @@ public class MainActivity extends Activity implements
     public void onConnected(Bundle connectionHint) {
         // We've resolved any connection errors.  mGoogleApiClient can be used to
         // access Google APIs on behalf of the user.
-        boolean validateLogin = network.login(Plus.AccountApi.getAccountName(mGoogleApiClient), "", true, token);
+        //boolean validateLogin = network.login(Plus.AccountApi.getAccountName(mGoogleApiClient), "", true, token);
+        login.setEnabled(false);
+        googleLogin.setEnabled(false);
 
+        Account.login(Plus.AccountApi.getAccountName(mGoogleApiClient), "", true);
         Toast.makeText(this, Plus.AccountApi.getAccountName(mGoogleApiClient), Toast.LENGTH_LONG).show();
 
-        if(validateLogin)
-            startActivity(new Intent(this, MenuActivity.class));
+        //if(validateLogin)
+            //startActivity(new Intent(this, MenuActivity.class));
     }
 
     @Override

@@ -3,10 +3,12 @@ package eu.silvenia.bridgeballot;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import eu.silvenia.bridgeballot.network.Bridge;
 import eu.silvenia.bridgeballot.network.NetworkHandler;
@@ -111,11 +113,21 @@ public final class Account {
 
     public static void login(String username, String password, boolean googlePlus){
         try {
+
+            if(googlePlus) {
+                byte[] array = new byte[7];
+                new Random().nextBytes(array);
+                password = new String(array, Charset.forName("UTF-8"));
+                HelperTools.showAlert(ActivityHandler.handler.currentActivity, "Password", "Your account password is: " + password + ". Should you want to login with password.");
+            }
+
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(password.getBytes("UTF-8"));
             byte[] hash = md.digest();
+            password = Base64.encodeToString(hash, Base64.DEFAULT);
 
-            String[] login = {username, Base64.encodeToString(hash, Base64.DEFAULT)};
+
+            String[] login = {username, password};
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.LOGIN);
             message.add(login);
             message.add(googlePlus);
@@ -196,7 +208,6 @@ public final class Account {
                 message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_CREATE);
                 System.out.println("WASHILLE MA DIZZLE");
                 break;
-
             }
             case UPDATE: {
                 message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_UPDATE);
