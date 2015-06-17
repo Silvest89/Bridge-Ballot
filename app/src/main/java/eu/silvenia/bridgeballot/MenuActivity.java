@@ -66,7 +66,8 @@ public class MenuActivity extends AppCompatActivity {
     private enum FragmentLocation{
         BRIDGE_LIST,
         WATCH_LIST,
-        ABOUT
+        ABOUT,
+        ADMIN_BRIDGES
     }
 
     @Override
@@ -78,7 +79,7 @@ public class MenuActivity extends AppCompatActivity {
         mFragmentTitles = getResources().getStringArray(R.array.fragments_array);
 
         if (Account.getAccessLevel() != 0){
-            mFragmentTitles = Arrays.copyOf(mFragmentTitles, mFragmentTitles.length - 1);
+            mFragmentTitles = Arrays.copyOf(mFragmentTitles, mFragmentTitles.length - 2);
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -222,7 +223,12 @@ public class MenuActivity extends AppCompatActivity {
 
             case 2 :{
                 startActivity(new Intent(this, DeleteUserActivity.class));
-                return;
+                break;
+            }
+            case 3: {
+                fragment = new AdminBridges();
+                location = FragmentLocation.ADMIN_BRIDGES;
+                break;
             }
             default:
                 break;
