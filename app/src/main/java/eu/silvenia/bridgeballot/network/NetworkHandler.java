@@ -35,6 +35,9 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         public static final int WATCHLIST_DELETE = 13;
 
         public static final int BRIDGE_STATUS_UPDATE = 14;
+        public static final int BRIDGE_CREATE = 15;
+        public static final int BRIDGE_UPDATE = 16;
+        public static final int BRIDGE_DELETE = 17;
     }
 
     /**

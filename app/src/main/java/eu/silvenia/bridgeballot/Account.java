@@ -189,4 +189,26 @@ public final class Account {
             Config.setGcmToken(token);
         }
     }
+    public static void CRUDBridge(AdminBridges.CRUDType type, ArrayList<String> bridge){
+        ProtocolMessage message = null;
+        switch(type){
+            case CREATE: {
+                message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_CREATE);
+                break;
+
+            }
+            case UPDATE: {
+                message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_UPDATE);
+                break;
+
+            }
+            case DELETE: {
+                message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_DELETE);
+                break;
+            }
+        }
+        message.add(bridge);
+        Account.getChannel().writeAndFlush(message);
+
+    }
 }
