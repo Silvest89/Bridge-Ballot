@@ -60,12 +60,16 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         super.onCreate(savedInstanceState);
         ActivityHandler.handler = new ActivityHandler(this);
 
+        reputationList.clear();
+
         setContentView(R.layout.activity_bridge_detail);
         ImageView detailLayout = (ImageView) findViewById(R.id.imageViewBackground);
 
         id = getIntent().getExtras().getInt("ID");
 
         selectedBridge = Account.bridgeMap.get(id);
+        Account.sendReputationRequest(selectedBridge.getId());
+        reputationList  = selectedBridge.repList;
         Bridge.setBackgroundImage(selectedBridge, detailLayout, true);
 
         distance = (TextView)findViewById(R.id.distance);
@@ -81,13 +85,6 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        int i = 0;
-        while(i < 10){
-            Client client = new Client(1, "test", 5, new Date(), false);
-
-            reputationList.add(client);
-            i++;
-        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.reputation_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -123,7 +120,6 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             status.setTextColor(Color.GREEN);
             status.setText("Closed");
         }
-
     }
 
     public void resetStatus(View v){
@@ -131,7 +127,6 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         Account.updateBridgeStatus(selectedBridge.getId(), false);
         updateStatus();
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -144,7 +139,6 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(14.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         googleMap.moveCamera(cameraUpdate);
-
     }
 
     private class ReputationHolder extends RecyclerView.ViewHolder
@@ -185,18 +179,14 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             SimpleDateFormat sf = new SimpleDateFormat("dd-MM kk:mm:ss");
             String date = sf.format(client.getTimeStamp());
             timeStamp.setText(date);
-
         }
 
         @Override
         public void onClick(View v) {
-
-
         }
 
         @Override
         public boolean onLongClick(View v) {
-
             return true;
         }
     }
@@ -205,7 +195,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         @Override
         public ReputationHolder onCreateViewHolder(ViewGroup parent, int pos) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.reputation_list, parent, false);
+            .inflate(R.layout.reputation_list, parent, false);
             return new ReputationHolder(view);
         }
 

@@ -4,6 +4,7 @@ package eu.silvenia.bridgeballot.network;
 import android.widget.ImageView;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import eu.silvenia.bridgeballot.R;
 
@@ -30,6 +31,8 @@ public class Bridge implements Serializable {
         this.distance = 0;
         this.isOpen = isOpen;
     }
+
+    public ArrayList<Client> repList = new ArrayList<>();
 
     public int getId() {
         return id;

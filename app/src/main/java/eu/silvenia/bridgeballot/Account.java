@@ -221,6 +221,12 @@ public final class Account {
         }
         message.add(bridge);
         Account.getChannel().writeAndFlush(message);
+    }
 
+    public static void sendReputationRequest(int bridgeId){
+        ProtocolMessage message = null;
+        message = new ProtocolMessage(NetworkHandler.MessageType.REPUTATION);
+        message.add(bridgeId);
+        Account.getChannel().writeAndFlush(message);
     }
 }

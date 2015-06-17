@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements
     public static ActivityHandler handler;
 
     public Button login;
-    public Button googleLogin;
+    public com.google.android.gms.common.SignInButton googleLogin;
 
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements
                 .addScope(new Scope("profile"))
                 .build();
 
-        googleLogin = (Button) findViewById(R.id.sign_in_button);
+        googleLogin = (com.google.android.gms.common.SignInButton) findViewById(R.id.sign_in_button);
         googleLogin.setOnClickListener(this);
 
         //network = new Network();

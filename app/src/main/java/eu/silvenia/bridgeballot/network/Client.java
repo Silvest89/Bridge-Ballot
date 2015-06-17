@@ -1,5 +1,6 @@
 package eu.silvenia.bridgeballot.network;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -11,13 +12,19 @@ public class Client {
     private int reputation;
     private Date timeStamp;
     private boolean status;
+    private int bridgeId;
 
-    public Client(int id, String userName, int reputation, Date timeStamp, boolean status){
+
+
+
+
+    public Client(int id, String userName, int reputation, Date timeStamp, boolean status, int bridgeId){
         this.id = id;
         this.userName = userName;
         this.reputation = reputation;
         this.timeStamp = timeStamp;
         this.status = status;
+        this.bridgeId = bridgeId;
     }
 
     public int getId() {
@@ -39,4 +46,10 @@ public class Client {
     public boolean getStatus() {
         return status;
     }
+
+    public int getBridgeId() {
+        return bridgeId;
+    }
+
+
 }

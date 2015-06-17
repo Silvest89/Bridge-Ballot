@@ -6,13 +6,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="52dp" />
     <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageView" android:nestedScrollingEnabled="false"
-        android:layout_marginBottom="49dp"
-        android:layout_alignParentBottom="true" android:src="@drawable/fblogo"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="48dp"
+        android:src="@drawable/fblogo"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textView5" />
     <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/imageView2" android:nestedScrollingEnabled="false"
         android:src="@drawable/twitterlogo" android:clickable="true"
         android:layout_alignTop="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_toStartOf="@+id/textView5" />
 
     <ImageView
         android:layout_width="wrap_content"

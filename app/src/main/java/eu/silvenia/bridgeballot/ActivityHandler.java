@@ -98,4 +98,11 @@ public class ActivityHandler extends Handler {
             }
         });
     }
+
+    public void updateRepList(){
+        if(currentActivity instanceof DetailPage){
+            DetailPage detailPage = (DetailPage) currentActivity;
+            detailPage.mRecyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
 }

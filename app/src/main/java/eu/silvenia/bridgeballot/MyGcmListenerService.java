@@ -57,14 +57,12 @@ public class MyGcmListenerService extends GcmListenerService {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
 
-
         notification.setSmallIcon(R.mipmap.ic_launcher);
         notification.setTicker("Bridge-Ballot Notification");
         notification.setWhen(System.currentTimeMillis());
         notification.setContentTitle("Bridge-ballot Notif");
         notification.setContentText(context);
         notification.setAutoCancel(true);
-
 
         PendingIntent myPendingIntent;
         Intent myIntent = new Intent();
@@ -74,7 +72,6 @@ public class MyGcmListenerService extends GcmListenerService {
         //myIntent.putExtra("ID", 1);
         myPendingIntent = PendingIntent.getActivity(myContext, 0, myIntent, 0);
         notification.setContentIntent(myPendingIntent);
-
 
         Notification n = notification.build();
         n.flags|= Notification.FLAG_AUTO_CANCEL;

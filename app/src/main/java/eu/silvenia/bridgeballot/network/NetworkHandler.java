@@ -4,9 +4,12 @@ package eu.silvenia.bridgeballot.network;
  * Created by Johnnie Ho on 10-6-2015.
  */
 import java.util.ArrayList;
+import java.util.Date;
 
 import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.ActivityHandler;
 import eu.silvenia.bridgeballot.BridgeFragment;
+import eu.silvenia.bridgeballot.DetailPage;
 import eu.silvenia.bridgeballot.MainActivity;
 import eu.silvenia.bridgeballot.MenuActivity;
 import eu.silvenia.bridgeballot.WatchListFragment;
@@ -38,6 +41,8 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         public static final int BRIDGE_CREATE = 15;
         public static final int BRIDGE_UPDATE = 16;
         public static final int BRIDGE_DELETE = 17;
+
+        public static final int REPUTATION = 18;
     }
 
     /**
@@ -78,8 +83,13 @@ public class NetworkHandler extends ChannelHandlerAdapter {
                 parseBridgeStatusUpdate(message);
                 break;
             }
+            case MessageType.REPUTATION:{
+                parseReputation(message);
+                break;
+            }
         }
     }
+
 
 
 
@@ -153,5 +163,21 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             WatchListFragment.handler.updateList();
     }
 
+    private void parseReputation(ProtocolMessage message) {
+        ArrayList<Client> clientList = new ArrayList<>();
+        ArrayList<String[]> list = (ArrayList) message.getMessage().get(1);
+        int bridgeId = 0;
+
+        for(int i = 0; i < list.size(); i++){
+
+            String[] clientRep = list.get(i);
+            bridgeId = Integer.parseInt(clientRep[5]);
+            Client client = new Client(Integer.parseInt(clientRep[0]), clientRep[1], Integer.parseInt(clientRep[2]), new Date (Integer.parseInt(clientRep[3])), Boolean.parseBoolean(clientRep[4]), Integer.parseInt(clientRep[5]));
+            clientList.add(client);
+        }
+        Account.bridgeMap.get(bridgeId).repList.clear();
+        Account.bridgeMap.get(bridgeId).repList.addAll(clientList);
+        ActivityHandler.handler.updateRepList();
+    }
 
 }
