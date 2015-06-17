@@ -1,5 +1,9 @@
 package eu.silvenia.bridgeballot;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -39,5 +43,19 @@ public class HelperTools {
         String formattedDate = sdf.format(date);
 
         return formattedDate;
+    }
+
+    public static void showAlert(Context c, String title, String message){
+        final AlertDialog alert = new AlertDialog.Builder(c).create();
+        alert.setTitle(title);
+        alert.setMessage(message);
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alert.cancel();
+            }
+        });
+        alert.show();
+
     }
 }

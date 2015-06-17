@@ -5,7 +5,6 @@ import android.util.Base64;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import eu.silvenia.bridgeballot.network.Bridge;
@@ -87,6 +86,25 @@ public final class Account {
         setChannel(null);
     }
 
+    public static void createAccount(String username, String password){
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(password.getBytes("UTF-8"));
+            byte[] hash = md.digest();
+
+            String[] accountDetails = {username, Base64.encodeToString(hash, Base64.DEFAULT)};
+            ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.CREATE_ACCOUNT);
+            message.add(accountDetails);
+
+            Account.getChannel().writeAndFlush(message);
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void login(String username, String password, boolean googlePlus){
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -105,6 +123,19 @@ public final class Account {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void requestUsers(){
+        System.out.println("Test1");
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_USERS);
+        Account.getChannel().writeAndFlush(message);
+        System.out.println("Test2");
+    }
+
+    public static void deleteUser(String userName){
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.DELETE_USER);
+        message.add(userName);
+        Account.getChannel().writeAndFlush(message);
     }
 
     public static void requestBridges(){
@@ -146,7 +177,7 @@ public final class Account {
     }
 
     public static void sendGcmToken(String token){
-        if(Config.getGcmToken().equals("")) {
+        if(Config.getGcmToken().equals("") || Config.getGcmToken().equals(null)) {
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.SEND_TOKEN);
             message.add(token);
             Account.getChannel().writeAndFlush(message);

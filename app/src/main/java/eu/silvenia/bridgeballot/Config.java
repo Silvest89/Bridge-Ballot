@@ -47,6 +47,6 @@ public class Config {
 
     public static void setGcmToken(String gcmToken) {
         Config.gcmToken = gcmToken;
-        prop.setProperty("gcmtoken", gcmToken);
+        //prop.setProperty("gcmtoken", gcmToken);
     }
 }

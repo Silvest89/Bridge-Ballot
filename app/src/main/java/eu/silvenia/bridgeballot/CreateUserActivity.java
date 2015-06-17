@@ -14,24 +14,36 @@ import java.util.concurrent.ExecutionException;
  */
 public class CreateUserActivity extends Activity {
 
+    AlertDialog alert;
+
+    EditText userNameET;
+    EditText passwordET;
+    EditText confirmPasswordET;
+
+    String userName;
+    String password;
+    String confirmPassword;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_create);
-
+        ActivityHandler.handler = new ActivityHandler(this);
+        alert = new AlertDialog.Builder(this).create();
     }
 
     public void makeAccount(View v) throws ExecutionException, InterruptedException {
-        final EditText userNameET = (EditText) findViewById(R.id.create_userName);
-        final EditText passwordET = (EditText) findViewById(R.id.create_password);
-        final EditText confirmPasswordET = (EditText) findViewById(R.id.create_confirmPassword);
+        userNameET = (EditText) findViewById(R.id.create_userName);
+        passwordET = (EditText) findViewById(R.id.create_password);
+        confirmPasswordET = (EditText) findViewById(R.id.create_confirmPassword);
 
-        String userName = userNameET.getText().toString();
-        String password = passwordET.getText().toString();
-        String confirmPassword = confirmPasswordET.getText().toString();
+        userName = userNameET.getText().toString();
+        password = passwordET.getText().toString();
+        confirmPassword = confirmPasswordET.getText().toString();
 
         if (userName.length() == 0 || password.length() == 0 || confirmPassword.length() == 0){
-            final AlertDialog alert = new AlertDialog.Builder(this).create();
+
             alert.setTitle("Error");
             alert.setMessage(getString(R.string.create_emptyFields));
             alert.setButton("OK", new DialogInterface.OnClickListener() {
@@ -44,7 +56,6 @@ public class CreateUserActivity extends Activity {
         }
 
         else {
-
             if (!password.equals(confirmPassword)) {
                 final AlertDialog alert = new AlertDialog.Builder(this).create();
                 alert.setTitle("Error");
@@ -60,29 +71,7 @@ public class CreateUserActivity extends Activity {
                 confirmPasswordET.setText(null);
 
             } else {
-                Integer result = MainActivity.network.createAccount(userName, password);
-                final AlertDialog alert = new AlertDialog.Builder(this).create();
-                alert.setButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        alert.cancel();
-                    }
-                });
-                if (result == 0) {
-                    alert.setTitle("Success");
-                    alert.setMessage(getString(R.string.create_alertSuccess));
-                    alert.show();
-                    userNameET.setText(null);
-                    passwordET.setText(null);
-                    confirmPasswordET.setText(null);
-                } else if (result == 2) {
-                    alert.setTitle("Error");
-                    alert.setMessage(getString(R.string.create_alertUserNotUnique));
-                    alert.show();
-                    userNameET.setText(null);
-                    passwordET.setText(null);
-                    confirmPasswordET.setText(null);
-                }
+                Account.createAccount(userName, password);
             }
         }
     }
