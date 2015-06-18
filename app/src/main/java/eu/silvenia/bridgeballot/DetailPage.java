@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.api.Api;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import eu.silvenia.bridgeballot.network.Bridge;
-import eu.silvenia.bridgeballot.network.Client;
+import eu.silvenia.bridgeballot.network.Reputation;
 
 /**
  * Created by Jesse on 10-6-2015.
@@ -61,7 +62,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
     GoogleMap googleMap;
 
-    public static ArrayList<Client> reputationList = new ArrayList<>();
+    public static ArrayList<Reputation> reputationList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
