@@ -1,5 +1,6 @@
 package eu.silvenia.bridgeballot;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -135,6 +136,19 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
+
     public void googleShare(View v){
         googleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
             Bitmap bitmap;
@@ -144,10 +158,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
                 bitmap = snapshot;
                 try {
 
-                    Intent shareIntent = new PlusShare.Builder(getApplicationContext())
+                    Intent shareIntent = new PlusShare.Builder(ActivityHandler.handler.currentActivity)
                             .setType("video/*, image/*")
                             .setText("I am @ " + selectedBridge.getName())
-                            .addStream(HelperTools.getImageUri(getApplicationContext(), bitmap))
+                            .addStream(HelperTools.getImageUri(ActivityHandler.handler.currentActivity, bitmap))
                             //.setContentUrl(Uri.parse("https://developers.google.com/+/"))
                             .getIntent();
 
