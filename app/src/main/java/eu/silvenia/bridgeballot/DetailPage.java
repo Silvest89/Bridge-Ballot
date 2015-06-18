@@ -1,15 +1,9 @@
 package eu.silvenia.bridgeballot;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,20 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,7 +27,6 @@ import com.google.android.gms.plus.PlusShare;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import eu.silvenia.bridgeballot.network.Bridge;
 import eu.silvenia.bridgeballot.network.Client;
@@ -120,13 +106,13 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
 
     public void onVote(View v){
-        if(canPress()) {
+        //if(canPress()) {
             selectedBridge.setOpen(true);
             Account.updateBridgeStatus(selectedBridge.getId(), true);
             updateStatus();
-        }
-        else
-            HelperTools.showAlert(this, "Error", "You need to be within 500m");
+        //}
+       //else
+            //HelperTools.showAlert(this, "Error", "You need to be within 500m");
     }
 
     public void updateStatus(){

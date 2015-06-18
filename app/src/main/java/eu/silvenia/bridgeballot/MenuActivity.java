@@ -2,14 +2,12 @@ package eu.silvenia.bridgeballot;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.Arrays;
-import java.util.Properties;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -181,15 +178,20 @@ public class MenuActivity extends AppCompatActivity {
             }
             case R.id.action_settings:{
                 startActivity(new Intent(this, BallotSettings.class));
+                break;
             }
             case R.id.action_logout:{
                 Account.resetAccount();
                 startActivity(new Intent(this, MainActivity.class));
+                break;
             }
             default:
                 return super.onOptionsItemSelected(item);
         }
         invalidateOptionsMenu();
+        if (fragment == null){
+            return false;
+        }
         FragmentManager fragmentManager = getFragmentManager();
 
         fragmentManager.beginTransaction().

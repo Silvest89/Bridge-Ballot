@@ -3,7 +3,6 @@ package eu.silvenia.bridgeballot;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,9 +24,7 @@ import com.bignerdranch.android.multiselector.SwappingHolder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import eu.silvenia.bridgeballot.network.Bridge;
 
@@ -63,7 +60,7 @@ public abstract class BallotList extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        sort();
+        //sort();
     }
 
     protected void selectBridge(Bridge c) {
