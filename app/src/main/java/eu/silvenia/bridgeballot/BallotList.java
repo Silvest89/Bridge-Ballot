@@ -23,7 +23,10 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SwappingHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import eu.silvenia.bridgeballot.network.Bridge;
@@ -76,6 +79,7 @@ public abstract class BallotList extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
+        sort();
     }
 
     protected void selectBridge(Bridge c) {
@@ -227,5 +231,13 @@ public abstract class BallotList extends Fragment {
         public int getItemCount() {
             return mBridges.size();
         }
+    }
+    public void sort() {
+        Collections.sort((List<Bridge>) this, new Comparator<Bridge>() {
+            @Override
+            public int compare(Bridge item1, Bridge item2) {
+                return Double.compare(item1.getDistance(), item2.getDistance());
+            }
+        });
     }
 }
