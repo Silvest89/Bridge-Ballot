@@ -3,13 +3,21 @@ package eu.silvenia.bridgeballot;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import eu.silvenia.bridgeballot.network.Bridge;
 
 /**
  * Created by Johnnie Ho on 5-6-2015.
@@ -57,6 +65,13 @@ public class HelperTools {
         return formattedDate;
     }
 
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
     public static void showAlert(Context c, String title, String message){
         final AlertDialog alert = new AlertDialog.Builder(c).create();
         alert.setTitle(title);
@@ -69,5 +84,21 @@ public class HelperTools {
         });
         alert.show();
 
+    }
+
+    public static void updateBridgeDistance(){
+        double longitude = GPSservice.longitude;
+        double latitude = GPSservice.latitude;
+        if(!Account.bridgeMap.isEmpty()){
+            Iterator it = Account.bridgeMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                Bridge bridge = (Bridge) pair.getValue();
+                if(bridge != null) {
+                    double distance = calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude());
+                    bridge.setDistance(distance);
+                }
+            }
+        }
     }
 }

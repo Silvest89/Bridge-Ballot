@@ -9,15 +9,13 @@
 
     <TextView
         android:id="@+id/rep_userName"
-        android:layout_width="80dp"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:text="johnnieho8944"
         android:textSize="11dp"
-        android:layout_column="0"
+        android:layout_column="1"
         android:layout_row="0"
-        android:textColor="#33CC33"
-
-        />
+        android:textColor="#33CC33" />
 
     <TextView
         android:id="@+id/rep_reputation"
@@ -25,11 +23,8 @@
         android:layout_height="wrap_content"
         android:text="500"
         android:textSize="11dp"
-        android:layout_column="1"
-        android:layout_row="0"
-
-
-        />
+        android:layout_column="2"
+        android:layout_row="0" />
 
     <TextView
         android:id="@+id/rep_timeStamp"
@@ -37,22 +32,15 @@
         android:layout_height="wrap_content"
         android:text="2222-222222"
         android:textSize="12dp"
-        android:layout_column="2"
-        android:layout_row="0"
-
-
-        />
+        android:layout_column="3"
+        android:layout_row="0" />
 
     <ImageView
         android:id="@+id/rep_status"
         android:layout_width="30dp"
         android:layout_height="25dp"
-        android:layout_column="3"
-        android:layout_row="0"
-
-
-
-        />
+        android:layout_column="0"
+        android:layout_row="0" />
 
     <Button
         android:id="@+id/rep_button"
@@ -61,10 +49,7 @@
         android:layout_column="4"
         android:layout_row="0"
         android:layout_gravity="end"
-        android:background="@drawable/dislike_button"
-
-
-        />
+        android:background="@drawable/dislike_button" />
 
     <View
         android:layout_width="match_parent"
@@ -73,4 +58,5 @@
         android:layout_columnSpan="5"
         android:layout_row="1"
         android:background="#000000"/>
+
 </GridLayout>

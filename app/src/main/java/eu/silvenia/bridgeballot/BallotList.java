@@ -42,28 +42,12 @@ public abstract class BallotList extends Fragment {
 
     public ArrayList<Bridge> mBridges = new ArrayList<>();
 
-    protected void updateBridgeDistance(){
-        double longitude = GPSservice.longitude;
-        double latitude = GPSservice.latitude;
-        if(!Account.bridgeMap.isEmpty()){
-            Iterator it = Account.bridgeMap.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                Bridge bridge = (Bridge) pair.getValue();
-                if(bridge != null) {
-                    double distance = HelperTools.calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude());
-                    bridge.setDistance((int) distance);
-                }
-            }
-        }
-    }
-
     public void setupView(View view){
         mRecyclerView = (RecyclerView) view.findViewById(R.id.bridgelist_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new BridgeAdapter());
 
-        updateBridgeDistance();
+        HelperTools.updateBridgeDistance();
     }
 
     abstract public void updateList();
@@ -83,6 +67,7 @@ public abstract class BallotList extends Fragment {
         int id = c.getId();
         BridgeHolder holder = (BridgeHolder) mRecyclerView
                 .findViewHolderForPosition(index);
+
         Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
         Intent DetailPage = new Intent(getActivity() , eu.silvenia.bridgeballot.DetailPage.class);
         DetailPage.putExtra("ID",id);
@@ -184,7 +169,7 @@ public abstract class BallotList extends Fragment {
             Bridge.setBackgroundImage(bridge, mBridgeImage, false);
 
             mTitleTextView.setText(bridge.getName());
-            mDateTextView.setText("Distance: " + bridge.getDistance() + " km");
+            mDateTextView.setText("Distance: " + bridge.getDistance() + " m");
             mSolvedCheckBox.setChecked(false);
         }
 

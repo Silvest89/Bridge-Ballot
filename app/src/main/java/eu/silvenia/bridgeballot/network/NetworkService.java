@@ -37,8 +37,6 @@ public class NetworkService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
-        System.out.println("I am in Ibinder onBind method");
         return myBinder;
     }
 
@@ -46,7 +44,6 @@ public class NetworkService extends Service {
 
     public class LocalBinder extends Binder {
         public NetworkService getService() {
-            System.out.println("I am in Localbinder ");
             return NetworkService.this;
         }
     }
@@ -54,16 +51,16 @@ public class NetworkService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        System.out.println("I am in on create");
     }
 
     @Override
     public int onStartCommand(Intent intent,int flags, int startId){
         super.onStartCommand(intent, flags, startId);
-        System.out.println("I am in on start");
-        //  Toast.makeText(this,"Service created ...", Toast.LENGTH_LONG).show();
-        // Configure SSL.
 
+        return START_STICKY;
+    }
+
+    public void connect(){
         new Thread(new Runnable() {
             public void run(){
                 EventLoopGroup group = new NioEventLoopGroup();
@@ -92,8 +89,6 @@ public class NetworkService extends Service {
                 }
             }
         }).start();
-
-        return START_STICKY;
     }
 
     @Override

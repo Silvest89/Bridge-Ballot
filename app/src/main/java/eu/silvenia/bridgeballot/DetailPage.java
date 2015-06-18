@@ -2,7 +2,10 @@ package eu.silvenia.bridgeballot;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -33,6 +36,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.plus.PlusShare;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,12 +50,16 @@ import eu.silvenia.bridgeballot.network.Client;
  */
 public class DetailPage extends AppCompatActivity implements OnMapReadyCallback {
     Bridge selectedBridge;
-    int id;
+
     TextView distance;
     TextView city;
     TextView status;
 
+    Button shareButton;
+
     RecyclerView mRecyclerView;
+
+    GoogleMap googleMap;
 
     public static ArrayList<Client> reputationList = new ArrayList<>();
 
@@ -60,31 +68,37 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         super.onCreate(savedInstanceState);
         ActivityHandler.handler = new ActivityHandler(this);
 
+        int bridgeId = getIntent().getExtras().getInt("ID");
+
         reputationList.clear();
 
         setContentView(R.layout.activity_bridge_detail);
         ImageView detailLayout = (ImageView) findViewById(R.id.imageViewBackground);
+        shareButton = (Button) findViewById(R.id.button6);
+        if(!Account.isGooglePlus())
+            shareButton.setVisibility(View.GONE);
 
-        id = getIntent().getExtras().getInt("ID");
+        selectedBridge = Account.bridgeMap.get(bridgeId);
 
-        selectedBridge = Account.bridgeMap.get(id);
         Account.sendReputationRequest(selectedBridge.getId());
         reputationList  = selectedBridge.repList;
+
         Bridge.setBackgroundImage(selectedBridge, detailLayout, true);
 
         distance = (TextView)findViewById(R.id.distance);
         city = (TextView)findViewById(R.id.city);
         status = (TextView)findViewById(R.id.currentStatus);
-        distance.setText("Distance: " +Double.toString(selectedBridge.getDistance()));
-        city.setText("City: " + selectedBridge.getLocation());
+        distance.setText(Double.toString(selectedBridge.getDistance()) + " m");
+        city.setText(selectedBridge.getLocation());
 
-        getSupportActionBar().setTitle(selectedBridge.getName());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(selectedBridge.getName());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         mRecyclerView = (RecyclerView) findViewById(R.id.reputation_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -106,9 +120,13 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
 
     public void onVote(View v){
-        selectedBridge.setOpen(true);
-        Account.updateBridgeStatus(selectedBridge.getId(), true);
-        updateStatus();
+        if(canPress()) {
+            selectedBridge.setOpen(true);
+            Account.updateBridgeStatus(selectedBridge.getId(), true);
+            updateStatus();
+        }
+        else
+            HelperTools.showAlert(this, "Error", "You need to be within 500m");
     }
 
     public void updateStatus(){
@@ -120,18 +138,46 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             status.setTextColor(Color.GREEN);
             status.setText("Closed");
         }
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
-    public void resetStatus(View v){
-        selectedBridge.setOpen(false);
-        Account.updateBridgeStatus(selectedBridge.getId(), false);
-        updateStatus();
+    private boolean canPress(){
+        if(selectedBridge.getDistance() < 500 && selectedBridge.getDistance() != 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void googleShare(View v){
+        googleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+            Bitmap bitmap;
+
+            @Override
+            public void onSnapshotReady(Bitmap snapshot) {
+                bitmap = snapshot;
+                try {
+
+                    Intent shareIntent = new PlusShare.Builder(getApplicationContext())
+                            .setType("video/*, image/*")
+                            .setText("I am @ " + selectedBridge.getName())
+                            .addStream(HelperTools.getImageUri(getApplicationContext(), bitmap))
+                            //.setContentUrl(Uri.parse("https://developers.google.com/+/"))
+                            .getIntent();
+
+                    startActivityForResult(shareIntent, 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng latLng = new LatLng(selectedBridge.getLatitude(), selectedBridge.getLongitude());
 
+        this.googleMap = googleMap;
         googleMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title(selectedBridge.getName()));
@@ -183,6 +229,12 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
         @Override
         public void onClick(View v) {
+            if(canPress()) {
+
+            }
+            else{
+                HelperTools.showAlert(getApplicationContext(), "Error", "You need to be within 500m");
+            }
         }
 
         @Override
@@ -195,7 +247,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         @Override
         public ReputationHolder onCreateViewHolder(ViewGroup parent, int pos) {
             View view = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.reputation_list, parent, false);
+                    .inflate(R.layout.reputation_list, parent, false);
             return new ReputationHolder(view);
         }
 

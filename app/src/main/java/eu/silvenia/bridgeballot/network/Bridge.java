@@ -58,7 +58,7 @@ public class Bridge implements Serializable {
         return distance;
     }
 
-    public void setDistance(int distance){
+    public void setDistance(double distance){
         this.distance = distance;
     }
 
@@ -140,6 +140,4 @@ public class Bridge implements Serializable {
             }
         }
     }
-
-
 }

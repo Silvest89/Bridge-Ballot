@@ -10,6 +10,7 @@ import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.ActivityHandler;
 import eu.silvenia.bridgeballot.BridgeFragment;
 import eu.silvenia.bridgeballot.DetailPage;
+import eu.silvenia.bridgeballot.HelperTools;
 import eu.silvenia.bridgeballot.MainActivity;
 import eu.silvenia.bridgeballot.MenuActivity;
 import eu.silvenia.bridgeballot.WatchListFragment;
@@ -135,13 +136,13 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         //BridgeFragment.handler.updateBridgeList();
 
         Account.mBridgeList = new ArrayList<>(Account.bridgeMap.values());
+        HelperTools.updateBridgeDistance();
         Account.getWatchList();
     }
 
     public void parseWatchListRequest(ProtocolMessage message){
         ArrayList<String[]> watchList = (ArrayList)message.getMessage().get(1);
 
-        System.out.println(watchList);
         for(int i = 0; i< watchList.size(); i++) {
             Bridge bridge = Account.bridgeMap.get(Integer.parseInt(watchList.get(i)[0]));
             Account.watchListMap.put(bridge.getId(), bridge);
@@ -157,6 +158,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         int bridgeId = (int) message.getMessage().get(1);
         boolean status = (boolean) message.getMessage().get(2);
         Account.bridgeMap.get(bridgeId).setOpen(status);
+
         if(BridgeFragment.handler != null)
             BridgeFragment.handler.updateList();
         if(WatchListFragment.handler != null)
@@ -169,12 +171,14 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         int bridgeId = 0;
 
         for(int i = 0; i < list.size(); i++){
-
             String[] clientRep = list.get(i);
+
             bridgeId = Integer.parseInt(clientRep[5]);
+
             Client client = new Client(Integer.parseInt(clientRep[0]), clientRep[1], Integer.parseInt(clientRep[2]), new Date (Integer.parseInt(clientRep[3])), Boolean.parseBoolean(clientRep[4]), Integer.parseInt(clientRep[5]));
             clientList.add(client);
         }
+
         Account.bridgeMap.get(bridgeId).repList.clear();
         Account.bridgeMap.get(bridgeId).repList.addAll(clientList);
         ActivityHandler.handler.updateRepList();

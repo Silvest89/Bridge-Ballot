@@ -61,7 +61,9 @@ public class BridgeFragment extends BallotList {
 
         handler = new ActivityHandler(this);
 
-        Account.requestBridges();
+        if(Account.mBridgeList.isEmpty())
+            Account.requestBridges();
+
         setupView(v);
 
         return v;

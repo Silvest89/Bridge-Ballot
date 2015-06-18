@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
@@ -46,15 +47,14 @@ public class MainActivity extends Activity implements
         //EDITED PART
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            // TODO Auto-generated method stub
             mBoundService = ((NetworkService.LocalBinder)service).getService();
+            mBoundService.connect();
             //mBoundService.test();
             System.out.println(HelperTools.getCurrentTimeStamp() + "NetworkService bound.");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            // TODO Auto-generated method stub
             mBoundService = null;
         }
 
@@ -99,7 +99,7 @@ public class MainActivity extends Activity implements
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
-                .addScope(new Scope("profile"))
+                .addScope(new Scope(Scopes.PLUS_LOGIN))
                 .build();
 
         googleLogin = (com.google.android.gms.common.SignInButton) findViewById(R.id.sign_in_button);
@@ -109,6 +109,7 @@ public class MainActivity extends Activity implements
         Intent gcmIntentService = new Intent(this, MyIntentService.class);
         startService(gcmIntentService);
         doBindService();
+        //mBoundService.connect();
     }
 
     @Override
