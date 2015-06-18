@@ -80,7 +80,6 @@ public class ActivityHandler extends Handler {
     }
 
     public void getUsers(final ArrayList<String> users){
-        System.out.println("Test6");
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -101,8 +100,13 @@ public class ActivityHandler extends Handler {
 
     public void updateRepList(){
         if(currentActivity instanceof DetailPage){
-            DetailPage detailPage = (DetailPage) currentActivity;
-            detailPage.mRecyclerView.getAdapter().notifyDataSetChanged();
+            final DetailPage detailPage = (DetailPage) currentActivity;
+            detailPage.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    detailPage.mRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+            });
         }
     }
 }

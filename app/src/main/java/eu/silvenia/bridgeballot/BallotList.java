@@ -63,7 +63,7 @@ public abstract class BallotList extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        sort();
+        //sort();
     }
 
     protected void selectBridge(Bridge c) {

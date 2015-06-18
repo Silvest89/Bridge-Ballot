@@ -32,7 +32,7 @@ public class Bridge implements Serializable  {
         this.isOpen = isOpen;
     }
 
-    public ArrayList<Client> repList = new ArrayList<>();
+    public ArrayList<Reputation> repList = new ArrayList<>();
 
     public int getId() {
         return id;

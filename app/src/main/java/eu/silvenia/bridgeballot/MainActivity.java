@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
 
-    /* Client used to interact with Google APIs. */
+    /* Reputation used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
 
     NetworkService mBoundService;

@@ -1,15 +1,9 @@
 package eu.silvenia.bridgeballot;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,20 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,10 +27,9 @@ import com.google.android.gms.plus.PlusShare;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import eu.silvenia.bridgeballot.network.Bridge;
-import eu.silvenia.bridgeballot.network.Client;
+import eu.silvenia.bridgeballot.network.Reputation;
 
 /**
  * Created by Jesse on 10-6-2015.
@@ -61,7 +47,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
     GoogleMap googleMap;
 
-    public static ArrayList<Client> reputationList = new ArrayList<>();
+    public static ArrayList<Reputation> reputationList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +56,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
         int bridgeId = getIntent().getExtras().getInt("ID");
 
-        reputationList.clear();
+        //reputationList.clear();
 
         setContentView(R.layout.activity_bridge_detail);
         ImageView detailLayout = (ImageView) findViewById(R.id.imageViewBackground);
@@ -117,7 +103,6 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     public void onVote(View v){
         if(canPress()) {
@@ -187,6 +172,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         googleMap.moveCamera(cameraUpdate);
     }
 
+
     private class ReputationHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
@@ -195,7 +181,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         private final TextView timeStamp;
         private final ImageView status;
         private final Button button;
-        private Client mClient;
+        private Reputation mReputation;
 
         public ReputationHolder(View itemView) {
             super(itemView);
@@ -211,26 +197,27 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             //itemView.setLongClickable(true);
         }
 
-        public void bindBridge(Client client) {
-            mClient = client;
+        public void bindBridge(Reputation reputation) {
+            mReputation = reputation;
 
-            userName.setText(client.getUserName());
+            userName.setText(reputation.getUserName());
             button.setBackgroundResource(R.drawable.dislike_button);
-            reputation.setText(Integer.toString(client.getReputation()));
-            if(client.getStatus())
+            this.reputation.setText(Integer.toString(reputation.getReputation()));
+            if(reputation.isStatus())
                 status.setBackgroundResource(R.mipmap.ic_redcircle);
             else
                 status.setBackgroundResource(R.mipmap.ic_greencircle);
 
             SimpleDateFormat sf = new SimpleDateFormat("dd-MM kk:mm:ss");
-            String date = sf.format(client.getTimeStamp());
+            String date = sf.format(reputation.getTimeStamp());
             timeStamp.setText(date);
         }
+
 
         @Override
         public void onClick(View v) {
             if(canPress()) {
-
+                Account.sendReputationUpdate(mReputation.getVoteId(), Account.getId(), mReputation.getAccountId(), mReputation.getBridgeId());
             }
             else{
                 HelperTools.showAlert(getApplicationContext(), "Error", "You need to be within 500m");
@@ -253,8 +240,8 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
         @Override
         public void onBindViewHolder(ReputationHolder holder, int pos) {
-            Client client = reputationList.get(pos);
-            holder.bindBridge(client);
+            Reputation reputation = reputationList.get(pos);
+            holder.bindBridge(reputation);
         }
 
         @Override
@@ -262,4 +249,5 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             return reputationList.size();
         }
     }
+
 }

@@ -229,4 +229,13 @@ public final class Account {
         message.add(bridgeId);
         Account.getChannel().writeAndFlush(message);
     }
+
+    public static void sendReputationUpdate(int voteId, int userId, int targetId, int bridgeId){
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REPUTATION_CHANGE);
+        message.add(voteId);
+        message.add(userId);
+        message.add(targetId);
+        message.add(bridgeId);
+        Account.getChannel().writeAndFlush(message);
+    }
 }
