@@ -1,6 +1,7 @@
 package eu.silvenia.bridgeballot;
 
 import android.util.Base64;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -113,12 +114,11 @@ public final class Account {
 
     public static void login(String username, String password, boolean googlePlus){
         try {
-
+            System.out.println(googlePlus);
             if(googlePlus) {
-                byte[] array = new byte[7];
-                new Random().nextBytes(array);
-                password = new String(array, Charset.forName("UTF-8"));
+                password = HelperTools.getRandomString(8);
                 HelperTools.showAlert(ActivityHandler.handler.currentActivity, "Password", "Your account password is: " + password + ". Should you want to login with password.");
+                Toast.makeText(ActivityHandler.handler.currentActivity, "Your account password is: " + password + ". Should you want to login with password.", Toast.LENGTH_LONG);
             }
 
             MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -134,9 +134,7 @@ public final class Account {
 
             Account.getChannel().writeAndFlush(message);
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }

@@ -99,7 +99,8 @@ public class MainActivity extends Activity implements
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
-                .addScope(new Scope(Scopes.PLUS_LOGIN))
+                .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .addScope(Plus.SCOPE_PLUS_PROFILE)
                 .build();
 
         googleLogin = (com.google.android.gms.common.SignInButton) findViewById(R.id.sign_in_button);
@@ -160,9 +161,10 @@ public class MainActivity extends Activity implements
         //boolean validateLogin = network.login(Plus.AccountApi.getAccountName(mGoogleApiClient), "", true, token);
         login.setEnabled(false);
         googleLogin.setEnabled(false);
+        Account.setGooglePlus(true);
 
         Account.login(Plus.AccountApi.getAccountName(mGoogleApiClient), "", true);
-        Toast.makeText(this, Plus.AccountApi.getAccountName(mGoogleApiClient), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, Plus.AccountApi.getAccountName(mGoogleApiClient), Toast.LENGTH_LONG).show();
 
         //if(validateLogin)
             //startActivity(new Intent(this, MenuActivity.class));
