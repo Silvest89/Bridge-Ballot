@@ -7,12 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,8 +39,9 @@ import eu.silvenia.bridgeballot.network.Bridge;
 public abstract class BallotList extends Fragment {
 
     protected BallotList ballot;
-
+    private EditText searchbar;
     protected String title;
+    private BridgeAdapter adapter;
 
     public RecyclerView mRecyclerView;
     protected MultiSelector mMultiSelector = new MultiSelector();
@@ -60,8 +66,25 @@ public abstract class BallotList extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        //sort();
+        searchbar = (EditText) mRecyclerView.findViewById(R.id.search_bar);
+        searchbar.addTextChangedListener(new TextWatcher() {
+        //TODO
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Call back the Adapter with current character to Filter
+                adapter.getFilter().filter(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
+
 
     protected void selectBridge(Bridge c) {
         int index = mBridges.indexOf(c);
@@ -157,7 +180,7 @@ public abstract class BallotList extends Fragment {
 
         public void bindBridge(Bridge bridge) {
             mBridge = bridge;
-
+            Collections.sort(mBridges,new DistanceSorter());
 
             if(!bridge.isOpen()) {
                 mStatusIcon.setImageResource(R.mipmap.ic_greencircle);
@@ -195,7 +218,7 @@ public abstract class BallotList extends Fragment {
         }
     }
 
-    protected class BridgeAdapter extends RecyclerView.Adapter<BridgeHolder> {
+    protected class BridgeAdapter extends RecyclerView.Adapter<BridgeHolder> implements Filterable{
         @Override
         public BridgeHolder onCreateViewHolder(ViewGroup parent, int pos) {
             View view = LayoutInflater.from(parent.getContext())
@@ -213,13 +236,11 @@ public abstract class BallotList extends Fragment {
         public int getItemCount() {
             return mBridges.size();
         }
-    }
-    public void sort() {
-        Collections.sort((List<Bridge>) this, new Comparator<Bridge>() {
-            @Override
-            public int compare(Bridge item1, Bridge item2) {
-                return Double.compare(item1.getDistance(), item2.getDistance());
-            }
-        });
+
+        @Override
+        public Filter getFilter() {
+            //TODO
+            return null;
+        }
     }
 }

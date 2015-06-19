@@ -5,13 +5,14 @@ import android.widget.ImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import eu.silvenia.bridgeballot.R;
 
 /**
  * Created by Johnnie Ho on 6-6-2015.
  */
-public class Bridge implements Serializable  {
+public class Bridge implements Serializable {
 
     private static final long serialVersionUID = 5950169519310163575L;
 
