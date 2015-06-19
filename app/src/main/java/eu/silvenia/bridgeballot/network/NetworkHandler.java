@@ -11,7 +11,6 @@ import eu.silvenia.bridgeballot.ActivityHandler;
 import eu.silvenia.bridgeballot.Bridge;
 import eu.silvenia.bridgeballot.HelperTools;
 import eu.silvenia.bridgeballot.Reputation;
-import eu.silvenia.bridgeballot.activity.Main;
 import eu.silvenia.bridgeballot.activity.Menu;
 import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 import io.netty.channel.ChannelHandlerAdapter;
@@ -115,7 +114,6 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             Account.requestBridges();
             ActivityHandler.handler.switchActivity(Menu.class);
         }
-
         ActivityHandler.handler.enableLogin();
     }
 

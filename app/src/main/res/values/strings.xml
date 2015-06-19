@@ -5,55 +5,70 @@
         <item>Delete users</item>
         <item>Admin bridges</item>
     </string-array>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="drawer_close" translatable="false">Close navigation drawer</string>
 
     <string name="app_name" translatable="false">Bridge Ballot</string>
     <string name="action_settings">Settings</string>
-    <string name="user_name">User name</string>
-    <string name="password">Password</string>
-    <string name="logIn_button">Log In</string>
-    <string name="createUser_title">Create an account</string>
-    <string name="create_userName">User name</string>
-    <string name="create_password">Password</string>
-    <string name="create_confirmPassword">Confirm password</string>
-    <string name="create_makeAccount">Create account</string>
-    <string name="create_emptyFields">At least one of the fields is empty, try again.</string>
-    <string name="create_alertMessage">Your password and confirmed password do not match. Check again.</string>
-    <string name="create_alertSuccess">Your account has been made. Please log in to use the app.</string>
-    <string name="create_alertFailure">This account already exists. Please try again.</string>
-    <string name="create_alertUserNotUnique">Your user name has already been chosen, please use another one.</string>
-    <string name="title_activity_create_user">Create User</string>
-    <string name="title_activity_delete_user">Delete User</string>
-    <string name="title_activity_bridge_list">BridgeList</string>
+    <string name="login_username">User name</string>
+    <string name="login_password">Password</string>
+    <string name="login_loginbutton">Log In</string>
+    <string name="login_createuser">Create account</string>
 
-    <string name="user_delete">Delete user</string>
-    <string name="user_delete_title">User to delete</string>
-    <string name="user_delete_success">User was deleted successfully.</string>
-    <string name="user_delete_failure">Something went wrong, try again later.</string>
+    <string name="createuser_title">Create an account</string>
+    <string name="createuser_name">Username</string>
+    <string name="createuser_password">Password</string>
+    <string name="createuser_confirmpassword">Confirm password</string>
+    <string name="createuser_button">Create account</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_menu">MenuActivity</string>
+    <string name="deleteuser_button">Delete user</string>
+    <string name="deleteuser_title">Delete an user</string>
 
-    <string name="title_section1">WatchList</string>
-    <string name="title_section2">BridgeList</string>
-    <string name="title_section3">About</string>
+    <string name="bridgeadmin_name">Name</string>
+    <string name="bridgeadmin_location">Location</string>
+    <string name="bridgeadmin_latitude" translatable="false">Latitude</string>
+    <string name="bridgeadmin_longitude" translatable="false">Longitude</string>
+    <string name="bridgeadmin_save">Save</string>
+    <string name="bridgeadmin_delete">Delete</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="bridge_search">Search</string>
 
-    <string name="fragment_watch_list">Watchlist</string>
-    <string name="fragment_add_bridge">Pick your bridge!</string>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="addbridge" translatable="false">+</string>
+    <string name="detail_status" translatable="false">Status:</string>
+    <string name="detail_distance">Distance:</string>
+    <string name="detail_location">City:</string>
+    <string name="detail_bridgebutton">Bridge open</string>
+    <string name="detail_share" translatable="false">G+ Share</string>
+    <string name="about_names">Made by:\nJesse van Breda\nJohnnie Ho\nKevin te Hennepe\nLars van Hilten\nRicardo van der Spek</string>
 
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_create_user" translatable="false">Create User</string>
+    <string name="title_activity_delete_user" translatable="false">Delete User</string>
+    <string name="title_activity_bridge_list" translatable="false">BridgeList</string>
+    <string name="title_activity_splash" translatable="false">SplashActivity</string>
+    <string name="title_activity_login" translatable="false">Login</string>
+    <string name="title_activity_menu" translatable="false">MenuActivity</string>
+    <string name="title_activity_ballot_settings" translatable="false">BallotSettings</string>
+    <string name="title_fragment_watch_list" translatable="false">WatchList</string>
 
-    <string name="title_activity_ballot_settings">BallotSettings</string>
-    <string name="action_logout">Logout</string>
-    <string name="createUser_button">Create account</string>
+    <string name="ballotlist_distance">Distance: </string>
+
+    <string name="alert_error" translatable="false">Error</string>
+    <string name="alert_ok" translatable="false">Ok</string>
+    <string name="alert_distanceerror">You need to be within 500m</string>
+    <string name="alert_emptyfields">Please fill out both fields.</string>
+
+    <string name="status_open" translatable="false">Open</string>
+    <string name="status_closed">Closed</string>
+
+    <string name="bridgeadmin_newbridge">New Bridge</string>
+    <string name="bridgeadmin_savenew">Save new</string>
+    <string name="menu_logout">Logout</string>
+    <string name="alert_success">Success</string>
+    <string name="alert_failure">Failure</string>
+    <string name="alert_accountsucces">Your account has been made. Please log in to use the app.</string>
+    <string name="alert_accountfailure">This account already exist. Please  try another.</string>
+    <string name="alert_deletesuccess">User has been succesfully deleted.</string>
+    <string name="alert_deletefailure">Something went wrong, please try again later.</string>
+    <string name="alert_message">Your password and confirmed password do not match.</string>
 
 
 </resources>

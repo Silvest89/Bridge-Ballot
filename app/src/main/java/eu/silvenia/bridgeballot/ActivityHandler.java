@@ -64,9 +64,9 @@ public class ActivityHandler extends Handler {
             @Override
             public void run() {
                 if (result == 0)
-                    HelperTools.showAlert(currentActivity, "Success", currentActivity.getString(R.string.create_alertSuccess));
+                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_accountsucces));
                 else if (result == 2){
-                    HelperTools.showAlert(currentActivity, "Failure", currentActivity.getString(R.string.create_alertFailure));
+                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_accountfailure));
                 }
             }
         });
@@ -77,11 +77,11 @@ public class ActivityHandler extends Handler {
             @Override
             public void run() {
                 if (result == 0){
-                    HelperTools.showAlert(currentActivity, "Success", currentActivity.getString(R.string.user_delete_success));
+                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_deletesuccess));
                 }
 
                 else {
-                    HelperTools.showAlert(currentActivity, "Failure", currentActivity.getString(R.string.user_delete_failure));
+                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_deletefailure));
                 }
             }
         });

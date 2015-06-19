@@ -48,9 +48,9 @@ public class CreateUser extends Activity {
 
         if (userName.length() == 0 || password.length() == 0 || confirmPassword.length() == 0){
 
-            alert.setTitle("Error");
-            alert.setMessage(getString(R.string.create_emptyFields));
-            alert.setButton("OK", new DialogInterface.OnClickListener() {
+            alert.setTitle(getString(R.string.alert_error));
+            alert.setMessage(getString(R.string.alert_emptyfields));
+            alert.setButton(getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     alert.cancel();
@@ -62,9 +62,9 @@ public class CreateUser extends Activity {
         else {
             if (!password.equals(confirmPassword)) {
                 final AlertDialog alert = new AlertDialog.Builder(this).create();
-                alert.setTitle("Error");
-                alert.setMessage(getString(R.string.create_alertMessage));
-                alert.setButton("OK", new DialogInterface.OnClickListener() {
+                alert.setTitle(getString(R.string.alert_error));
+                alert.setMessage(getString(R.string.alert_message));
+                alert.setButton(getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alert.cancel();

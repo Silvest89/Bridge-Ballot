@@ -132,8 +132,6 @@ public class Menu extends AppCompatActivity {
                 break;
             }
         }
-
-        //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -182,7 +180,7 @@ public class Menu extends AppCompatActivity {
         return true;
     }
 
-    /* The click listner for ListView in the navigation drawer */
+    /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

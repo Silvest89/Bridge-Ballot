@@ -26,11 +26,11 @@ public class WatchList extends BallotList {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         ballot = this;
-        getActivity().setTitle("WatchList");
+        getActivity().setTitle(getString(R.string.title_fragment_watch_list));
     }
     @Override
     public void onDestroyView() {
-        getActivity().setTitle(R.string.fragment_watch_list);
+        getActivity().setTitle(R.string.title_fragment_watch_list);
         super.onDestroyView();
     }
 
@@ -46,9 +46,7 @@ public class WatchList extends BallotList {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(getActivity(), "test", Toast.LENGTH_LONG);
                 Account.getWatchList();
-                //refreshItems();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });

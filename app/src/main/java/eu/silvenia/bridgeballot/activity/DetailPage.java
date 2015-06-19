@@ -100,17 +100,17 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             updateStatus();
         }
         else
-            HelperTools.showAlert(this, "Error", "You need to be within 500m");
+            HelperTools.showAlert(this, getString(R.string.alert_error), getString(R.string.alert_distanceerror));
     }
 
     public void updateStatus(){
         if (selectedBridge.isOpen()) {
             status.setTextColor(Color.RED);
-            status.setText("Open");
+            status.setText(R.string.status_open);
         }
         else {
             status.setTextColor(Color.GREEN);
-            status.setText("Closed");
+            status.setText(R.string.status_closed);
         }
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -207,7 +207,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
                 Account.sendReputationUpdate(mReputation.getVoteId(), Account.getId(), mReputation.getAccountId(), mReputation.getBridgeId());
             }
             else{
-                HelperTools.showAlert(getApplicationContext(), "Error", "You need to be within 500m");
+                HelperTools.showAlert(getApplicationContext(), getString(R.string.alert_error), getString(R.string.alert_distanceerror));
             }
         }
 

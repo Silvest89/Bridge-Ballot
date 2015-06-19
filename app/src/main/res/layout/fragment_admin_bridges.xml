@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/bridgeSpinner"
         android:layout_marginTop="25dp"
-        android:hint="Name" />
+        android:hint="@string/bridgeadmin_name" />
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/bridgeName"
         android:layout_marginTop="25dp"
-        android:hint="Location" />
+        android:hint="@string/bridgeadmin_location" />
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_below="@+id/bridgeLocation"
         android:layout_marginTop="25dp"
         android:numeric="decimal"
-        android:hint="Latitude" />
+        android:hint="@string/bridgeadmin_latitude" />
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -45,12 +45,12 @@
         android:layout_below="@+id/bridgeLatitude"
         android:layout_marginTop="25dp"
         android:numeric="decimal"
-        android:hint="Longitude" />
+        android:hint="@string/bridgeadmin_longitude" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/bridgeadmin_save"
         android:id="@+id/saveButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
@@ -61,7 +61,7 @@
     <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="@string/bridgeadmin_delete"
         android:id="@+id/deleteButton"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/saveButton"

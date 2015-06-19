@@ -45,12 +45,12 @@ public class Bridge extends BallotList {
         super.onCreate(savedInstanceState);
         mBridges = Account.mBridgeList;
         ballot = this;
-        getActivity().setTitle("Pick your bridge!");
+        getActivity().setTitle(getString(R.string.title_activity_bridge_list));
     }
 
     @Override
     public void onDestroyView() {
-        getActivity().setTitle(R.string.fragment_watch_list);
+        getActivity().setTitle(R.string.title_fragment_watch_list);
         super.onDestroyView();
     }
 

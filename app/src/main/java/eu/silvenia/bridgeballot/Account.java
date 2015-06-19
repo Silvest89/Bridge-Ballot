@@ -115,8 +115,6 @@ public final class Account {
         try {
             if(googlePlus) {
                 password = HelperTools.getRandomString(8);
-                HelperTools.showAlert(ActivityHandler.handler.currentActivity, "Password", "Your account password is: " + password + ". Should you want to login with password.");
-                Toast.makeText(ActivityHandler.handler.currentActivity, "Your account password is: " + password + ". Should you want to login with password.", Toast.LENGTH_LONG);
             }
 
             MessageDigest md = MessageDigest.getInstance("SHA-512");

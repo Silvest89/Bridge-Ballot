@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="about_names">Gemaakt door:\nJesse van Breda\nJohnnie Ho\nKevin te Hennepe\nLars van Hilten\nRicardo van der Spek</string>
     <string name="action_settings">Instellingen</string>
-    <string name="logIn_button">Inloggen</string>
-    <string name="password">Wachtwoord</string>
-    <string name="user_name">Gebruikersnaam</string>
-    <string name="createUser_button">Maak account</string>
-    <string name="createUser_title">Maak een account</string>
-    <string name="create_confirmPassword">Wachtwoord bevestigen</string>
-    <string name="create_makeAccount">Maak account</string>
-    <string name="create_password">Wachtwoord</string>
-    <string name="create_userName">Gebruikersnaam</string>
-    <string name="create_alertMessage">Het wachtwoord is niet hetzelfde als het bevestigde wachtwoord. Probeer opnieuw.</string>
-    <string name="create_alertFailure">Dit account bestaat al, probeer opnieuw.</string>
-    <string name="create_alertSuccess">Het account is aangemaakt. Log in om de app te gebruiken.</string>
-    <string name="create_alertUserNotUnique">Uw gebruikersnaam is al in gebruik. Probeer een andere naam alstublieft.</string>
-    <string name="create_emptyFields">Ten minste een van de velden is leeg, probeer opnieuw.</string>
-    <string name="addbridge" />
-    <string name="user_delete">Verwijder gebruiker</string>
-    <string name="user_delete_success">Gebruiker is succesvol verwijderd.</string>
-    <string name="user_delete_failure">Er is iets mis gegaan, probeer later opnieuw alstublieft.</string>
-    <string name="user_delete_title">Te verwijderen gebruiker</string>
-    <string name="action_logout">Uitloggen</string>
+    <string name="alert_distanceerror">U moet zich binnen 500m van de brug bevinden.</string>
+    <string name="alert_emptyfields">Gelieve beide velden in te vullen.</string>
+    <string name="ballotlist_distance">Afstand: </string>
+    <string name="bridge_search">Zoeken</string>
+    <string name="bridgeadmin_delete">Verwijderen</string>
+    <string name="bridgeadmin_location">Locatie</string>
+    <string name="bridgeadmin_name">Naam</string>
+    <string name="bridgeadmin_newbridge">Nieuwe Brug</string>
+    <string name="bridgeadmin_save">Opslaan</string>
+    <string name="bridgeadmin_savenew">Opslaan als nieuw</string>
+    <string name="createuser_button">Maak account</string>
+    <string name="createuser_confirmpassword">Bevestig wachtwoord</string>
+    <string name="createuser_name">Gebruikersnaam</string>
+    <string name="createuser_password">Wachtwoord</string>
+    <string name="createuser_title">Maak een account</string>
+    <string name="deleteuser_button">Verwijder account</string>
+    <string name="deleteuser_title">Verwijder een account</string>
+    <string name="detail_bridgebutton">Brug open</string>
+    <string name="detail_distance">Afstand: </string>
+    <string name="detail_location">Plaats: </string>
+    <string name="login_createuser" translatable="false">Maak account</string>
+    <string name="login_loginbutton">Inloggen</string>
+    <string name="login_password">Wachtwoord</string>
+    <string name="login_username">Gebruikersnaam</string>
+    <string name="status_closed">Dicht</string>
+    <string name="menu_logout">Uitloggen</string>
+
 </resources>

@@ -45,20 +45,16 @@ public class Main extends Activity implements
     NetworkService mBoundService;
     boolean mIsBound;
     private ServiceConnection mConnection = new ServiceConnection() {
-        //EDITED PART
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBoundService = ((NetworkService.LocalBinder)service).getService();
             mBoundService.connect();
-            //mBoundService.test();
-            System.out.println(HelperTools.getCurrentTimeStamp() + "NetworkService bound.");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             mBoundService = null;
         }
-
     };
 
     private void doBindService() {
@@ -121,11 +117,10 @@ public class Main extends Activity implements
         EditText password = (EditText) findViewById(R.id.password);
 
         if(userName.length() == 0 || password.length() == 0) {
-            HelperTools.showAlert(this, "Error", "Please fill out both fields.");
+            HelperTools.showAlert(this, getString(R.string.alert_error), getString(R.string.alert_emptyfields));
             return;
         }
 
-        System.out.println(Account.getToken());
         login.setEnabled(false);
         googleLogin.setEnabled(false);
 
@@ -163,10 +158,6 @@ public class Main extends Activity implements
         Account.setGooglePlus(true);
 
         Account.login(Plus.AccountApi.getAccountName(mGoogleApiClient), "", true);
-        //Toast.makeText(this, Plus.AccountApi.getAccountName(mGoogleApiClient), Toast.LENGTH_LONG).show();
-
-        //if(validateLogin)
-        //startActivity(new Intent(this, Menu.class));
     }
 
     @Override

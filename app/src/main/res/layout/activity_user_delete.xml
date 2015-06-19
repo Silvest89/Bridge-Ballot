@@ -17,7 +17,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/user_delete"
+        android:text="@string/deleteuser_button"
         android:id="@+id/button4"
         android:onClick="onDelete"
         android:layout_centerHorizontal="true"
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/user_delete_title"
+        android:text="@string/deleteuser_title"
         android:id="@+id/textView3"
         android:layout_above="@+id/button4"
         android:layout_centerHorizontal="true"

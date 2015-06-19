@@ -52,7 +52,7 @@ public class AdminBridges extends Fragment {
         for(int b = 0; b < bridgeList.size(); b++){
             bridgeNames.add(bridgeList.get(b).getName());
         }
-        bridgeNames.add("New Bridge");
+        bridgeNames.add(getString(R.string.bridgeadmin_newbridge));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, bridgeNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bridgeSpinner.setAdapter(adapter);
@@ -61,20 +61,20 @@ public class AdminBridges extends Fragment {
 
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (!(bridgeNames.get(position).equals("New Bridge"))) {
+                if (!(bridgeNames.get(position).equals(getString(R.string.bridgeadmin_newbridge)))) {
                     bridgeName.setText(bridgeList.get(position).getName());
                     oldName = bridgeName.getText().toString();
                     bridgeID = bridgeList.get(position).getId();
                     bridgeLocation.setText(bridgeList.get(position).getLocation());
                     bridgeLatitude.setText(String.valueOf(bridgeList.get(position).getLatitude()));
                     bridgeLongitude.setText(String.valueOf(bridgeList.get(position).getLongitude()));
-                    saveButton.setText("Save");
+                    saveButton.setText(getString(R.string.bridgeadmin_save));
                 } else {
                     bridgeName.setText("");
                     bridgeLocation.setText("");
                     bridgeLatitude.setText("");
                     bridgeLongitude.setText("");
-                    saveButton.setText("Save new");
+                    saveButton.setText(R.string.bridgeadmin_savenew);
                 }
             }
 
@@ -94,9 +94,7 @@ public class AdminBridges extends Fragment {
                 bridge.add(bridgeLocation.getText().toString());
                 bridge.add(bridgeLatitude.getText().toString());
                 bridge.add(bridgeLongitude.getText().toString());
-                System.out.println("SAVE BUTTON LISTENER");
-                if(saveButton.getText().equals("Save new")){
-                    System.out.println("SENDING BRIDGE TO ACCOUNT");
+                if(saveButton.getText().equals(getString(R.string.bridgeadmin_savenew))){
                     Account.CRUDBridge(CRUDType.CREATE, bridge );
                 }else{
                     Account.CRUDBridge(CRUDType.UPDATE, bridge);
