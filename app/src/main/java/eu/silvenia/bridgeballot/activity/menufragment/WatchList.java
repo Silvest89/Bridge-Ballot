@@ -4,19 +4,16 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.ActivityHandler;
-import eu.silvenia.bridgeballot.activity.BallotList;
-import eu.silvenia.bridgeballot.R;
 import eu.silvenia.bridgeballot.Bridge;
+import eu.silvenia.bridgeballot.R;
+import eu.silvenia.bridgeballot.activity.BallotList;
 
 public class WatchList extends BallotList {
 
@@ -28,6 +25,7 @@ public class WatchList extends BallotList {
         ballot = this;
         getActivity().setTitle(getString(R.string.title_fragment_watch_list));
     }
+
     @Override
     public void onDestroyView() {
         getActivity().setTitle(R.string.title_fragment_watch_list);

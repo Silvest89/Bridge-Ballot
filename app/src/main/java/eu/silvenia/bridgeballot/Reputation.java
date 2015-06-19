@@ -1,6 +1,5 @@
 package eu.silvenia.bridgeballot;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**

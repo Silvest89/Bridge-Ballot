@@ -1,7 +1,6 @@
 package eu.silvenia.bridgeballot;
 
 import android.util.Base64;
-import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
