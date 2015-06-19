@@ -1,4 +1,4 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.activity.menufragment;
 
 
 import android.os.Bundle;
@@ -16,7 +16,9 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.silvenia.bridgeballot.network.Bridge;
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.R;
+import eu.silvenia.bridgeballot.Bridge;
 
 
 public class AdminBridges extends Fragment {

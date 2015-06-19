@@ -8,11 +8,12 @@ import java.util.Date;
 
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.ActivityHandler;
-import eu.silvenia.bridgeballot.BridgeFragment;
+import eu.silvenia.bridgeballot.Bridge;
 import eu.silvenia.bridgeballot.HelperTools;
-import eu.silvenia.bridgeballot.MainActivity;
-import eu.silvenia.bridgeballot.MenuActivity;
-import eu.silvenia.bridgeballot.WatchListFragment;
+import eu.silvenia.bridgeballot.Reputation;
+import eu.silvenia.bridgeballot.activity.Main;
+import eu.silvenia.bridgeballot.activity.Menu;
+import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -91,9 +92,6 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         }
     }
 
-
-
-
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
@@ -115,10 +113,10 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             Account.setId(returnMessage[0]);
             Account.setAccessLevel(returnMessage[1]);
             Account.requestBridges();
-            MainActivity.handler.switchActivity(MenuActivity.class);
-
+            ActivityHandler.handler.switchActivity(Menu.class);
         }
-        MainActivity.handler.enableLogin();
+
+        ActivityHandler.handler.enableLogin();
     }
 
     public void parseBridgeRequest(ProtocolMessage message){
@@ -133,7 +131,7 @@ public class NetworkHandler extends ChannelHandlerAdapter {
                     Boolean.parseBoolean(bridgeList.get(i)[5]));
             Account.bridgeMap.put(bridge.getId(), bridge);
         }
-        //BridgeFragment.handler.updateBridgeList();
+        //Bridge.handler.updateBridgeList();
 
         Account.mBridgeList = new ArrayList<>(Account.bridgeMap.values());
         HelperTools.updateBridgeDistance();
@@ -150,8 +148,8 @@ public class NetworkHandler extends ChannelHandlerAdapter {
 
         Account.mWatchList = new ArrayList<>(Account.watchListMap.values());
 
-        if(WatchListFragment.handler != null)
-            WatchListFragment.handler.updateList();
+        if(WatchList.handler != null)
+            WatchList.handler.updateList();
     }
 
     public void parseBridgeStatusUpdate(ProtocolMessage message){
@@ -159,10 +157,10 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         boolean status = (boolean) message.getMessage().get(2);
         Account.bridgeMap.get(bridgeId).setOpen(status);
 
-        if(BridgeFragment.handler != null)
-            BridgeFragment.handler.updateList();
-        if(WatchListFragment.handler != null)
-            WatchListFragment.handler.updateList();
+        if(eu.silvenia.bridgeballot.activity.menufragment.Bridge.handler != null)
+            eu.silvenia.bridgeballot.activity.menufragment.Bridge.handler.updateList();
+        if(WatchList.handler != null)
+            WatchList.handler.updateList();
     }
 
     private void parseReputation(ProtocolMessage message) {

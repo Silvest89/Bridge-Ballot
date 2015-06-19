@@ -1,26 +1,19 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.*;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
+import android.text.*;
+import android.util.StateSet;
+import android.view.*;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
 import com.bignerdranch.android.multiselector.MultiSelector;
@@ -31,7 +24,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import eu.silvenia.bridgeballot.network.Bridge;
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.HelperTools;
+import eu.silvenia.bridgeballot.R;
+import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 
 /**
  * Created by Johnnie Ho on 17-6-2015.
@@ -39,14 +36,13 @@ import eu.silvenia.bridgeballot.network.Bridge;
 public abstract class BallotList extends Fragment {
 
     protected BallotList ballot;
-    private EditText searchbar;
-    protected String title;
-    private BridgeAdapter adapter;
 
-    public RecyclerView mRecyclerView;
+    protected String title;
+
+    protected RecyclerView mRecyclerView;
     protected MultiSelector mMultiSelector = new MultiSelector();
 
-    public ArrayList<Bridge> mBridges = new ArrayList<>();
+    protected ArrayList<eu.silvenia.bridgeballot.Bridge> mBridges = new ArrayList<>();
 
     public void setupView(View view){
         mRecyclerView = (RecyclerView) view.findViewById(R.id.bridgelist_view);
@@ -54,9 +50,18 @@ public abstract class BallotList extends Fragment {
         mRecyclerView.setAdapter(new BridgeAdapter());
 
         HelperTools.updateBridgeDistance();
+
     }
 
-    abstract public void updateList();
+    public void updateList(ArrayList list){
+        mBridges = list;
+        //((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
+        sortList();
+    }
+
+    protected void sortList(){
+        Collections.sort(mBridges,new DistanceSorter());
+    }
 
     @Override
     abstract public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
@@ -66,34 +71,16 @@ public abstract class BallotList extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        searchbar = (EditText) mRecyclerView.findViewById(R.id.search_bar);
-        searchbar.addTextChangedListener(new TextWatcher() {
-        //TODO
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Call back the Adapter with current character to Filter
-                adapter.getFilter().filter(s.toString());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
     }
 
-
-    protected void selectBridge(Bridge c) {
+    protected void selectBridge(eu.silvenia.bridgeballot.Bridge c) {
         int index = mBridges.indexOf(c);
         int id = c.getId();
         BridgeHolder holder = (BridgeHolder) mRecyclerView
                 .findViewHolderForPosition(index);
 
         Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
-        Intent DetailPage = new Intent(getActivity() , eu.silvenia.bridgeballot.DetailPage.class);
+        Intent DetailPage = new Intent(getActivity() , eu.silvenia.bridgeballot.activity.DetailPage.class);
         DetailPage.putExtra("ID",id);
         startActivity(DetailPage);
     }
@@ -102,9 +89,9 @@ public abstract class BallotList extends Fragment {
 
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            if(ballot instanceof WatchListFragment)
+            if(ballot instanceof WatchList)
                 getActivity().getMenuInflater().inflate(R.menu.watch_list_menu_context, menu);
-            else if(ballot instanceof BridgeFragment);
+            else if(ballot instanceof Bridge)
                 getActivity().getMenuInflater().inflate(R.menu.bridge_list_menu_context, menu);
 
             return true;
@@ -120,8 +107,7 @@ public abstract class BallotList extends Fragment {
 
                     for (int i = mBridges.size() - 1; i >= 0; i--) {
                         if (mMultiSelector.isSelected(i, 0)) {
-                            Bridge bridge = mBridges.get(i);
-                            //mRecyclerView.getAdapter().notifyItemRemoved(i);
+                            eu.silvenia.bridgeballot.Bridge bridge = mBridges.get(i);
                             Account.addToWatchList(bridge);
                         }
                     }
@@ -130,15 +116,13 @@ public abstract class BallotList extends Fragment {
                     return true;
                 }
                 case R.id.bridge_menu_delete: {
-                    // Need to finish the action mode before doing the following,
-                    // not after. No idea why, but it crashes.
                     actionMode.finish();
 
                     mMultiSelector.setSelectable(false);
 
                     for (int i = mBridges.size() - 1; i >= 0; i--) {
                         if (mMultiSelector.isSelected(i, 0)) {
-                            Bridge bridge = mBridges.get(i);
+                            eu.silvenia.bridgeballot.Bridge bridge = mBridges.get(i);
                             Account.removeFromWatchList(bridge.getId());
                             mBridges.remove(i);
                             mRecyclerView.getAdapter().notifyItemRemoved(i);
@@ -155,14 +139,20 @@ public abstract class BallotList extends Fragment {
         }
     };
 
+    public class DistanceSorter implements Comparator<eu.silvenia.bridgeballot.Bridge> {
+        @Override
+        public int compare(eu.silvenia.bridgeballot.Bridge c1, eu.silvenia.bridgeballot.Bridge c2) {
+            return Double.compare(c1.getDistance(), c2.getDistance());
+        }
+    }
+
     private class BridgeHolder extends SwappingHolder
             implements View.OnClickListener, View.OnLongClickListener {
         private final ImageView mBridgeImage;
         private final ImageView mStatusIcon;
         private final TextView mTitleTextView;
         private final TextView mDateTextView;
-        private final CheckBox mSolvedCheckBox;
-        private Bridge mBridge;
+        private eu.silvenia.bridgeballot.Bridge mBridge;
 
         public BridgeHolder(View itemView) {
             super(itemView, mMultiSelector);
@@ -171,16 +161,22 @@ public abstract class BallotList extends Fragment {
             mStatusIcon =  (ImageView) itemView.findViewById(R.id.bridge_list_statusicon);
             mTitleTextView = (TextView) itemView.findViewById(R.id.bridge_list_name);
             mDateTextView = (TextView) itemView.findViewById(R.id.bridge_list_distance);
-            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.bridge_list_checkbox);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             itemView.setLongClickable(true);
+
+            Drawable colorDrawable = new ColorDrawable(Color.rgb(244, 164, 96));
+
+            StateListDrawable stateListDrawable = new StateListDrawable();
+            stateListDrawable.addState(new int[]{android.R.attr.state_activated}, colorDrawable);
+            stateListDrawable.addState(StateSet.WILD_CARD, null);
+
+            setSelectionModeBackgroundDrawable(stateListDrawable);
         }
 
-        public void bindBridge(Bridge bridge) {
+        public void bindBridge(eu.silvenia.bridgeballot.Bridge bridge) {
             mBridge = bridge;
-            Collections.sort(mBridges,new DistanceSorter());
 
             if(!bridge.isOpen()) {
                 mStatusIcon.setImageResource(R.mipmap.ic_greencircle);
@@ -189,12 +185,10 @@ public abstract class BallotList extends Fragment {
                 mStatusIcon.setImageResource(R.mipmap.ic_redcircle);
             }
 
-            //mBridgeImage.setBackgroundResource(R.drawable.bridge_1);
-            Bridge.setBackgroundImage(bridge, mBridgeImage, false);
+            eu.silvenia.bridgeballot.Bridge.setBackgroundImage(bridge, mBridgeImage, false);
 
             mTitleTextView.setText(bridge.getName());
             mDateTextView.setText("Distance: " + bridge.getDistance() + " m");
-            mSolvedCheckBox.setChecked(false);
         }
 
         @Override
@@ -219,18 +213,41 @@ public abstract class BallotList extends Fragment {
     }
 
     protected class BridgeAdapter extends RecyclerView.Adapter<BridgeHolder> implements Filterable{
+        private List<eu.silvenia.bridgeballot.Bridge> allObjects = new ArrayList<>();
+
         @Override
         public BridgeHolder onCreateViewHolder(ViewGroup parent, int pos) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.bridge_list_layout, parent, false);
+
             return new BridgeHolder(view);
         }
 
         @Override
         public void onBindViewHolder(BridgeHolder holder, int pos) {
-            Bridge bridge = mBridges.get(pos);
+            eu.silvenia.bridgeballot.Bridge bridge = mBridges.get(pos);
             holder.bindBridge(bridge);
         }
+
+        /*public void flushFilter(boolean newData){
+            if(newData)
+                allObjects.addAll(mBridges);
+            else {
+                mBridges = new ArrayList<>();
+                mBridges.addAll(allObjects);
+            }
+            notifyDataSetChanged();
+        }
+
+        public void setFilter(String queryText) {
+            mBridges = new ArrayList<>();
+            queryText = queryText.toString().toLowerCase();
+            for (eu.silvenia.bridgeballot.Bridge bridge: allObjects) {
+                if (bridge.getName().toLowerCase().contains(queryText))
+                    mBridges.add(bridge);
+            }
+            notifyDataSetChanged();
+        }*/
 
         @Override
         public int getItemCount() {

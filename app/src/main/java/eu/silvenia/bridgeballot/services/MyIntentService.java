@@ -1,14 +1,16 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.services;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
+
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.ActivityHandler;
 
 public class MyIntentService extends IntentService {
 

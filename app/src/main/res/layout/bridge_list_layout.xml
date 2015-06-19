@@ -50,11 +50,4 @@
         android:padding="5dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/search_bar"
-        android:layout_alignParentBottom="true"
-        android:layout_above="@+id/bridge_list_name" />
 </RelativeLayout>

@@ -1,40 +1,41 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.activity;
 
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
+import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.ActivityHandler;
+import eu.silvenia.bridgeballot.HelperTools;
+import eu.silvenia.bridgeballot.R;
 import eu.silvenia.bridgeballot.network.NetworkService;
+import eu.silvenia.bridgeballot.services.GPSservice;
+import eu.silvenia.bridgeballot.services.MyIntentService;
 
-
-public class MainActivity extends Activity implements
+public class Main extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
-    public static Network network;
-    public static String token;
+    private Button login;
+    private com.google.android.gms.common.SignInButton googleLogin;
 
-    public static ActivityHandler handler;
-
-    public Button login;
-    public com.google.android.gms.common.SignInButton googleLogin;
-
+    public void canLogin(boolean canLogin){
+        login.setEnabled(canLogin);
+        googleLogin.setEnabled(canLogin);
+    }
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
 
@@ -91,9 +92,9 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
         startService(new Intent(this, GPSservice.class));
 
-        login = (Button) findViewById(R.id.button);
         ActivityHandler.handler = new ActivityHandler(this);
-        handler = new ActivityHandler(this);
+
+        login = (Button) findViewById(R.id.button);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -105,36 +106,34 @@ public class MainActivity extends Activity implements
 
         googleLogin = (com.google.android.gms.common.SignInButton) findViewById(R.id.sign_in_button);
         googleLogin.setOnClickListener(this);
-
-        //network = new Network();
         Intent gcmIntentService = new Intent(this, MyIntentService.class);
         startService(gcmIntentService);
         doBindService();
-        //mBoundService.connect();
     }
 
     @Override
     public void onClick(View v) {
         mGoogleApiClient.connect();
-        //startActivity(new Intent(this, DetailPage.class));
     }
 
     public void onSignIn(View v){
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
 
+        if(userName.length() == 0 || password.length() == 0) {
+            HelperTools.showAlert(this, "Error", "Please fill out both fields.");
+            return;
+        }
+
         System.out.println(Account.getToken());
         login.setEnabled(false);
         googleLogin.setEnabled(false);
 
-
-        //Account.setUserName(userName.getText().toString());
-        //Account.setPassword(password.getText().toString());
         Account.login(userName.getText().toString(), password.getText().toString(), false);
     }
 
     public void onCreateUser(View v){
-        Intent createUser = new Intent(this, CreateUserActivity.class);
+        Intent createUser = new Intent(this, CreateUser.class);
         startActivity(createUser);
     }
 
@@ -145,7 +144,7 @@ public class MainActivity extends Activity implements
             try {
                 mIntentInProgress = true;
                 result.startResolutionForResult(this, RC_SIGN_IN);
-            } catch (SendIntentException e) {
+            } catch (IntentSender.SendIntentException e) {
                 // The intent was canceled before it was sent.  Return to the default
                 // state and attempt to connect to get an updated ConnectionResult.
                 mIntentInProgress = false;
@@ -167,7 +166,7 @@ public class MainActivity extends Activity implements
         //Toast.makeText(this, Plus.AccountApi.getAccountName(mGoogleApiClient), Toast.LENGTH_LONG).show();
 
         //if(validateLogin)
-            //startActivity(new Intent(this, MenuActivity.class));
+        //startActivity(new Intent(this, Menu.class));
     }
 
     @Override
@@ -186,4 +185,3 @@ public class MainActivity extends Activity implements
         doUnbindService();
     }
 }
-

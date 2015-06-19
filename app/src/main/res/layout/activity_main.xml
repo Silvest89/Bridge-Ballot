@@ -15,6 +15,7 @@
         android:ems="10"
         android:id="@+id/userName"
         android:hint="@string/user_name"
+        android:textColorHint="#f4a460"
         android:textColor="#ffffffff"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -26,6 +27,7 @@
         android:ems="10"
         android:id="@+id/password"
         android:hint="@string/password"
+        android:textColorHint="#f4a460"
         android:layout_below="@+id/userName"
         android:layout_alignLeft="@+id/userName"
         android:layout_alignStart="@+id/userName"

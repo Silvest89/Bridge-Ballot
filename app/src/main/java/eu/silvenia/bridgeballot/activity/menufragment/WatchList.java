@@ -1,39 +1,24 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.activity.menufragment;
 
-import android.annotation.TargetApi;
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
-import com.bignerdranch.android.multiselector.MultiSelector;
-import com.bignerdranch.android.multiselector.SwappingHolder;
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.ActivityHandler;
+import eu.silvenia.bridgeballot.activity.BallotList;
+import eu.silvenia.bridgeballot.R;
+import eu.silvenia.bridgeballot.Bridge;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-
-import eu.silvenia.bridgeballot.network.Bridge;
-
-public class WatchListFragment extends BallotList {
+public class WatchList extends BallotList {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static ActivityHandler handler;
@@ -41,20 +26,12 @@ public class WatchListFragment extends BallotList {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         ballot = this;
-        handler = new ActivityHandler(this);
         getActivity().setTitle("WatchList");
     }
     @Override
     public void onDestroyView() {
         getActivity().setTitle(R.string.fragment_watch_list);
         super.onDestroyView();
-    }
-
-
-    @Override
-    public void updateList() {
-        mBridges = Account.mWatchList;
-        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -113,10 +90,5 @@ public class WatchListFragment extends BallotList {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        getActivity().getMenuInflater().inflate(R.menu.bridge_list_menu_context, menu);
     }
 }

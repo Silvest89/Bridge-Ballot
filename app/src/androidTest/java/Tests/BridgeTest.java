@@ -2,7 +2,7 @@ package Tests;
 
 import android.test.InstrumentationTestCase;
 
-import eu.silvenia.bridgeballot.network.Bridge;
+import eu.silvenia.bridgeballot.Bridge;
 
 /**
  * Created by Jesse on 19-6-2015.

@@ -1,27 +1,18 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.services;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
-import com.google.android.gms.maps.GoogleMap;
 
-import java.io.IOException;
-
-import javax.crypto.spec.GCMParameterSpec;
+import eu.silvenia.bridgeballot.activity.Main;
+import eu.silvenia.bridgeballot.R;
 
 /**
  * Created by Jesse on 29-5-2015.
@@ -68,7 +59,7 @@ public class MyGcmListenerService extends GcmListenerService {
         Intent myIntent = new Intent();
         Context myContext = getApplicationContext();
 
-        myIntent.setClass(myContext, MainActivity.class);
+        myIntent.setClass(myContext, Main.class);
         //myIntent.putExtra("ID", 1);
         myPendingIntent = PendingIntent.getActivity(myContext, 0, myIntent, 0);
         notification.setContentIntent(myPendingIntent);

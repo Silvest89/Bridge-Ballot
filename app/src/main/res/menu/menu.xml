@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="eu.silvenia.bridgeballot.MenuActivity">
+    tools:context="eu.silvenia.bridgeballot.activity.Menu">
     <item android:id="@+id/action_add" android:title="@string/addbridge"
         android:icon="@mipmap/circle_plus"
         app:showAsAction="withText|ifRoom" />

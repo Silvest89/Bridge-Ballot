@@ -1,4 +1,4 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,10 +9,14 @@ import android.widget.EditText;
 
 import java.util.concurrent.ExecutionException;
 
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.ActivityHandler;
+import eu.silvenia.bridgeballot.R;
+
 /**
  * Created by Jesse on 3-6-2015.
  */
-public class CreateUserActivity extends Activity {
+public class CreateUser extends Activity {
 
     AlertDialog alert;
 

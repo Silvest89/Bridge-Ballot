@@ -2,13 +2,18 @@ package eu.silvenia.bridgeballot;
 
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Handler;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+import eu.silvenia.bridgeballot.activity.BallotList;
+import eu.silvenia.bridgeballot.activity.DeleteUser;
+import eu.silvenia.bridgeballot.activity.DetailPage;
+import eu.silvenia.bridgeballot.activity.Main;
+import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
 
 /**
  * Created by Johnnie Ho on 11-6-2015.
@@ -35,7 +40,10 @@ public class ActivityHandler extends Handler {
             currentFragment.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    currentFragment.updateList();
+                if(currentFragment instanceof Bridge)
+                    currentFragment.updateList(Account.mBridgeList);
+                else
+                    currentFragment.updateList(Account.mWatchList);
                 }
             });
         }
@@ -45,8 +53,8 @@ public class ActivityHandler extends Handler {
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MainActivity activity = (MainActivity)currentActivity;
-                activity.login.setEnabled(true);
+                Main activity = (Main)currentActivity;
+                activity.canLogin(true);
             }
         });
     }
@@ -85,7 +93,7 @@ public class ActivityHandler extends Handler {
             public void run() {
                 try {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(currentActivity, android.R.layout.simple_spinner_dropdown_item, users);
-                    DeleteUserActivity delete = (DeleteUserActivity) currentActivity;
+                    DeleteUser delete = (DeleteUser) currentActivity;
                     System.out.println("Test7");
                     delete.populateSpinner(adapter);
 

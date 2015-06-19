@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import eu.silvenia.bridgeballot.network.Bridge;
+import eu.silvenia.bridgeballot.services.GPSservice;
 
 /**
  * Created by Johnnie Ho on 5-6-2015.
@@ -35,7 +35,7 @@ public class HelperTools {
     }
 
     public static double calculateGpsDistance(double lat1, double lat2, double lon1,
-                                  double lon2) {
+                                  double lon2, double el1, double el2) {
 
         final int R = 6371; // Radius of the earth
 
@@ -45,13 +45,13 @@ public class HelperTools {
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c; // convert to meters
+        double distance = R * c * 1000; // convert to meters
 
-        //double height = el1 - el2;
+        double height = el1 - el2;
 
-        //distance = Math.pow(distance, 2) + Math.pow(height, 2);
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-        return round2(distance);
+        return round2(Math.sqrt(distance));
     }
 
     public static double round2(Double val) {
@@ -96,7 +96,7 @@ public class HelperTools {
                 Map.Entry pair = (Map.Entry)it.next();
                 Bridge bridge = (Bridge) pair.getValue();
                 if(bridge != null) {
-                    double distance = calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude());
+                    double distance = calculateGpsDistance(latitude, bridge.getLatitude(), longitude, bridge.getLongitude(), 0.0d, 0.0d);
                     bridge.setDistance(distance);
                 }
             }

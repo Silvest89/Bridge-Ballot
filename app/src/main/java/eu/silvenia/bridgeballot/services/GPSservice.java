@@ -1,4 +1,4 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.services;
 
 import android.app.Service;
 import android.content.Context;

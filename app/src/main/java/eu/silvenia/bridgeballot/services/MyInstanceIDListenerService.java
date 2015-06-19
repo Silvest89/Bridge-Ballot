@@ -1,12 +1,13 @@
-package eu.silvenia.bridgeballot;
-
-import android.util.Log;
+package eu.silvenia.bridgeballot.services;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.iid.InstanceIDListenerService;
 
 import java.io.IOException;
+
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.Config;
 
 /**
  * Created by Jesse on 29-5-2015.

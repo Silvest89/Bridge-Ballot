@@ -1,4 +1,4 @@
-package eu.silvenia.bridgeballot;
+package eu.silvenia.bridgeballot.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,11 +8,14 @@ import android.widget.Spinner;
 
 import java.util.concurrent.ExecutionException;
 
+import eu.silvenia.bridgeballot.Account;
+import eu.silvenia.bridgeballot.ActivityHandler;
+import eu.silvenia.bridgeballot.R;
+
 /**
  * Created by Jesse on 9-6-2015.
  */
-public class DeleteUserActivity extends Activity {
-    Network network;
+public class DeleteUser extends Activity {
     Spinner spinner;
 
     @Override

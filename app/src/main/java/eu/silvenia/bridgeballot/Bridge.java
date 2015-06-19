@@ -1,13 +1,10 @@
-package eu.silvenia.bridgeballot.network;
+package eu.silvenia.bridgeballot;
 
 
 import android.widget.ImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-
-import eu.silvenia.bridgeballot.R;
 
 /**
  * Created by Johnnie Ho on 6-6-2015.

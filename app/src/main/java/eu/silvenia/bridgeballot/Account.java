@@ -4,14 +4,14 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
-import eu.silvenia.bridgeballot.network.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.AdminBridges;
+import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 import eu.silvenia.bridgeballot.network.NetworkHandler;
 import eu.silvenia.bridgeballot.network.ProtocolMessage;
 import io.netty.channel.Channel;
@@ -26,13 +26,12 @@ public final class Account {
     private static boolean googlePlus;
     private static String token;
     private static Channel channel;
-    private static int reputation;
 
-    public static HashMap<Integer, Bridge> bridgeMap = new HashMap<>();
-    public static HashMap<Integer, Bridge> watchListMap = new HashMap<>();
+    public static HashMap<Integer, eu.silvenia.bridgeballot.Bridge> bridgeMap = new HashMap<>();
+    public static HashMap<Integer, eu.silvenia.bridgeballot.Bridge> watchListMap = new HashMap<>();
 
-    public static ArrayList<Bridge> mWatchList = new ArrayList<>();
-    public static ArrayList<Bridge> mBridgeList = new ArrayList<>();
+    public static ArrayList<eu.silvenia.bridgeballot.Bridge> mWatchList = new ArrayList<>();
+    public static ArrayList<eu.silvenia.bridgeballot.Bridge> mBridgeList = new ArrayList<>();
 
     public static int getId(){
         return id;
@@ -114,7 +113,6 @@ public final class Account {
 
     public static void login(String username, String password, boolean googlePlus){
         try {
-            System.out.println(googlePlus);
             if(googlePlus) {
                 password = HelperTools.getRandomString(8);
                 HelperTools.showAlert(ActivityHandler.handler.currentActivity, "Password", "Your account password is: " + password + ". Should you want to login with password.");
@@ -162,12 +160,12 @@ public final class Account {
         message.add(id);
         message.add(isOpen);
         Account.getChannel().writeAndFlush(message);
-        if(BridgeFragment.handler != null)
-            BridgeFragment.handler.updateList();
-        if(WatchListFragment.handler != null)
-        WatchListFragment.handler.updateList();
-        //BridgeFragment.mBridges.addAll(bridgeMap.values());
-        //WatchListFragment.mBridges.addAll(watchListMap.values());
+        if(Bridge.handler != null)
+            Bridge.handler.updateList();
+        if(WatchList.handler != null)
+        WatchList.handler.updateList();
+        //Bridge.mBridges.addAll(bridgeMap.values());
+        //WatchList.mBridges.addAll(watchListMap.values());
     }
 
     public static void getWatchList(){
@@ -175,13 +173,13 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
     }
 
-    public static void addToWatchList(Bridge bridge){
+    public static void addToWatchList(eu.silvenia.bridgeballot.Bridge bridge){
         watchListMap.put(bridge.getId(), bridge);
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_ADD);
         message.add(bridge.getId());
         Account.getChannel().writeAndFlush(message);
-        if(WatchListFragment.handler != null)
-            WatchListFragment.handler.updateList();
+        if(WatchList.handler != null)
+            WatchList.handler.updateList();
     }
 
     public static void removeFromWatchList(int id){
@@ -204,7 +202,6 @@ public final class Account {
         switch(type){
             case CREATE: {
                 message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_CREATE);
-                System.out.println("WASHILLE MA DIZZLE");
                 break;
             }
             case UPDATE: {
