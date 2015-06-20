@@ -76,8 +76,16 @@ public class NetworkHandler extends ChannelHandlerAdapter {
                 parseLogin(message);
                 break;
             }
+            case MessageType.CREATE_ACCOUNT:{
+                parseCreateAccount(message);
+                break;
+            }
             case MessageType.REQUEST_USERS:{
                 parseUserRequest(message);
+                break;
+            }
+            case MessageType.DELETE_USER: {
+                parseDeleteUser(message);
                 break;
             }
             case MessageType.DISCONNECT:{
@@ -115,6 +123,15 @@ public class NetworkHandler extends ChannelHandlerAdapter {
     }
 
     /**
+     * Method which parses the incoming result of the create user query, and sends an int to the method which builds the alert
+     * @param message
+     */
+    public void parseCreateAccount(ProtocolMessage message){
+        Integer result = (Integer) message.getMessage().get(1);
+        ActivityHandler.handler.checkCreateAccount(result);
+    }
+
+    /**
      * Method which sets the account details to the logged in account.
      * @param message
      */
@@ -140,6 +157,15 @@ public class NetworkHandler extends ChannelHandlerAdapter {
     public void parseUserRequest(ProtocolMessage message){
         ArrayList<String> users = (ArrayList) message.getMessage().get(1);
         ActivityHandler.handler.getUsers(users);
+    }
+
+    /**
+     * Method which parses the incoming result of the delete user query, and sends an int to the method which builds the alert
+     * @param message
+     */
+    public void parseDeleteUser(ProtocolMessage message){
+        Integer result = (Integer) message.getMessage().get(1);
+        ActivityHandler.handler.checkUserDelete(result);
     }
 
     /**

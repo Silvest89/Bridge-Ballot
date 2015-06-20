@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import eu.silvenia.bridgeballot.activity.BallotList;
+import eu.silvenia.bridgeballot.activity.CreateUser;
 import eu.silvenia.bridgeballot.activity.DeleteUser;
 import eu.silvenia.bridgeballot.activity.DetailPage;
 import eu.silvenia.bridgeballot.activity.Main;
@@ -63,12 +64,14 @@ public class ActivityHandler extends Handler {
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                CreateUser createUser = (CreateUser)currentActivity;
                 if (result == 0)
-                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_accountsucces));
+                    HelperTools.showAlert(createUser, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_accountsucces));
                 else if (result == 2){
-                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_accountfailure));
+                    HelperTools.showAlert(createUser, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_accountfailure));
                 }
             }
+
         });
     }
 
@@ -76,12 +79,13 @@ public class ActivityHandler extends Handler {
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                DeleteUser deleteUser = (DeleteUser)currentActivity;
                 if (result == 0){
-                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_deletesuccess));
+                    HelperTools.showAlert(deleteUser, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_deletesuccess));
                 }
 
                 else {
-                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_deletefailure));
+                    HelperTools.showAlert(deleteUser, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_deletefailure));
                 }
             }
         });
