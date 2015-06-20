@@ -161,8 +161,6 @@ public final class Account {
             Bridge.handler.updateList();
         if(WatchList.handler != null)
         WatchList.handler.updateList();
-        //Bridge.mBridges.addAll(bridgeMap.values());
-        //WatchList.mBridges.addAll(watchListMap.values());
     }
 
     public static void getWatchList(){

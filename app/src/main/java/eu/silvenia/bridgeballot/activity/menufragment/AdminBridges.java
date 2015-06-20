@@ -22,16 +22,21 @@ import eu.silvenia.bridgeballot.Bridge;
 
 
 public class AdminBridges extends Fragment {
+
     List<Bridge> bridgeList;
+
     EditText bridgeName;
     EditText bridgeLocation;
     EditText bridgeLatitude;
     EditText bridgeLongitude;
+
     Button saveButton;
     Button deleteButton;
-    String oldName = "";
+
     int bridgeID;
+
     View rootview;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
@@ -62,19 +67,22 @@ public class AdminBridges extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (!(bridgeNames.get(position).equals(getString(R.string.bridgeadmin_newbridge)))) {
-                    bridgeName.setText(bridgeList.get(position).getName());
-                    oldName = bridgeName.getText().toString();
-                    bridgeID = bridgeList.get(position).getId();
-                    bridgeLocation.setText(bridgeList.get(position).getLocation());
-                    bridgeLatitude.setText(String.valueOf(bridgeList.get(position).getLatitude()));
-                    bridgeLongitude.setText(String.valueOf(bridgeList.get(position).getLongitude()));
+                    Bridge bridge = bridgeList.get(position);
+
+                    bridgeName.setText(bridge.getName());
+                    bridgeID = bridge.getId();
+                    bridgeLocation.setText(bridge.getLocation());
+                    bridgeLatitude.setText(String.valueOf(bridge.getLatitude()));
+                    bridgeLongitude.setText(String.valueOf(bridge.getLongitude()));
                     saveButton.setText(getString(R.string.bridgeadmin_save));
+                    deleteButton.setVisibility(View.INVISIBLE);
                 } else {
                     bridgeName.setText("");
                     bridgeLocation.setText("");
                     bridgeLatitude.setText("");
                     bridgeLongitude.setText("");
                     saveButton.setText(R.string.bridgeadmin_savenew);
+                    deleteButton.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -87,8 +95,7 @@ public class AdminBridges extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 saveButton.setEnabled(false);
-                ArrayList<String> bridge = new ArrayList<String>();
-                bridge.add(oldName);
+                ArrayList<String> bridge = new ArrayList<>();
                 bridge.add(String.valueOf(bridgeID));
                 bridge.add(bridgeName.getText().toString());
                 bridge.add(bridgeLocation.getText().toString());

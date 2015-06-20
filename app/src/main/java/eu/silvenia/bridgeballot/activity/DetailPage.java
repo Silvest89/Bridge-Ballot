@@ -66,7 +66,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         distance = (TextView)findViewById(R.id.distance);
         city = (TextView)findViewById(R.id.city);
         status = (TextView)findViewById(R.id.currentStatus);
-        distance.setText(Double.toString(selectedBridge.getDistance()) + " m");
+        distance.setText(Double.toString(selectedBridge.getDistance()) + " km");
         city.setText(selectedBridge.getLocation());
 
         if(getSupportActionBar() != null) {
@@ -156,9 +156,16 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
                 bitmap = snapshot;
                 try {
 
+                    String bridgeStatus = "";
+                    if(selectedBridge.isOpen()){
+                        bridgeStatus = getString(R.string.status_open);
+                    }
+                    else
+                        bridgeStatus = getString(R.string.status_closed);
+
                     Intent shareIntent = new PlusShare.Builder(ActivityHandler.handler.currentActivity)
                             .setType("video/*, image/*")
-                            .setText("I am @ " + selectedBridge.getName())
+                            .setText("I am @ " + selectedBridge.getName() + " it is currently: " + bridgeStatus + ".")
                             .addStream(HelperTools.getImageUri(ActivityHandler.handler.currentActivity, bitmap))
                             //.setContentUrl(Uri.parse("https://developers.google.com/+/"))
                             .getIntent();
@@ -194,7 +201,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final TextView userName;
-        private final TextView reputation;
+        private final TextView userReputation;
         private final TextView timeStamp;
         private final ImageView status;
         private final Button button;
@@ -208,7 +215,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             super(itemView);
 
             userName = (TextView) itemView.findViewById(R.id.rep_userName);
-            reputation =  (TextView) itemView.findViewById(R.id.rep_reputation);
+            userReputation =  (TextView) itemView.findViewById(R.id.rep_reputation);
             timeStamp = (TextView) itemView.findViewById(R.id.rep_timeStamp);
             status = (ImageView) itemView.findViewById(R.id.rep_status);
             button = (Button) itemView.findViewById(R.id.rep_button);
@@ -227,11 +234,8 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
             userName.setText(reputation.getUserName());
             button.setBackgroundResource(R.drawable.dislike_button);
-            this.reputation.setText(Integer.toString(reputation.getReputation()));
-            if(reputation.isStatus())
-                status.setBackgroundResource(R.mipmap.ic_redcircle);
-            else
-                status.setBackgroundResource(R.mipmap.ic_greencircle);
+            userReputation.setText(Integer.toString(reputation.getReputation()));
+            status.setBackgroundResource(R.mipmap.ic_redcircle);
 
             SimpleDateFormat sf = new SimpleDateFormat("dd-MM kk:mm:ss");
             String date = sf.format(reputation.getTimeStamp());

@@ -38,19 +38,8 @@ public class MyIntentService extends IntentService {
 
             Account.setToken(gcmToken);
 
-            // Subscribe to topic channels
-            //subscribeTopics(token);
-
-            // You should store a boolean that indicates whether the generated token has been
-            // sent to your server. If the boolean is false, send the token to your server,
-            // otherwise your server should have already received the token.
-            //sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
 }
