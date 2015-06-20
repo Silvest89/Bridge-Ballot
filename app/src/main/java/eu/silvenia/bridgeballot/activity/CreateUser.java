@@ -37,6 +37,12 @@ public class CreateUser extends Activity {
         alert = new AlertDialog.Builder(this).create();
     }
 
+    /**
+     * Function that handles creating an account
+     * @param v
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void makeAccount(View v) throws ExecutionException, InterruptedException {
         userNameET = (EditText) findViewById(R.id.create_userName);
         passwordET = (EditText) findViewById(R.id.create_password);

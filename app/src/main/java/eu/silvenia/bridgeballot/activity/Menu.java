@@ -46,6 +46,10 @@ public class Menu extends AppCompatActivity {
         ADMIN_BRIDGES
     }
 
+    /**
+     * initialisation of variables and interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +105,11 @@ public class Menu extends AppCompatActivity {
         }
     }
 
+    /**
+     * Creates the option menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -109,7 +118,13 @@ public class Menu extends AppCompatActivity {
     }
 
     public static boolean isVisible = true;
-    /* Called whenever we call invalidateOptionsMenu() */
+
+    /**
+     * Called whenever we call invalidateOptionsMenu()
+     * sets up the optionsmenu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onPrepareOptionsMenu(android.view.Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
@@ -135,6 +150,12 @@ public class Menu extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    /**
+     * handles the top menu buttons
+     * Starts the selected intent depending on the option selected
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
@@ -180,7 +201,10 @@ public class Menu extends AppCompatActivity {
         return true;
     }
 
-    /* The click listener for ListView in the navigation drawer */
+
+    /**
+     * The click listener for ListView in the navigation drawer
+     */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,6 +212,11 @@ public class Menu extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * starts the intent of selected screen in the navigation drawer
+     * @param position
+     */
     private void selectItem(int position) {
         Fragment fragment = null;
         switch(position){
@@ -225,6 +254,10 @@ public class Menu extends AppCompatActivity {
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
+    /**
+     * sets the title of an intent
+     * @param title
+     */
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
@@ -234,8 +267,11 @@ public class Menu extends AppCompatActivity {
     /**
      * When using the ActionBarDrawerToggle, you must call it during
      * onPostCreate() and onConfigurationChanged()...
+     *
+     * Called after an intent has been created
+     *
+     *
      */
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -243,6 +279,10 @@ public class Menu extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
+    /**
+     * activates changes in the config
+     * @param newConfig
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -250,6 +290,9 @@ public class Menu extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    /**
+     * disable back button
+     */
     @Override
     public void onBackPressed() {
         return;

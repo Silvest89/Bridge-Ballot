@@ -27,11 +27,23 @@ public class DeleteUser extends Activity {
         Account.requestUsers();
     }
 
+    /**
+     * fills spinner with adapter data
+     * @param adapter
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void populateSpinner(ArrayAdapter<String> adapter) throws ExecutionException, InterruptedException {
         System.out.println("Test8");
         spinner.setAdapter(adapter);
     }
 
+    /**
+     * delete selected user from spinner
+     * @param v
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void onDelete(View v) throws ExecutionException, InterruptedException {
         String userToDelete = spinner.getSelectedItem().toString();
         Account.deleteUser(userToDelete);

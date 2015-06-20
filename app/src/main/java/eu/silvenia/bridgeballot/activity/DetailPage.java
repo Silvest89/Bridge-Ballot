@@ -39,6 +39,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
     public static ArrayList<Reputation> reputationList = new ArrayList<>();
 
+    /**
+     * initialisation of variables and interface
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +85,12 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         updateStatus();
     }
 
+    /**
+     * Triggered when an item has been selected
+     * returns the user to 'main' screen when the back arrow is pressed
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -92,7 +102,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
-
+    /**
+     * handles the voting on bridges
+     * @param v
+     */
     public void onVote(View v){
         if(canPress()) {
             selectedBridge.setOpen(true);
@@ -103,6 +116,9 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             HelperTools.showAlert(this, getString(R.string.alert_error), getString(R.string.alert_distanceerror));
     }
 
+    /**
+     * updates status after it has been changes due to voting
+     */
     public void updateStatus(){
         if (selectedBridge.isOpen()) {
             status.setTextColor(Color.RED);
@@ -115,6 +131,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
+    /**
+     * Returns whether the vote  button can be pressed: user needs to be within a given distance of the bridge
+     * @return
+     */
     private boolean canPress(){
         if(selectedBridge.getDistance() < 500 && selectedBridge.getDistance() != 0) {
             return true;
@@ -123,6 +143,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         return false;
     }
 
+    /**
+     * Gives the user the option to share info through google plus
+     * @param v
+     */
     public void googleShare(View v){
         googleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
             Bitmap bitmap;
@@ -147,6 +171,11 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         });
     }
 
+    /**
+     * Triggered when google maps interface is done loading.
+     * Places the position of the bridge on the Google Maps.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng latLng = new LatLng(selectedBridge.getLatitude(), selectedBridge.getLongitude());
@@ -171,6 +200,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         private final Button button;
         private Reputation mReputation;
 
+        /**
+         * Holds the reputation data of the current user
+         * @param itemView
+         */
         public ReputationHolder(View itemView) {
             super(itemView);
 
@@ -185,6 +218,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             //itemView.setLongClickable(true);
         }
 
+        /**
+         * holds data of bridge
+         * @param reputation
+         */
         public void bindBridge(Reputation reputation) {
             mReputation = reputation;
 
@@ -201,6 +238,10 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             timeStamp.setText(date);
         }
 
+        /**
+         * Updates reputation when voting or showes error: too far away from bridge
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             if(canPress()) {
@@ -218,6 +259,12 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     private class ReputationAdapter extends RecyclerView.Adapter<ReputationHolder> {
+        /**
+         * Creates the reputationlist
+         * @param parent
+         * @param pos
+         * @return
+         */
         @Override
         public ReputationHolder onCreateViewHolder(ViewGroup parent, int pos) {
             View view = LayoutInflater.from(parent.getContext())
@@ -225,12 +272,21 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
             return new ReputationHolder(view);
         }
 
+        /**
+         * sets data if the list
+         * @param holder
+         * @param pos
+         */
         @Override
         public void onBindViewHolder(ReputationHolder holder, int pos) {
             Reputation reputation = reputationList.get(pos);
             holder.bindBridge(reputation);
         }
 
+        /**
+         * returns the size of reputation list
+         * @return
+         */
         @Override
         public int getItemCount() {
             return reputationList.size();

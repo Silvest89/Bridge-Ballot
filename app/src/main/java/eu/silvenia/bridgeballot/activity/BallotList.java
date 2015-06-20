@@ -53,12 +53,19 @@ public abstract class BallotList extends Fragment {
 
     }
 
+    /**
+    *Updates the list
+    *@param list
+    */
     public void updateList(ArrayList list){
         mBridges = list;
         //((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
         sortList();
     }
 
+    /**
+     * Sorts the list by distance
+     */
     protected void sortList(){
         Collections.sort(mBridges,new DistanceSorter());
     }
@@ -73,6 +80,11 @@ public abstract class BallotList extends Fragment {
         setRetainInstance(true);
     }
 
+    /**
+     * Triggers when bridge is selected
+     * Starts the detailpage intent for the selectedbridge
+     * @param c
+     */
     protected void selectBridge(eu.silvenia.bridgeballot.Bridge c) {
         int index = mBridges.indexOf(c);
         int id = c.getId();
@@ -85,8 +97,15 @@ public abstract class BallotList extends Fragment {
         startActivity(DetailPage);
     }
 
+
     ActionMode.Callback specialMode = new ModalMultiSelectorCallback(mMultiSelector) {
 
+        /**
+         * Creates sidemenu depending on the current intent
+         * @param actionMode
+         * @param menu
+         * @return
+         */
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             if(ballot instanceof WatchList)
@@ -97,6 +116,12 @@ public abstract class BallotList extends Fragment {
             return true;
         }
 
+        /**
+         * Deletes or add bridge, depending on the option selected
+         * @param actionMode
+         * @param menuItem
+         * @return
+         */
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             switch (menuItem.getItemId()) {
@@ -139,6 +164,9 @@ public abstract class BallotList extends Fragment {
         }
     };
 
+    /**
+     * Class with functionality for sorting list by distance
+     */
     public class DistanceSorter implements Comparator<eu.silvenia.bridgeballot.Bridge> {
         @Override
         public int compare(eu.silvenia.bridgeballot.Bridge c1, eu.silvenia.bridgeballot.Bridge c2) {
@@ -146,6 +174,9 @@ public abstract class BallotList extends Fragment {
         }
     }
 
+    /**
+     * This class holds all the interface variables
+     */
     private class BridgeHolder extends SwappingHolder
             implements View.OnClickListener, View.OnLongClickListener {
         private final ImageView mBridgeImage;
@@ -175,6 +206,10 @@ public abstract class BallotList extends Fragment {
             setSelectionModeBackgroundDrawable(stateListDrawable);
         }
 
+        /**
+         * fills row of a bridge in the list with data
+         * @param bridge
+         */
         public void bindBridge(eu.silvenia.bridgeballot.Bridge bridge) {
             mBridge = bridge;
 
@@ -191,6 +226,10 @@ public abstract class BallotList extends Fragment {
             mDateTextView.setText(getString(R.string.ballotlist_distance) + bridge.getDistance() + " m");
         }
 
+        /**
+         * trigger function to goto detailpage of bridge when tapped upon (and is not done after a long click)
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             if (mBridge == null) {
@@ -201,6 +240,11 @@ public abstract class BallotList extends Fragment {
             }
         }
 
+        /**
+         * on longclick select bridges
+         * @param v
+         * @return
+         */
         @Override
         public boolean onLongClick(View v) {
             AppCompatActivity activity = (AppCompatActivity)getActivity();
@@ -249,6 +293,10 @@ public abstract class BallotList extends Fragment {
             notifyDataSetChanged();
         }*/
 
+        /**
+         * returns item count of mBridges
+         * @return
+         */
         @Override
         public int getItemCount() {
             return mBridges.size();
