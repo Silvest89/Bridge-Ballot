@@ -12,6 +12,9 @@ import java.io.IOException;
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.ActivityHandler;
 
+/**
+ * Class which handles the sending of the token to the server
+ */
 public class MyIntentService extends IntentService {
 
     public static ActivityHandler handler;
@@ -19,8 +22,12 @@ public class MyIntentService extends IntentService {
     public MyIntentService(){
         super("MyIntent");
     }
-    public void onHandleIntent(Intent intent){
 
+    /**
+     * Method which sets the token to the currently logged in account
+     * @param intent
+     */
+    public void onHandleIntent(Intent intent){
         try {
             // Initially this call goes out to the network to retrieve the token, subsequent calls
             // are local.

@@ -23,6 +23,9 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public class NetworkHandler extends ChannelHandlerAdapter {
 
+    /**
+     * Class which contains all constants which are needed for client-server communication
+     */
     public final static class MessageType {
         public static final int LOGIN = 0;
         public static final int DISCONNECT = 1;
@@ -58,6 +61,11 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         //System.out.println(ctx.channel().id());
     }
 
+    /**
+     * Method which reads messages from the server and calls the right methods to read server input.
+     * @param ctx
+     * @param msg
+     */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         // Echo back the received object to the server.
@@ -66,6 +74,10 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         switch ((int)message.getMessage().get(0)) {
             case MessageType.LOGIN:{
                 parseLogin(message);
+                break;
+            }
+            case MessageType.REQUEST_USERS:{
+                parseUserRequest(message);
                 break;
             }
             case MessageType.DISCONNECT:{
@@ -102,6 +114,10 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         ctx.close();
     }
 
+    /**
+     * Method which sets the account details to the logged in account.
+     * @param message
+     */
     public void parseLogin(ProtocolMessage message){
         int[] returnMessage = (int[])message.getMessage().get(1);
         if(returnMessage == null) {
@@ -117,6 +133,19 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         ActivityHandler.handler.enableLogin();
     }
 
+    /**
+     * Method which passes an arraylist of all known users from the database to the app.
+     * @param message message from the server containing the arraylist.
+     */
+    public void parseUserRequest(ProtocolMessage message){
+        ArrayList<String> users = (ArrayList) message.getMessage().get(1);
+        ActivityHandler.handler.getUsers(users);
+    }
+
+    /**
+     * Method which passes an arraylist of all known bridges from the database to the app
+     * @param message message from the server containing the arraylist
+     */
     public void parseBridgeRequest(ProtocolMessage message){
         ArrayList<String[]> bridgeList = (ArrayList)message.getMessage().get(1);
 
@@ -136,6 +165,10 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         Account.getWatchList();
     }
 
+    /**
+     * Method which passes an arraylist containing all bridges of the watchlist of the current logged in account
+     * @param message message from the server containing the arraylist
+     */
     public void parseWatchListRequest(ProtocolMessage message){
         ArrayList<String[]> watchList = (ArrayList)message.getMessage().get(1);
 
@@ -150,6 +183,10 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             WatchList.handler.updateList();
     }
 
+    /**
+     * Method which regulates the update of the status of a given bridge
+     * @param message message containing the bridge's id and its status
+     */
     public void parseBridgeStatusUpdate(ProtocolMessage message){
         int bridgeId = (int) message.getMessage().get(1);
         boolean status = (boolean) message.getMessage().get(2);
@@ -161,6 +198,10 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             WatchList.handler.updateList();
     }
 
+    /**
+     * Method which parses the reputation request (e.g. highers of lowers the reputation of a given user)
+     * @param message message from the server containing the arraylist with reputation numbers
+     */
     private void parseReputation(ProtocolMessage message) {
         ArrayList<Reputation> reputationList = new ArrayList<>();
         ArrayList<String[]> list = (ArrayList) message.getMessage().get(1);

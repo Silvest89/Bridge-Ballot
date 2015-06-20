@@ -24,7 +24,7 @@ public class HelperToolsTest extends InstrumentationTestCase {
 
     public void testGPSDistance(){
         double distance = HelperTools.calculateGpsDistance(3, 5, 7, 9, 0, 0);
-        assertEquals(distance, 314.12);
+        assertEquals(distance, 314115.81);
     }
 
     public void testGetTimeStamp(){

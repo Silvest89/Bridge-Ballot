@@ -10,10 +10,17 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 /**
- * Created by Jesse on 9-6-2015.
+ * Class which starts teh GPS service for distance calculations
  */
 public class GPSservice extends Service implements LocationListener {
 
+    /**
+     * Method which actualy starts the service
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -32,6 +39,11 @@ public class GPSservice extends Service implements LocationListener {
     }
 
     public static double longitude, latitude;
+
+    /**
+     * Method which updates the latitude and longitude when there is an update
+     * @param location
+     */
     @Override
     public void onLocationChanged(Location location) {
         if(location.getAccuracy() < 100.0) {

@@ -15,7 +15,7 @@ import eu.silvenia.bridgeballot.activity.Main;
 import eu.silvenia.bridgeballot.R;
 
 /**
- * Created by Jesse on 29-5-2015.
+ * Class for the service which regulates notification via Google Cloud Messaging (GCM)
  */
 public class MyGcmListenerService extends GcmListenerService {
  
@@ -43,6 +43,11 @@ public class MyGcmListenerService extends GcmListenerService {
         handleNotification(mContext);
 
 }
+
+    /**
+     * Method which builds a new notofication (sets the title and content)
+     * @param context
+     */
     public void handleNotification(String context){
         Intent intent = new Intent();
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
