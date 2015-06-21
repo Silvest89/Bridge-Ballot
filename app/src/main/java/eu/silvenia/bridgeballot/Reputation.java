@@ -14,6 +14,16 @@ public class Reputation {
     private boolean status;
     private int bridgeId;
 
+    /**
+     * defines what the values af the instance variables are for a user's reputation
+     * @param voteId
+     * @param accountId
+     * @param userName
+     * @param reputation
+     * @param timeStamp
+     * @param status
+     * @param bridgeId
+     */
     public Reputation(int voteId, int accountId, String userName, int reputation, Date timeStamp, boolean status, int bridgeId){
         this.voteId = voteId;
         this.accountId = accountId;

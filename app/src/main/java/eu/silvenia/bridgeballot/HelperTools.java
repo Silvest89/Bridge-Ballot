@@ -24,7 +24,11 @@ import eu.silvenia.bridgeballot.services.GPSservice;
  * Created by Johnnie Ho on 5-6-2015.
  */
 public class HelperTools {
-
+    /**
+     * method that makes sure the entered email is valid
+     * @param email
+     * @return
+     */
     public static boolean emailValidator(String email) {
         String EMAIL_PATTERN =
                 "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -34,6 +38,16 @@ public class HelperTools {
         return matcher.matches();
     }
 
+    /**
+     * calculates the user's distance from a bridge based on gps
+     * @param lat1
+     * @param lat2
+     * @param lon1
+     * @param lon2
+     * @param el1
+     * @param el2
+     * @return
+     */
     public static double calculateGpsDistance(double lat1, double lat2, double lon1,
                                   double lon2, double el1, double el2) {
 
@@ -54,10 +68,19 @@ public class HelperTools {
         return round2(Math.sqrt(distance));
     }
 
+    /**
+     * converts the distance Double to a String
+     * @param val
+     * @return
+     */
     public static double round2(Double val) {
         return new BigDecimal(val.toString()).setScale(3, RoundingMode.HALF_UP).doubleValue();
     }
 
+    /**
+     * gets the user's time in predefined format
+     * @return
+     */
     public static String getCurrentTimeStamp(){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss ");
@@ -66,6 +89,12 @@ public class HelperTools {
         return formattedDate;
     }
 
+    /**
+     * gets an image Uri
+     * @param inContext
+     * @param inImage
+     * @return
+     */
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -73,6 +102,12 @@ public class HelperTools {
         return Uri.parse(path);
     }
 
+    /**
+     * handles all alert triggers
+     * @param c
+     * @param title
+     * @param message
+     */
     public static void showAlert(Context c, String title, String message){
         final AlertDialog alert = new AlertDialog.Builder(c).create();
         alert.setTitle(title);
@@ -87,6 +122,9 @@ public class HelperTools {
 
     }
 
+    /**
+     * updates the distance of the bridges
+     */
     public static void updateBridgeDistance(){
         double longitude = GPSservice.longitude;
         double latitude = GPSservice.latitude;
@@ -105,6 +143,11 @@ public class HelperTools {
 
     private static final String ALLOWED_CHARACTERS ="0123456789qwertyuiopasdfghjklzxcvbnm";
 
+    /**
+     * generates a random string with predefined length and characters
+     * @param sizeOfRandomString
+     * @return
+     */
     public static String getRandomString(final int sizeOfRandomString)
     {
         final Random random=new Random();

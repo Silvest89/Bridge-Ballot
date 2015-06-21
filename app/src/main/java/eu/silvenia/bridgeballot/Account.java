@@ -80,6 +80,9 @@ public final class Account {
         Account.channel = channel;
     }
 
+    /**
+     * reset a user account
+     */
     public static void resetAccount(){
         setId(0);
         setUserName("");
@@ -91,6 +94,11 @@ public final class Account {
         setChannel(null);
     }
 
+    /**
+     * create a user account
+     * @param username
+     * @param password
+     */
     public static void createAccount(String username, String password){
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -110,6 +118,12 @@ public final class Account {
         }
     }
 
+    /**
+     * handles the login of a user
+     * @param username
+     * @param password
+     * @param googlePlus
+     */
     public static void login(String username, String password, boolean googlePlus){
         try {
             if(googlePlus) {
@@ -134,6 +148,9 @@ public final class Account {
         }
     }
 
+    /**
+     * request all user from te database
+     */
     public static void requestUsers(){
         System.out.println("Test1");
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_USERS);
@@ -141,17 +158,29 @@ public final class Account {
         System.out.println("Test2");
     }
 
+    /**
+     * delete a user from the database
+     * @param userName
+     */
     public static void deleteUser(String userName){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.DELETE_USER);
         message.add(userName);
         Account.getChannel().writeAndFlush(message);
     }
 
+    /**
+     * requests all bridges on the database
+     */
     public static void requestBridges(){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_BRIDGE);
         Account.getChannel().writeAndFlush(message);
     }
 
+    /**
+     * updates a bridges's when changed
+     * @param id
+     * @param isOpen
+     */
     public static void updateBridgeStatus(int id, boolean isOpen){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.BRIDGE_STATUS_UPDATE);
         message.add(id);
@@ -163,11 +192,18 @@ public final class Account {
         WatchList.handler.updateList();
     }
 
+    /**
+     * requests a user's watch list bridges from the database
+     */
     public static void getWatchList(){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_WATCHLIST);
         Account.getChannel().writeAndFlush(message);
     }
 
+    /**
+     * adds the selected bridge(s) to the users watchlist
+     * @param bridge
+     */
     public static void addToWatchList(eu.silvenia.bridgeballot.Bridge bridge){
         watchListMap.put(bridge.getId(), bridge);
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_ADD);
@@ -177,6 +213,10 @@ public final class Account {
             WatchList.handler.updateList();
     }
 
+    /**
+     * removes a bridge from the user's watchlist
+     * @param id
+     */
     public static void removeFromWatchList(int id){
         watchListMap.remove(id);
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.WATCHLIST_DELETE);
@@ -184,6 +224,10 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
     }
 
+    /**
+     * sends the users Google Cloud Messaging token to the database
+     * @param token
+     */
     public static void sendGcmToken(String token){
         if(Config.getGcmToken().equals("") || Config.getGcmToken().equals(null)) {
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.SEND_TOKEN);
@@ -192,6 +236,12 @@ public final class Account {
             Config.setGcmToken(token);
         }
     }
+
+    /**
+     * allows an admin to Create,Read,Update and Delete bridges in the database
+     * @param type
+     * @param bridge
+     */
     public static void CRUDBridge(AdminBridges.CRUDType type, ArrayList<String> bridge){
         ProtocolMessage message = null;
         switch(type){
@@ -213,6 +263,10 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
     }
 
+    /**
+     * gets the reputation of a voter
+     * @param bridgeId
+     */
     public static void sendReputationRequest(int bridgeId){
         ProtocolMessage message = null;
         message = new ProtocolMessage(NetworkHandler.MessageType.REPUTATION);
@@ -220,6 +274,13 @@ public final class Account {
         Account.getChannel().writeAndFlush(message);
     }
 
+    /**
+     * changes the reputation of a voter
+     * @param voteId
+     * @param userId
+     * @param targetId
+     * @param bridgeId
+     */
     public static void sendReputationUpdate(int voteId, int userId, int targetId, int bridgeId){
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REPUTATION_CHANGE);
         message.add(voteId);

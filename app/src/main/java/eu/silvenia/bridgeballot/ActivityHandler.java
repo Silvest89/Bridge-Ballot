@@ -31,11 +31,18 @@ public class ActivityHandler extends Handler {
         this.currentFragment = fragment;
     }
 
+    /**
+     * handles activity changes
+     * @param cls
+     */
     public void switchActivity(Class<?> cls){
         Intent nextActivity = new Intent(currentActivity, cls);
         currentActivity.startActivity(nextActivity);
     }
 
+    /**
+     * handles which list to update
+     */
     public void updateList(){
         if(currentFragment.isVisible()) {
             currentFragment.getActivity().runOnUiThread(new Runnable() {
@@ -50,6 +57,9 @@ public class ActivityHandler extends Handler {
         }
     }
 
+    /**
+     * enables login
+     */
     public void enableLogin(){
         currentActivity.runOnUiThread(new Runnable() {
             @Override
@@ -60,6 +70,10 @@ public class ActivityHandler extends Handler {
         });
     }
 
+    /**
+     * handles the result of creating an account
+     * @param result
+     */
     public void checkCreateAccount(final Integer result){
         currentActivity.runOnUiThread(new Runnable() {
             @Override
@@ -75,6 +89,10 @@ public class ActivityHandler extends Handler {
         });
     }
 
+    /**
+     * handles the result of deleting a user
+     * @param result
+     */
     public void checkUserDelete(final Integer result){
         currentActivity.runOnUiThread(new Runnable() {
             @Override
@@ -91,6 +109,10 @@ public class ActivityHandler extends Handler {
         });
     }
 
+    /**
+     * handles which user to delete
+     * @param users
+     */
     public void getUsers(final ArrayList<String> users){
         currentActivity.runOnUiThread(new Runnable() {
             @Override
@@ -110,6 +132,9 @@ public class ActivityHandler extends Handler {
         });
     }
 
+    /**
+     * handles the change of the reputation list
+     */
     public void updateRepList(){
         if(currentActivity instanceof DetailPage){
             final DetailPage detailPage = (DetailPage) currentActivity;

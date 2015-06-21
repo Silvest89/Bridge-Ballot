@@ -16,6 +16,11 @@ public class Config {
     private static String notification = "";
     private static String gcmToken = "";
     private static Properties prop = new Properties();
+
+    /**
+     * reads the config file
+     * @param context
+     */
     public static void readConfig(Context context){
 
         try {
