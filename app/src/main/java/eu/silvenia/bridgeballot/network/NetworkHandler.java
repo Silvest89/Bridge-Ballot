@@ -148,7 +148,8 @@ public class NetworkHandler extends ChannelHandlerAdapter {
             Account.resetAccount();
         }
         else{
-            Account.sendGcmToken(Account.getToken());
+            if (Account.getToken() != null)
+                Account.sendGcmToken(Account.getToken());
             Account.setId(returnMessage[0]);
             Account.setAccessLevel(returnMessage[1]);
             Account.requestBridges();
