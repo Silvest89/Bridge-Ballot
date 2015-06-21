@@ -32,7 +32,6 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //System.out.println(gcmToken);
         if(gcmToken != null) {
             Account.setToken(gcmToken);
             //Config.setGcmToken(gcmToken);

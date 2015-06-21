@@ -81,13 +81,12 @@ public class ActivityHandler extends Handler {
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DeleteUser deleteUser = (DeleteUser)currentFragment;
                 if (result == 0){
-                    HelperTools.showAlert(deleteUser.getActivity(), currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_deletesuccess));
+                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_deletesuccess));
                 }
 
                 else {
-                    HelperTools.showAlert(deleteUser.getActivity(), currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_deletefailure));
+                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_deletefailure));
                 }
             }
         });
@@ -99,7 +98,6 @@ public class ActivityHandler extends Handler {
             public void run() {
                 try {
                     if (currentFragment instanceof DeleteUser) {
-                        System.out.println(users);
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(currentFragment.getActivity(), android.R.layout.simple_spinner_dropdown_item, users);
                         DeleteUser delete = (DeleteUser) currentFragment;
                         delete.populateSpinner(adapter);

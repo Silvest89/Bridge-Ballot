@@ -5,9 +5,9 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,13 +18,13 @@ import android.widget.ListView;
 
 import java.util.Arrays;
 
-import eu.silvenia.bridgeballot.ActivityHandler;
-import eu.silvenia.bridgeballot.activity.menufragment.About;
 import eu.silvenia.bridgeballot.Account;
-import eu.silvenia.bridgeballot.activity.menufragment.AdminBridges;
+import eu.silvenia.bridgeballot.ActivityHandler;
 import eu.silvenia.bridgeballot.BallotSettings;
-import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 import eu.silvenia.bridgeballot.R;
+import eu.silvenia.bridgeballot.activity.menufragment.About;
+import eu.silvenia.bridgeballot.activity.menufragment.AdminBridges;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 
 public class Menu extends AppCompatActivity {
@@ -85,7 +85,6 @@ public class Menu extends AppCompatActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {

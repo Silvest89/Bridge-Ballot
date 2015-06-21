@@ -23,7 +23,7 @@
     <string name="detail_bridgebutton">Brug open</string>
     <string name="detail_distance">Afstand: </string>
     <string name="detail_location">Plaats: </string>
-    <string name="login_createuser" translatable="false">Maak account</string>
+    <string name="login_createuser">Maak account</string>
     <string name="login_loginbutton">Inloggen</string>
     <string name="login_password">Wachtwoord</string>
     <string name="login_username">Gebruikersnaam</string>

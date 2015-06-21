@@ -52,7 +52,7 @@
     <string name="ballotlist_distance">Distance: </string>
 
     <string name="alert_error" translatable="false">Error</string>
-    <string name="alert_ok" translatable="false">Ok</string>
+    <string name="alert_ok" translatable="false">OK</string>
     <string name="alert_distanceerror">You need to be within 500m</string>
     <string name="alert_emptyfields">Please fill out both fields.</string>
 

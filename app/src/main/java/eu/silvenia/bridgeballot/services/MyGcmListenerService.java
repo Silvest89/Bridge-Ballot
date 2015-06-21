@@ -18,12 +18,12 @@ import eu.silvenia.bridgeballot.R;
  * Class for the service which regulates notification via Google Cloud Messaging (GCM)
  */
 public class MyGcmListenerService extends GcmListenerService {
- 
-    private final String TAG = "BridgeBallot";
+
     static int notificationId = 1;
     @Override
     public void onMessageReceived(String from, Bundle data){
         String message = data.getString("message");
+        String TAG = "BridgeBallot";
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
         String mContext = message;

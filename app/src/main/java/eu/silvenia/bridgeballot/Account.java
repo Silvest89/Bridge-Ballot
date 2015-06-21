@@ -183,12 +183,12 @@ public final class Account {
     }
 
     public static void sendGcmToken(String token){
-        if(Config.getGcmToken().equals("null")) {
+        //if(Config.getGcmToken().equals("null")) {
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.SEND_TOKEN);
             message.add(token);
             Account.getChannel().writeAndFlush(message);
             Config.setGcmToken(token);
-        }
+        //}
     }
     public static void CRUDBridge(AdminBridges.CRUDType type, ArrayList<String> bridge){
         ProtocolMessage message = null;
@@ -212,8 +212,7 @@ public final class Account {
     }
 
     public static void sendReputationRequest(int bridgeId){
-        ProtocolMessage message = null;
-        message = new ProtocolMessage(NetworkHandler.MessageType.REPUTATION);
+        ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REPUTATION);
         message.add(bridgeId);
         Account.getChannel().writeAndFlush(message);
     }
