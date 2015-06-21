@@ -29,5 +29,8 @@
     <string name="login_username">Gebruikersnaam</string>
     <string name="status_closed">Dicht</string>
     <string name="menu_logout">Uitloggen</string>
+    <string name="alert_wrong_credentials">You have entered an incorrect username and/or password. Please try again.</string>
+    <string name="alert_bridge_saved">The bridge has succesfully been saved.</string>
+    <string name="alert_bridge_deleted">The bridge has succesfully been deleted.</string>
 
 </resources>

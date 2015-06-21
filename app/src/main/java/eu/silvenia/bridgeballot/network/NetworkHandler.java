@@ -3,6 +3,7 @@ package eu.silvenia.bridgeballot.network;
 /**
  * Created by Johnnie Ho on 10-6-2015.
  */
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.ActivityHandler;
 import eu.silvenia.bridgeballot.Bridge;
 import eu.silvenia.bridgeballot.HelperTools;
+import eu.silvenia.bridgeballot.R;
 import eu.silvenia.bridgeballot.Reputation;
 import eu.silvenia.bridgeballot.activity.DeleteUser;
 import eu.silvenia.bridgeballot.activity.Menu;
@@ -140,6 +142,9 @@ public class NetworkHandler extends ChannelHandlerAdapter {
     public void parseLogin(ProtocolMessage message){
         int[] returnMessage = (int[])message.getMessage().get(1);
         if(returnMessage == null) {
+            HelperTools.showAlert(ActivityHandler.handler.currentActivity,
+                    ActivityHandler.handler.currentActivity.getString(R.string.alert_error),
+                    ActivityHandler.handler.currentActivity.getString(R.string.alert_wrong_credentials));
             Account.resetAccount();
         }
         else{

@@ -1,8 +1,8 @@
 package eu.silvenia.bridgeballot.activity.menufragment;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.silvenia.bridgeballot.Account;
-import eu.silvenia.bridgeballot.R;
 import eu.silvenia.bridgeballot.Bridge;
+import eu.silvenia.bridgeballot.HelperTools;
+import eu.silvenia.bridgeballot.R;
 
 
 public class AdminBridges extends Fragment {
@@ -109,6 +110,7 @@ public class AdminBridges extends Fragment {
                     Account.CRUDBridge(CRUDType.UPDATE, bridge);
                 }
                 saveButton.setEnabled(true);
+                HelperTools.showAlert(getActivity(), getString(R.string.alert_success), getString(R.string.alert_bridge_saved));
             }
         });
 
@@ -120,6 +122,7 @@ public class AdminBridges extends Fragment {
                 Account.CRUDBridge(CRUDType.DELETE, bridge);
                 deleteButton.setEnabled(true);
                 Account.bridgeMap.remove(bridgeID);
+                HelperTools.showAlert(getActivity(), getString(R.string.alert_success), getString(R.string.alert_bridge_deleted));
             }
         });
         return rootview;
