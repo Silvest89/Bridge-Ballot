@@ -23,7 +23,7 @@ import eu.silvenia.bridgeballot.activity.menufragment.About;
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.activity.menufragment.AdminBridges;
 import eu.silvenia.bridgeballot.BallotSettings;
-import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 import eu.silvenia.bridgeballot.R;
 import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 
@@ -43,7 +43,8 @@ public class Menu extends AppCompatActivity {
         BRIDGE_LIST,
         WATCH_LIST,
         ABOUT,
-        ADMIN_BRIDGES
+        ADMIN_BRIDGES,
+        DELETE
     }
 
     /**
@@ -169,7 +170,7 @@ public class Menu extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_add:{
                 isVisible = false;
-                fragment = new Bridge();
+                fragment = new BridgeList();
                 break;
             }
             case R.id.action_remove:{
@@ -232,7 +233,8 @@ public class Menu extends AppCompatActivity {
             }
 
             case 2 :{
-                startActivity(new Intent(this, DeleteUser.class));
+                fragment = new DeleteUser();
+                location = FragmentLocation.DELETE;
                 break;
             }
             case 3: {
@@ -295,7 +297,14 @@ public class Menu extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        return;
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            return;
+        } else {
+            getFragmentManager().popBackStack();
+        }
+
     }
     /**
      * Fragment that appears in the "content_frame", shows a planet

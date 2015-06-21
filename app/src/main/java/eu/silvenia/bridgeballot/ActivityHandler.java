@@ -2,6 +2,7 @@ package eu.silvenia.bridgeballot;
 
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Handler;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,7 @@ import eu.silvenia.bridgeballot.activity.CreateUser;
 import eu.silvenia.bridgeballot.activity.DeleteUser;
 import eu.silvenia.bridgeballot.activity.DetailPage;
 import eu.silvenia.bridgeballot.activity.Main;
-import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 
 /**
  * Created by Johnnie Ho on 11-6-2015.
@@ -22,12 +23,12 @@ import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
 public class ActivityHandler extends Handler {
     public static ActivityHandler handler;
     public Activity currentActivity;
-    public BallotList currentFragment;
+    public Fragment currentFragment;
     public ActivityHandler(Activity activity){
         this.currentActivity = activity;
     }
 
-    public ActivityHandler(BallotList fragment){
+    public ActivityHandler(Fragment fragment){
         this.currentFragment = fragment;
     }
 
@@ -41,11 +42,12 @@ public class ActivityHandler extends Handler {
             currentFragment.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                if(currentFragment instanceof Bridge)
-                    currentFragment.updateList(Account.mBridgeList);
-                else
-                    currentFragment.updateList(Account.mWatchList);
-                }
+                    BallotList ballotList = (BallotList) currentFragment;
+                    if(ballotList instanceof BridgeList)
+                        ballotList.updateList(Account.mBridgeList);
+                    else
+                        ballotList.updateList(Account.mWatchList);
+                    }
             });
         }
     }
@@ -79,27 +81,29 @@ public class ActivityHandler extends Handler {
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DeleteUser deleteUser = (DeleteUser)currentActivity;
+                DeleteUser deleteUser = (DeleteUser)currentFragment;
                 if (result == 0){
-                    HelperTools.showAlert(deleteUser, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_deletesuccess));
+                    HelperTools.showAlert(deleteUser.getActivity(), currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_deletesuccess));
                 }
 
                 else {
-                    HelperTools.showAlert(deleteUser, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_deletefailure));
+                    HelperTools.showAlert(deleteUser.getActivity(), currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_deletefailure));
                 }
             }
         });
     }
 
     public void getUsers(final ArrayList<String> users){
-        currentActivity.runOnUiThread(new Runnable() {
+        currentFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(currentActivity, android.R.layout.simple_spinner_dropdown_item, users);
-                    DeleteUser delete = (DeleteUser) currentActivity;
-                    System.out.println("Test7");
-                    delete.populateSpinner(adapter);
+                    if (currentFragment instanceof DeleteUser) {
+                        System.out.println(users);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(currentFragment.getActivity(), android.R.layout.simple_spinner_dropdown_item, users);
+                        DeleteUser delete = (DeleteUser) currentFragment;
+                        delete.populateSpinner(adapter);
+                    }
 
                 } catch (ExecutionException e) {
                     e.printStackTrace();

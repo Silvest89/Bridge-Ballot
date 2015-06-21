@@ -11,7 +11,9 @@ import eu.silvenia.bridgeballot.ActivityHandler;
 import eu.silvenia.bridgeballot.Bridge;
 import eu.silvenia.bridgeballot.HelperTools;
 import eu.silvenia.bridgeballot.Reputation;
+import eu.silvenia.bridgeballot.activity.DeleteUser;
 import eu.silvenia.bridgeballot.activity.Menu;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -156,8 +158,8 @@ public class NetworkHandler extends ChannelHandlerAdapter {
      */
     public void parseUserRequest(ProtocolMessage message){
         ArrayList<String> users = (ArrayList) message.getMessage().get(1);
-        ActivityHandler.handler.getUsers(users);
-    }
+        DeleteUser.handler.getUsers(users);
+}
 
     /**
      * Method which parses the incoming result of the delete user query, and sends an int to the method which builds the alert
@@ -184,11 +186,13 @@ public class NetworkHandler extends ChannelHandlerAdapter {
                     Boolean.parseBoolean(bridgeList.get(i)[5]));
             Account.bridgeMap.put(bridge.getId(), bridge);
         }
-        //Bridge.handler.updateBridgeList();
 
         Account.mBridgeList = new ArrayList<>(Account.bridgeMap.values());
         HelperTools.updateBridgeDistance();
         Account.getWatchList();
+
+        if (BridgeList.handler != null)
+            BridgeList.handler.updateList();
     }
 
     /**
@@ -218,8 +222,8 @@ public class NetworkHandler extends ChannelHandlerAdapter {
         boolean status = (boolean) message.getMessage().get(2);
         Account.bridgeMap.get(bridgeId).setOpen(status);
 
-        if(eu.silvenia.bridgeballot.activity.menufragment.Bridge.handler != null)
-            eu.silvenia.bridgeballot.activity.menufragment.Bridge.handler.updateList();
+        if(BridgeList.handler != null)
+            BridgeList.handler.updateList();
         if(WatchList.handler != null)
             WatchList.handler.updateList();
     }

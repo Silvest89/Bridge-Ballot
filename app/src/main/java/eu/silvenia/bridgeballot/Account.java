@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import eu.silvenia.bridgeballot.activity.menufragment.AdminBridges;
-import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 import eu.silvenia.bridgeballot.network.NetworkHandler;
 import eu.silvenia.bridgeballot.network.ProtocolMessage;
@@ -85,10 +85,10 @@ public final class Account {
         setUserName("");
         setGooglePlus(false);
         setAccessLevel(0);
-        if(channel.isActive()){
-            channel.close();
-        }
-        setChannel(null);
+        //if(channel.isActive()){
+            //channel.close();
+        //}
+        //setChannel(null);
     }
 
     public static void createAccount(String username, String password){
@@ -135,10 +135,8 @@ public final class Account {
     }
 
     public static void requestUsers(){
-        System.out.println("Test1");
         ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.REQUEST_USERS);
         Account.getChannel().writeAndFlush(message);
-        System.out.println("Test2");
     }
 
     public static void deleteUser(String userName){
@@ -157,8 +155,8 @@ public final class Account {
         message.add(id);
         message.add(isOpen);
         Account.getChannel().writeAndFlush(message);
-        if(Bridge.handler != null)
-            Bridge.handler.updateList();
+        if(BridgeList.handler != null)
+            BridgeList.handler.updateList();
         if(WatchList.handler != null)
         WatchList.handler.updateList();
     }
@@ -185,7 +183,7 @@ public final class Account {
     }
 
     public static void sendGcmToken(String token){
-        if(Config.getGcmToken().equals("") || Config.getGcmToken().equals(null)) {
+        if(Config.getGcmToken().equals("null")) {
             ProtocolMessage message = new ProtocolMessage(NetworkHandler.MessageType.SEND_TOKEN);
             message.add(token);
             Account.getChannel().writeAndFlush(message);

@@ -75,15 +75,17 @@ public class AdminBridges extends Fragment {
                     bridgeLatitude.setText(String.valueOf(bridge.getLatitude()));
                     bridgeLongitude.setText(String.valueOf(bridge.getLongitude()));
                     saveButton.setText(getString(R.string.bridgeadmin_save));
-                    deleteButton.setVisibility(View.INVISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+
                 } else {
                     bridgeName.setText("");
                     bridgeLocation.setText("");
                     bridgeLatitude.setText("");
                     bridgeLongitude.setText("");
                     saveButton.setText(R.string.bridgeadmin_savenew);
-                    deleteButton.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.INVISIBLE);
                 }
+
             }
 
             @Override
@@ -117,6 +119,7 @@ public class AdminBridges extends Fragment {
                 bridge.add(String.valueOf(bridgeID));
                 Account.CRUDBridge(CRUDType.DELETE, bridge);
                 deleteButton.setEnabled(true);
+                Account.bridgeMap.remove(bridgeID);
             }
         });
         return rootview;

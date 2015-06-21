@@ -54,9 +54,9 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
 
         notification.setSmallIcon(R.mipmap.ic_launcher);
-        notification.setTicker("Bridge-Ballot Notification");
+        notification.setTicker("BridgeList-Ballot Notification");
         notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("Bridge-ballot Notif");
+        notification.setContentTitle("BridgeList-ballot Notif");
         notification.setContentText(context);
         notification.setAutoCancel(true);
 

@@ -7,7 +7,6 @@ import com.google.android.gms.iid.InstanceIDListenerService;
 import java.io.IOException;
 
 import eu.silvenia.bridgeballot.Account;
-import eu.silvenia.bridgeballot.Config;
 
 /**
  * Class which regulates token refresh (a token is the unique id of an android device, used for GCM)
@@ -36,7 +35,7 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
         //System.out.println(gcmToken);
         if(gcmToken != null) {
             Account.setToken(gcmToken);
-            Config.setGcmToken("");
+            //Config.setGcmToken(gcmToken);
         }
     }
 

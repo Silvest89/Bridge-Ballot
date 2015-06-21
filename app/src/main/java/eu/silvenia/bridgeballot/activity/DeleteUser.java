@@ -1,8 +1,10 @@
 package eu.silvenia.bridgeballot.activity;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -15,16 +17,18 @@ import eu.silvenia.bridgeballot.R;
 /**
  * Created by Jesse on 9-6-2015.
  */
-public class DeleteUser extends Activity {
+public class DeleteUser extends Fragment {
+    public static ActivityHandler handler;
     Spinner spinner;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_delete);
-        spinner = (Spinner) findViewById(R.id.spinner_users);
-        ActivityHandler.handler = new ActivityHandler(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_user_delete, parent, false);
+        spinner = (Spinner) v.findViewById(R.id.spinner_users);
+        handler = new ActivityHandler(this);
         Account.requestUsers();
+
+        return v;
     }
 
     /**
@@ -34,7 +38,6 @@ public class DeleteUser extends Activity {
      * @throws InterruptedException
      */
     public void populateSpinner(ArrayAdapter<String> adapter) throws ExecutionException, InterruptedException {
-        System.out.println("Test8");
         spinner.setAdapter(adapter);
     }
 
