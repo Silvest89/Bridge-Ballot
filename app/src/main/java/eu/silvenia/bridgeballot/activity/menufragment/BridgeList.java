@@ -1,6 +1,8 @@
 package eu.silvenia.bridgeballot.activity.menufragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,7 @@ public class BridgeList extends BallotList {
     private EditText searchbar;
 
     protected void setupSearchBar(View view){
-        /*((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
+        ((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
         searchbar = (EditText) view.findViewById(R.id.search_bar);
         searchbar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -30,13 +32,12 @@ public class BridgeList extends BallotList {
 
             @Override
             public void afterTextChanged(Editable s) {
-                System.out.println(s.length());
                 if(s.length() == 0)
                     ((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(false);
                 else
                     ((BridgeAdapter) mRecyclerView.getAdapter()).setFilter(s.toString());
             }
-        });*/
+        });
     }
 
     public void onCreate(Bundle savedInstanceState){

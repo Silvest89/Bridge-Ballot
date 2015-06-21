@@ -58,6 +58,7 @@ public abstract class BallotList extends Fragment {
     */
     public void updateList(ArrayList list){
         mBridges = list;
+        ((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
         sortList();
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -270,6 +271,26 @@ public abstract class BallotList extends Fragment {
         public void onBindViewHolder(BridgeHolder holder, int pos) {
             eu.silvenia.bridgeballot.Bridge bridge = mBridges.get(pos);
             holder.bindBridge(bridge);
+        }
+
+        public void flushFilter(boolean newData){
+            if(newData)
+                allObjects.addAll(mBridges);
+            else {
+                mBridges = new ArrayList<>();
+                mBridges.addAll(allObjects);
+            }
+            notifyDataSetChanged();
+        }
+
+        public void setFilter(String queryText) {
+            mBridges = new ArrayList<>();
+            queryText = queryText.toString().toLowerCase();
+            for (eu.silvenia.bridgeballot.Bridge bridge: allObjects) {
+                if (bridge.getName().toLowerCase().contains(queryText) || bridge.getLocation().toLowerCase().contains(queryText))
+                    mBridges.add(bridge);
+            }
+            notifyDataSetChanged();
         }
 
         /**
