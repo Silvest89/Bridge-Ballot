@@ -93,10 +93,6 @@
             android:label="@string/title_activity_menu" >
         </activity>
         <activity
-            android:name=".activity.DeleteUser"
-            android:label="@string/title_activity_delete_user" >
-        </activity>
-        <activity
 
             android:name=".activity.Main"
             android:label="@string/title_activity_login" >

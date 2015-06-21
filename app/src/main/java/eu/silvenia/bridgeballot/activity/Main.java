@@ -88,8 +88,6 @@ public class Main extends Activity implements
         setContentView(R.layout.activity_main);
         startService(new Intent(this, GPSservice.class));
 
-        ActivityHandler.handler = new ActivityHandler(this);
-
         login = (Button) findViewById(R.id.button);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -109,10 +107,13 @@ public class Main extends Activity implements
 
     @Override
     public void onClick(View v) {
+        ActivityHandler.handler = new ActivityHandler(this);
         mGoogleApiClient.connect();
     }
 
     public void onSignIn(View v){
+        ActivityHandler.handler = new ActivityHandler(this);
+
         EditText userName = (EditText) findViewById(R.id.userName);
         EditText password = (EditText) findViewById(R.id.password);
 

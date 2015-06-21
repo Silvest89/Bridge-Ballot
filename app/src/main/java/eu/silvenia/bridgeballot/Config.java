@@ -13,8 +13,8 @@ import java.util.Properties;
  */
 public class Config {
 
-    private static String notification = "";
-    private static String gcmToken = "";
+    private static String notification;
+    private static String gcmToken;
     private static Properties prop = new Properties();
 
     /**
@@ -29,8 +29,8 @@ public class Config {
             InputStream inputStream = assetManager.open("BridgeBallot.properties");
             prop.load(inputStream);
 
-            notification = prop.getProperty("notification");
-            gcmToken = prop.getProperty("gcmtoken");
+            notification = prop.getProperty("notification", "1");
+            gcmToken = prop.getProperty("gcmtoken", "null");
 
         } catch (IOException e) {
             Log.e("AssetsPropertyReader", e.toString());
@@ -52,6 +52,6 @@ public class Config {
 
     public static void setGcmToken(String gcmToken) {
         Config.gcmToken = gcmToken;
-        //prop.setProperty("gcmtoken", gcmToken);
+        prop.setProperty("gcmtoken", gcmToken);
     }
 }

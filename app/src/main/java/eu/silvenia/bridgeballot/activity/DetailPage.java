@@ -165,7 +165,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
 
                     Intent shareIntent = new PlusShare.Builder(ActivityHandler.handler.currentActivity)
                             .setType("video/*, image/*")
-                            .setText("I am @ " + selectedBridge.getName() + " it is currently: " + bridgeStatus + ".")
+                            .setText("I am @ " + selectedBridge.getName() + ". It is currently: " + bridgeStatus + ".")
                             .addStream(HelperTools.getImageUri(ActivityHandler.handler.currentActivity, bitmap))
                             //.setContentUrl(Uri.parse("https://developers.google.com/+/"))
                             .getIntent();

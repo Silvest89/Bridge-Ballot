@@ -1,8 +1,8 @@
 package eu.silvenia.bridgeballot.activity.menufragment;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.silvenia.bridgeballot.Account;
-import eu.silvenia.bridgeballot.R;
 import eu.silvenia.bridgeballot.Bridge;
+import eu.silvenia.bridgeballot.HelperTools;
+import eu.silvenia.bridgeballot.R;
 
 
 public class AdminBridges extends Fragment {
@@ -75,15 +76,17 @@ public class AdminBridges extends Fragment {
                     bridgeLatitude.setText(String.valueOf(bridge.getLatitude()));
                     bridgeLongitude.setText(String.valueOf(bridge.getLongitude()));
                     saveButton.setText(getString(R.string.bridgeadmin_save));
-                    deleteButton.setVisibility(View.INVISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+
                 } else {
                     bridgeName.setText("");
                     bridgeLocation.setText("");
                     bridgeLatitude.setText("");
                     bridgeLongitude.setText("");
                     saveButton.setText(R.string.bridgeadmin_savenew);
-                    deleteButton.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.INVISIBLE);
                 }
+
             }
 
             @Override
@@ -107,6 +110,7 @@ public class AdminBridges extends Fragment {
                     Account.CRUDBridge(CRUDType.UPDATE, bridge);
                 }
                 saveButton.setEnabled(true);
+                HelperTools.showAlert(getActivity(), getString(R.string.alert_success), getString(R.string.alert_bridge_saved));
             }
         });
 
@@ -117,6 +121,8 @@ public class AdminBridges extends Fragment {
                 bridge.add(String.valueOf(bridgeID));
                 Account.CRUDBridge(CRUDType.DELETE, bridge);
                 deleteButton.setEnabled(true);
+                Account.bridgeMap.remove(bridgeID);
+                HelperTools.showAlert(getActivity(), getString(R.string.alert_success), getString(R.string.alert_bridge_deleted));
             }
         });
         return rootview;

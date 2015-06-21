@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.*;
 import android.util.StateSet;
 import android.view.*;
 import android.view.Menu;
@@ -27,7 +26,7 @@ import java.util.List;
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.HelperTools;
 import eu.silvenia.bridgeballot.R;
-import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 
 /**
@@ -59,6 +58,7 @@ public abstract class BallotList extends Fragment {
     */
     public void updateList(ArrayList list){
         mBridges = list;
+        ((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
         sortList();
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -110,7 +110,7 @@ public abstract class BallotList extends Fragment {
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             if(ballot instanceof WatchList)
                 getActivity().getMenuInflater().inflate(R.menu.watch_list_menu_context, menu);
-            else if(ballot instanceof Bridge)
+            else if(ballot instanceof BridgeList)
                 getActivity().getMenuInflater().inflate(R.menu.bridge_list_menu_context, menu);
 
             return true;
@@ -271,6 +271,26 @@ public abstract class BallotList extends Fragment {
         public void onBindViewHolder(BridgeHolder holder, int pos) {
             eu.silvenia.bridgeballot.Bridge bridge = mBridges.get(pos);
             holder.bindBridge(bridge);
+        }
+
+        public void flushFilter(boolean newData){
+            if(newData)
+                allObjects.addAll(mBridges);
+            else {
+                mBridges = new ArrayList<>();
+                mBridges.addAll(allObjects);
+            }
+            notifyDataSetChanged();
+        }
+
+        public void setFilter(String queryText) {
+            mBridges = new ArrayList<>();
+            queryText = queryText.toString().toLowerCase();
+            for (eu.silvenia.bridgeballot.Bridge bridge: allObjects) {
+                if (bridge.getName().toLowerCase().contains(queryText) || bridge.getLocation().toLowerCase().contains(queryText))
+                    mBridges.add(bridge);
+            }
+            notifyDataSetChanged();
         }
 
         /**

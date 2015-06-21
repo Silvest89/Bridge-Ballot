@@ -31,7 +31,7 @@ public class Splash extends Activity {
                 startActivity(mainActivity);
                 finish();
             }
-        }, 4000);
+        }, 3000);
     }
 
     /**

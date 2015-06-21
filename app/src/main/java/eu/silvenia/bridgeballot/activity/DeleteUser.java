@@ -1,9 +1,12 @@
 package eu.silvenia.bridgeballot.activity;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import java.util.concurrent.ExecutionException;
@@ -15,16 +18,29 @@ import eu.silvenia.bridgeballot.R;
 /**
  * Created by Jesse on 9-6-2015.
  */
-public class DeleteUser extends Activity {
+public class DeleteUser extends Fragment {
+    public static ActivityHandler handler;
     Spinner spinner;
+    Button button;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_delete);
-        spinner = (Spinner) findViewById(R.id.spinner_users);
-        ActivityHandler.handler = new ActivityHandler(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_user_delete, parent, false);
+        spinner = (Spinner) v.findViewById(R.id.spinner_users);
+        handler = new ActivityHandler(this);
+        button = (Button) v.findViewById(R.id.button4);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userToDelete = spinner.getSelectedItem().toString();
+                Account.deleteUser(userToDelete);
+                Account.requestUsers();
+            }
+        });
         Account.requestUsers();
+
+        return v;
     }
 
     /**
@@ -34,18 +50,6 @@ public class DeleteUser extends Activity {
      * @throws InterruptedException
      */
     public void populateSpinner(ArrayAdapter<String> adapter) throws ExecutionException, InterruptedException {
-        System.out.println("Test8");
         spinner.setAdapter(adapter);
-    }
-
-    /**
-     * delete selected user from spinner
-     * @param v
-     * @throws ExecutionException
-     * @throws InterruptedException
-     */
-    public void onDelete(View v) throws ExecutionException, InterruptedException {
-        String userToDelete = spinner.getSelectedItem().toString();
-        Account.deleteUser(userToDelete);
     }
 }

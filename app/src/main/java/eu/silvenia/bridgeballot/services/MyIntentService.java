@@ -34,9 +34,10 @@ public class MyIntentService extends IntentService {
             InstanceID instanceID = InstanceID.getInstance(this);
             String gcmToken = instanceID.getToken("500415068393",
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            Log.i("Bridge-Ballot", "GCM Registration Token: " + gcmToken);
+            Log.i("BridgeList-Ballot", "GCM Registration Token: " + gcmToken);
 
-            Account.setToken(gcmToken);
+            if (gcmToken != null)
+                Account.setToken(gcmToken);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -77,6 +77,7 @@ public class WatchList extends BallotList {
             }
         });
         swipeToDismissTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.getAdapter().notifyDataSetChanged();
         return v;
     }
 
