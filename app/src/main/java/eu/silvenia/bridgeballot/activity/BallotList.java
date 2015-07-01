@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.*;
 import android.util.StateSet;
 import android.view.*;
 import android.view.Menu;
@@ -27,7 +26,7 @@ import java.util.List;
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.HelperTools;
 import eu.silvenia.bridgeballot.R;
-import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 import eu.silvenia.bridgeballot.activity.menufragment.WatchList;
 
 /**
@@ -53,12 +52,20 @@ public abstract class BallotList extends Fragment {
 
     }
 
+    /**
+    *Updates the list
+    *@param list
+    */
     public void updateList(ArrayList list){
         mBridges = list;
-        //((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
+        ((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
         sortList();
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
+    /**
+     * Sorts the list by distance
+     */
     protected void sortList(){
         Collections.sort(mBridges,new DistanceSorter());
     }
@@ -73,6 +80,11 @@ public abstract class BallotList extends Fragment {
         setRetainInstance(true);
     }
 
+    /**
+     * Triggers when bridge is selected
+     * Starts the detailpage intent for the selectedbridge
+     * @param c
+     */
     protected void selectBridge(eu.silvenia.bridgeballot.Bridge c) {
         int index = mBridges.indexOf(c);
         int id = c.getId();
@@ -85,18 +97,31 @@ public abstract class BallotList extends Fragment {
         startActivity(DetailPage);
     }
 
+
     ActionMode.Callback specialMode = new ModalMultiSelectorCallback(mMultiSelector) {
 
+        /**
+         * Creates sidemenu depending on the current intent
+         * @param actionMode
+         * @param menu
+         * @return
+         */
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             if(ballot instanceof WatchList)
                 getActivity().getMenuInflater().inflate(R.menu.watch_list_menu_context, menu);
-            else if(ballot instanceof Bridge)
+            else if(ballot instanceof BridgeList)
                 getActivity().getMenuInflater().inflate(R.menu.bridge_list_menu_context, menu);
 
             return true;
         }
 
+        /**
+         * Deletes or add bridge, depending on the option selected
+         * @param actionMode
+         * @param menuItem
+         * @return
+         */
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             switch (menuItem.getItemId()) {
@@ -139,6 +164,9 @@ public abstract class BallotList extends Fragment {
         }
     };
 
+    /**
+     * Class with functionality for sorting list by distance
+     */
     public class DistanceSorter implements Comparator<eu.silvenia.bridgeballot.Bridge> {
         @Override
         public int compare(eu.silvenia.bridgeballot.Bridge c1, eu.silvenia.bridgeballot.Bridge c2) {
@@ -146,6 +174,9 @@ public abstract class BallotList extends Fragment {
         }
     }
 
+    /**
+     * This class holds all the interface variables
+     */
     private class BridgeHolder extends SwappingHolder
             implements View.OnClickListener, View.OnLongClickListener {
         private final ImageView mBridgeImage;
@@ -175,6 +206,10 @@ public abstract class BallotList extends Fragment {
             setSelectionModeBackgroundDrawable(stateListDrawable);
         }
 
+        /**
+         * fills row of a bridge in the list with data
+         * @param bridge
+         */
         public void bindBridge(eu.silvenia.bridgeballot.Bridge bridge) {
             mBridge = bridge;
 
@@ -191,6 +226,10 @@ public abstract class BallotList extends Fragment {
             mDateTextView.setText(getString(R.string.ballotlist_distance) + bridge.getDistance() + " km");
         }
 
+        /**
+         * trigger function to goto detailpage of bridge when tapped upon (and is not done after a long click)
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             if (mBridge == null) {
@@ -201,6 +240,11 @@ public abstract class BallotList extends Fragment {
             }
         }
 
+        /**
+         * on longclick select bridges
+         * @param v
+         * @return
+         */
         @Override
         public boolean onLongClick(View v) {
             AppCompatActivity activity = (AppCompatActivity)getActivity();
@@ -229,7 +273,7 @@ public abstract class BallotList extends Fragment {
             holder.bindBridge(bridge);
         }
 
-        /*public void flushFilter(boolean newData){
+        public void flushFilter(boolean newData){
             if(newData)
                 allObjects.addAll(mBridges);
             else {
@@ -243,12 +287,16 @@ public abstract class BallotList extends Fragment {
             mBridges = new ArrayList<>();
             queryText = queryText.toString().toLowerCase();
             for (eu.silvenia.bridgeballot.Bridge bridge: allObjects) {
-                if (bridge.getName().toLowerCase().contains(queryText))
+                if (bridge.getName().toLowerCase().contains(queryText) || bridge.getLocation().toLowerCase().contains(queryText))
                     mBridges.add(bridge);
             }
             notifyDataSetChanged();
-        }*/
+        }
 
+        /**
+         * returns item count of mBridges
+         * @return
+         */
         @Override
         public int getItemCount() {
             return mBridges.size();

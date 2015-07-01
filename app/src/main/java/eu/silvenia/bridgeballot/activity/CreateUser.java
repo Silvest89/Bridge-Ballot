@@ -37,6 +37,12 @@ public class CreateUser extends Activity {
         alert = new AlertDialog.Builder(this).create();
     }
 
+    /**
+     * Function that handles creating an account
+     * @param v
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void makeAccount(View v) throws ExecutionException, InterruptedException {
         userNameET = (EditText) findViewById(R.id.create_userName);
         passwordET = (EditText) findViewById(R.id.create_password);
@@ -50,7 +56,7 @@ public class CreateUser extends Activity {
 
             alert.setTitle(getString(R.string.alert_error));
             alert.setMessage(getString(R.string.alert_emptyfields));
-            alert.setButton(getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
+            alert.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     alert.cancel();
@@ -64,7 +70,7 @@ public class CreateUser extends Activity {
                 final AlertDialog alert = new AlertDialog.Builder(this).create();
                 alert.setTitle(getString(R.string.alert_error));
                 alert.setMessage(getString(R.string.alert_message));
-                alert.setButton(getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
+                alert.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alert.cancel();

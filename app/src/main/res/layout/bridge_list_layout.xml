@@ -27,7 +27,7 @@
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:padding="2dp"
-        android:textColor="#33CC33"
+        android:textColor="#4c4cff"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
 
@@ -39,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="#4ca6ff"
         android:layout_below="@+id/bridge_list_name"
         android:layout_alignLeft="@+id/bridge_list_name"
         android:layout_alignStart="@+id/bridge_list_name" />

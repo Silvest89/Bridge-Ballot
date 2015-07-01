@@ -1,8 +1,8 @@
 package eu.silvenia.bridgeballot.activity.menufragment;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +17,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.silvenia.bridgeballot.Account;
-import eu.silvenia.bridgeballot.R;
 import eu.silvenia.bridgeballot.Bridge;
+import eu.silvenia.bridgeballot.HelperTools;
+import eu.silvenia.bridgeballot.R;
 
 
 public class AdminBridges extends Fragment {
+
     List<Bridge> bridgeList;
+
     EditText bridgeName;
     EditText bridgeLocation;
     EditText bridgeLatitude;
     EditText bridgeLongitude;
+
     Button saveButton;
     Button deleteButton;
-    String oldName = "";
+
     int bridgeID;
+
     View rootview;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
@@ -62,20 +68,25 @@ public class AdminBridges extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (!(bridgeNames.get(position).equals(getString(R.string.bridgeadmin_newbridge)))) {
-                    bridgeName.setText(bridgeList.get(position).getName());
-                    oldName = bridgeName.getText().toString();
-                    bridgeID = bridgeList.get(position).getId();
-                    bridgeLocation.setText(bridgeList.get(position).getLocation());
-                    bridgeLatitude.setText(String.valueOf(bridgeList.get(position).getLatitude()));
-                    bridgeLongitude.setText(String.valueOf(bridgeList.get(position).getLongitude()));
+                    Bridge bridge = bridgeList.get(position);
+
+                    bridgeName.setText(bridge.getName());
+                    bridgeID = bridge.getId();
+                    bridgeLocation.setText(bridge.getLocation());
+                    bridgeLatitude.setText(String.valueOf(bridge.getLatitude()));
+                    bridgeLongitude.setText(String.valueOf(bridge.getLongitude()));
                     saveButton.setText(getString(R.string.bridgeadmin_save));
+                    deleteButton.setVisibility(View.VISIBLE);
+
                 } else {
                     bridgeName.setText("");
                     bridgeLocation.setText("");
                     bridgeLatitude.setText("");
                     bridgeLongitude.setText("");
                     saveButton.setText(R.string.bridgeadmin_savenew);
+                    deleteButton.setVisibility(View.INVISIBLE);
                 }
+
             }
 
             @Override
@@ -87,8 +98,7 @@ public class AdminBridges extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 saveButton.setEnabled(false);
-                ArrayList<String> bridge = new ArrayList<String>();
-                bridge.add(oldName);
+                ArrayList<String> bridge = new ArrayList<>();
                 bridge.add(String.valueOf(bridgeID));
                 bridge.add(bridgeName.getText().toString());
                 bridge.add(bridgeLocation.getText().toString());
@@ -100,6 +110,7 @@ public class AdminBridges extends Fragment {
                     Account.CRUDBridge(CRUDType.UPDATE, bridge);
                 }
                 saveButton.setEnabled(true);
+                HelperTools.showAlert(getActivity(), getString(R.string.alert_success), getString(R.string.alert_bridge_saved));
             }
         });
 
@@ -110,6 +121,8 @@ public class AdminBridges extends Fragment {
                 bridge.add(String.valueOf(bridgeID));
                 Account.CRUDBridge(CRUDType.DELETE, bridge);
                 deleteButton.setEnabled(true);
+                Account.bridgeMap.remove(bridgeID);
+                HelperTools.showAlert(getActivity(), getString(R.string.alert_success), getString(R.string.alert_bridge_deleted));
             }
         });
         return rootview;

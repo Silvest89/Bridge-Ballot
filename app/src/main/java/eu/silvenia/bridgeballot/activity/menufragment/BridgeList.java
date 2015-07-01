@@ -10,17 +10,15 @@ import android.widget.EditText;
 
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.ActivityHandler;
-import eu.silvenia.bridgeballot.activity.BallotList;
 import eu.silvenia.bridgeballot.R;
+import eu.silvenia.bridgeballot.activity.BallotList;
 
-public class Bridge extends BallotList {
+public class BridgeList extends BallotList {
     public static ActivityHandler handler;
 
-    private EditText searchbar;
-
     protected void setupSearchBar(View view){
-        /*((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
-        searchbar = (EditText) view.findViewById(R.id.search_bar);
+        ((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(true);
+        EditText searchbar = (EditText) view.findViewById(R.id.search_bar);
         searchbar.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -32,13 +30,12 @@ public class Bridge extends BallotList {
 
             @Override
             public void afterTextChanged(Editable s) {
-                System.out.println(s.length());
-                if(s.length() == 0)
+                if (s.length() == 0)
                     ((BridgeAdapter) mRecyclerView.getAdapter()).flushFilter(false);
                 else
                     ((BridgeAdapter) mRecyclerView.getAdapter()).setFilter(s.toString());
             }
-        });*/
+        });
     }
 
     public void onCreate(Bundle savedInstanceState){
@@ -66,6 +63,7 @@ public class Bridge extends BallotList {
         setupView(v);
         setupSearchBar(v);
 
+        mRecyclerView.getAdapter().notifyDataSetChanged();
         return v;
     }
 

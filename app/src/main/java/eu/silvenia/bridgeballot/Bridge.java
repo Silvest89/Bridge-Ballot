@@ -20,6 +20,15 @@ public class Bridge implements Serializable {
     private double distance;
     private boolean isOpen;
 
+    /**
+     * defines what the values af the instance variables are for a bridge
+     * @param id
+     * @param name
+     * @param location
+     * @param latitude
+     * @param longitude
+     * @param isOpen
+     */
     public Bridge(int id, String name, String location, double latitude, double longitude, boolean isOpen){
         this.id = id;
         this.name = name;
@@ -68,6 +77,12 @@ public class Bridge implements Serializable {
         this.isOpen = isOpen;
     }
 
+    /**
+     * sets the background based on the selected bridge
+     * @param bridge
+     * @param imageView
+     * @param detailPage
+     */
     public static void setBackgroundImage(Bridge bridge, ImageView imageView, boolean detailPage){
         if (detailPage == false) {
             switch (bridge.getId()) {

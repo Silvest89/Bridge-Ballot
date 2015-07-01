@@ -12,6 +12,9 @@ import java.io.IOException;
 import eu.silvenia.bridgeballot.Account;
 import eu.silvenia.bridgeballot.ActivityHandler;
 
+/**
+ * Class which handles the sending of the token to the server
+ */
 public class MyIntentService extends IntentService {
 
     public static ActivityHandler handler;
@@ -19,31 +22,25 @@ public class MyIntentService extends IntentService {
     public MyIntentService(){
         super("MyIntent");
     }
-    public void onHandleIntent(Intent intent){
 
+    /**
+     * Method which sets the token to the currently logged in account
+     * @param intent
+     */
+    public void onHandleIntent(Intent intent){
         try {
             // Initially this call goes out to the network to retrieve the token, subsequent calls
             // are local.
             InstanceID instanceID = InstanceID.getInstance(this);
             String gcmToken = instanceID.getToken("500415068393",
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            Log.i("Bridge-Ballot", "GCM Registration Token: " + gcmToken);
+            Log.i("BridgeList-Ballot", "GCM Registration Token: " + gcmToken);
 
-            Account.setToken(gcmToken);
+            if (gcmToken != null)
+                Account.setToken(gcmToken);
 
-            // Subscribe to topic channels
-            //subscribeTopics(token);
-
-            // You should store a boolean that indicates whether the generated token has been
-            // sent to your server. If the boolean is false, send the token to your server,
-            // otherwise your server should have already received the token.
-            //sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
 }

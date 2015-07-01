@@ -15,15 +15,15 @@ import eu.silvenia.bridgeballot.activity.Main;
 import eu.silvenia.bridgeballot.R;
 
 /**
- * Created by Jesse on 29-5-2015.
+ * Class for the service which regulates notification via Google Cloud Messaging (GCM)
  */
 public class MyGcmListenerService extends GcmListenerService {
- 
-    private final String TAG = "BridgeBallot";
+
     static int notificationId = 1;
     @Override
     public void onMessageReceived(String from, Bundle data){
         String message = data.getString("message");
+        String TAG = "BridgeBallot";
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
         String mContext = message;
@@ -43,15 +43,20 @@ public class MyGcmListenerService extends GcmListenerService {
         handleNotification(mContext);
 
 }
+
+    /**
+     * Method which builds a new notofication (sets the title and content)
+     * @param context
+     */
     public void handleNotification(String context){
         Intent intent = new Intent();
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
 
         notification.setSmallIcon(R.mipmap.ic_launcher);
-        notification.setTicker("Bridge-Ballot Notification");
+        notification.setTicker("BridgeList-Ballot Notification");
         notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("Bridge-ballot Notif");
+        notification.setContentTitle("BridgeList-ballot Notif");
         notification.setContentText(context);
         notification.setAutoCancel(true);
 

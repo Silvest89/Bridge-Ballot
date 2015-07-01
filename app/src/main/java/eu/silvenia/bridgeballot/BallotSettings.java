@@ -12,6 +12,10 @@ public class BallotSettings extends Activity {
     private boolean notificationsOn;
     CheckedTextView notifications;
 
+    /**
+     * initialisation of variables and interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,10 @@ public class BallotSettings extends Activity {
             notifications.setChecked(false);
     }
 
+    /**
+     * checks if a notification is received
+     * @param v
+     */
     public void onNotification(View v){
         if (notifications.isChecked()){
             notifications.setChecked(false);

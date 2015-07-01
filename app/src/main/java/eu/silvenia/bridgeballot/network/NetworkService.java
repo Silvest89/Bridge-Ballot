@@ -4,18 +4,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Base64;
-
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-
-import javax.net.ssl.SSLException;
 
 import eu.silvenia.bridgeballot.Account;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
@@ -27,7 +18,7 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
 /**
- * Created by Johnnie Ho on 10-6-2015.
+ * Class which holds all information regarding the server, and which starts the server connection at startup of the app
  */
 public class NetworkService extends Service {
 
@@ -60,6 +51,9 @@ public class NetworkService extends Service {
         return START_STICKY;
     }
 
+    /**
+     * Method which regulates the connection to the server
+     */
     public void connect(){
         new Thread(new Runnable() {
             public void run(){

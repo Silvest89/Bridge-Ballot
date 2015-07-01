@@ -13,6 +13,11 @@ import eu.silvenia.bridgeballot.network.NetworkService;
 public class Splash extends Activity {
 
 
+    /**
+     * Shows the slashscreen for 4 seconds then continues.
+     * Loads up data in the meantime.
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
@@ -26,9 +31,15 @@ public class Splash extends Activity {
                 startActivity(mainActivity);
                 finish();
             }
-        }, 4000);
+        }, 3000);
     }
 
+    /**
+     * handles top menu buttons (not visible)
+     * Does nothing
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

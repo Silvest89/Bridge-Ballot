@@ -2,6 +2,7 @@ package eu.silvenia.bridgeballot;
 
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Handler;
 import android.widget.ArrayAdapter;
@@ -10,10 +11,11 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import eu.silvenia.bridgeballot.activity.BallotList;
+import eu.silvenia.bridgeballot.activity.CreateUser;
 import eu.silvenia.bridgeballot.activity.DeleteUser;
 import eu.silvenia.bridgeballot.activity.DetailPage;
 import eu.silvenia.bridgeballot.activity.Main;
-import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
+import eu.silvenia.bridgeballot.activity.menufragment.BridgeList;
 
 /**
  * Created by Johnnie Ho on 11-6-2015.
@@ -21,34 +23,45 @@ import eu.silvenia.bridgeballot.activity.menufragment.Bridge;
 public class ActivityHandler extends Handler {
     public static ActivityHandler handler;
     public Activity currentActivity;
-    public BallotList currentFragment;
+    public Fragment currentFragment;
     public ActivityHandler(Activity activity){
         this.currentActivity = activity;
     }
 
-    public ActivityHandler(BallotList fragment){
+    public ActivityHandler(Fragment fragment){
         this.currentFragment = fragment;
     }
 
+    /**
+     * handles activity changes
+     * @param cls
+     */
     public void switchActivity(Class<?> cls){
         Intent nextActivity = new Intent(currentActivity, cls);
         currentActivity.startActivity(nextActivity);
     }
 
+    /**
+     * handles which list to update
+     */
     public void updateList(){
         if(currentFragment.isVisible()) {
             currentFragment.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                if(currentFragment instanceof Bridge)
-                    currentFragment.updateList(Account.mBridgeList);
-                else
-                    currentFragment.updateList(Account.mWatchList);
-                }
+                    BallotList ballotList = (BallotList) currentFragment;
+                    if(ballotList instanceof BridgeList)
+                        ballotList.updateList(Account.mBridgeList);
+                    else
+                        ballotList.updateList(Account.mWatchList);
+                    }
             });
         }
     }
 
+    /**
+     * enables login
+     */
     public void enableLogin(){
         currentActivity.runOnUiThread(new Runnable() {
             @Override
@@ -59,19 +72,29 @@ public class ActivityHandler extends Handler {
         });
     }
 
+    /**
+     * handles the result of creating an account
+     * @param result
+     */
     public void checkCreateAccount(final Integer result){
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                CreateUser createUser = (CreateUser)currentActivity;
                 if (result == 0)
-                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_accountsucces));
+                    HelperTools.showAlert(createUser, currentActivity.getString(R.string.alert_success), currentActivity.getString(R.string.alert_accountsucces));
                 else if (result == 2){
-                    HelperTools.showAlert(currentActivity, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_accountfailure));
+                    HelperTools.showAlert(createUser, currentActivity.getString(R.string.alert_failure), currentActivity.getString(R.string.alert_accountfailure));
                 }
             }
+
         });
     }
 
+    /**
+     * handles the result of deleting a user
+     * @param result
+     */
     public void checkUserDelete(final Integer result){
         currentActivity.runOnUiThread(new Runnable() {
             @Override
@@ -87,15 +110,20 @@ public class ActivityHandler extends Handler {
         });
     }
 
+    /**
+     * handles which user to delete
+     * @param users
+     */
     public void getUsers(final ArrayList<String> users){
-        currentActivity.runOnUiThread(new Runnable() {
+        currentFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(currentActivity, android.R.layout.simple_spinner_dropdown_item, users);
-                    DeleteUser delete = (DeleteUser) currentActivity;
-                    System.out.println("Test7");
-                    delete.populateSpinner(adapter);
+                    if (currentFragment instanceof DeleteUser) {
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(currentFragment.getActivity(), android.R.layout.simple_spinner_dropdown_item, users);
+                        DeleteUser delete = (DeleteUser) currentFragment;
+                        delete.populateSpinner(adapter);
+                    }
 
                 } catch (ExecutionException e) {
                     e.printStackTrace();
@@ -106,6 +134,9 @@ public class ActivityHandler extends Handler {
         });
     }
 
+    /**
+     * handles the change of the reputation list
+     */
     public void updateRepList(){
         if(currentActivity instanceof DetailPage){
             final DetailPage detailPage = (DetailPage) currentActivity;

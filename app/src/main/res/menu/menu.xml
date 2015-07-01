@@ -5,9 +5,8 @@
     <item android:id="@+id/action_add" android:title="+"
         android:icon="@mipmap/circle_plus"
         app:showAsAction="withText|ifRoom" />
-    <item android:id="@+id/action_remove" android:title="-"
+    <item android:id="@+id/action_remove" android:title="Close"
         app:showAsAction="withText|ifRoom"
-        android:icon="@mipmap/circle_minus"
         android:visibility="gone"
         />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
@@ -19,5 +18,4 @@
         android:orderInCategory="100" app:showAsAction="never"
 
         />
-
 </menu>
