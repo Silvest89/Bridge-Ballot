@@ -188,7 +188,7 @@ public abstract class BallotList extends Fragment {
             eu.silvenia.bridgeballot.Bridge.setBackgroundImage(bridge, mBridgeImage, false);
 
             mTitleTextView.setText(bridge.getName());
-            mDateTextView.setText(getString(R.string.ballotlist_distance) + bridge.getDistance() + " m");
+            mDateTextView.setText(getString(R.string.ballotlist_distance) + bridge.getDistance() + " km");
         }
 
         @Override

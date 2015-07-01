@@ -32,6 +32,7 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
     TextView status;
 
     Button shareButton;
+    Button voteButton;
 
     public RecyclerView mRecyclerView;
 
@@ -62,8 +63,9 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         distance = (TextView)findViewById(R.id.distance);
         city = (TextView)findViewById(R.id.city);
         status = (TextView)findViewById(R.id.currentStatus);
-        distance.setText(Double.toString(selectedBridge.getDistance()) + " m");
+        distance.setText(Double.toString(selectedBridge.getDistance()) + " km");
         city.setText(selectedBridge.getLocation());
+        voteButton = (Button)findViewById(R.id.button5);
 
         if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle(selectedBridge.getName());
@@ -92,31 +94,32 @@ public class DetailPage extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
-
     public void onVote(View v){
-        if(canPress()) {
+        //if(canPress()) {
             selectedBridge.setOpen(true);
             Account.updateBridgeStatus(selectedBridge.getId(), true);
             updateStatus();
-        }
-        else
-            HelperTools.showAlert(this, getString(R.string.alert_error), getString(R.string.alert_distanceerror));
+        //}
+        //else
+            //HelperTools.showAlert(this, getString(R.string.alert_error), getString(R.string.alert_distanceerror));
     }
 
     public void updateStatus(){
         if (selectedBridge.isOpen()) {
             status.setTextColor(Color.RED);
             status.setText(R.string.status_open);
+            voteButton.setVisibility(View.INVISIBLE);
         }
         else {
             status.setTextColor(Color.GREEN);
             status.setText(R.string.status_closed);
+            voteButton.setVisibility(View.VISIBLE);
         }
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     private boolean canPress(){
-        if(selectedBridge.getDistance() < 500 && selectedBridge.getDistance() != 0) {
+        if(selectedBridge.getDistance() < 0.5 && selectedBridge.getDistance() != 0) {
             return true;
         }
 
